@@ -17,6 +17,9 @@ struct Position {
 class Shape;
 
 class Grid {
+	
+public:
+	// START: WAS PRIVATE
 	std::vector<Row *> allRows;
 	Shape *currShape;
 	Position window[4][4];
@@ -39,8 +42,13 @@ class Grid {
 	bool IsMovePossible(Position tempWindow[4][4], Shape *);
 	bool RowAnnihilation(int);
 	std::string MakeNextShape();
-public:
+	// END: WAS PRIVATE
+
+
+
+
 	//Note: grid MUST at least be 6x6 to be a valid grid.
+	Grid();
 	Grid(int, int);
 	void SetShapes(char, char);
 	void ClearGrid();

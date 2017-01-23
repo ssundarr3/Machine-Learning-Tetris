@@ -135,135 +135,146 @@ void ReadCommands(istream &in){
 	void InterpretCommand(const string &command);
 	void Restart();
 
-	string command;
-	while(in >> command){
-		stringstream iss(command);
-		int numberOfTimes;
-		iss >> numberOfTimes;
-		if(numberOfTimes < 0) // negative numbers aren't allowed
-			continue;
-		else if(numberOfTimes == 0 && command[0] != '0') // if there is no number, 
-			numberOfTimes += 1; // command should run once
 
-		GetCommand(command); 
-		// command does not have the number at the beginning now
+	Grid nextGrid;
+	
+	nextGrid = (*g);
 
-		command = allCommands.Find(command); 
-		// Command is now a complete command or "" 
-		if(command == ""){
-			cout << "Command not found." <<endl;
-			continue;
-		}
-		cout << command << endl;
+	nextGrid.TranslateWindowRight();
+	cout << nextGrid;
 
-		// If command is sequence, then ReadCommands from file
-		if(command == "SEQUENCE"){
-			string sequenceFileName;
-			in >> sequenceFileName;
-			for(int i=0; i<numberOfTimes; ++i){
-				ifstream file(sequenceFileName);
-				ReadCommands(file);
-				file.close();
-			}
-			continue;
-		}
-		else if(command == "NORANDOM"){
-			norandomSequenceIndex = 1;
-			string norandomFileName;
-			in >> norandomFileName;
-			ifstream file(norandomFileName);
-			string s;
-			norandomBlockSequence = "";
-			while(file >> s){
-				norandomBlockSequence += s;
-			}
-			cout << "Blocks (in Level 3, 4) will now be in the sequence " << norandomBlockSequence << "." << endl;
-			file.close();
-			// ?? NOT RIGHT ///
-			// SET this and next block ... This block np, but next block?
-			// Restart();
-			// g->SetShapes(' ', currLevel->ChooseShape());
-			// if()
-			// g->CreateNewShape(currLevel->ChooseShape(), currLevel->CurrentLevel());
-			cout << *g;
-			continue;
-		}
-		else if(command == "RANDOM"){
-			norandomSequenceIndex = 0;
-			norandomBlockSequence = "";
-			cout << "Randomness Restored." << endl;
-			continue;
-		}
-		// Extra feature: Macro
-		else if(command == "MACRO" && extraFeatureMacro == true){
-			cout << "Extra feature: Macro. Usage: macroName command1 command2 ... -1\n";
-			string macroName;
-			while(1){
-				in >> macroName;
-				// convert to UPPER case
-				for(int i=0; i<macroName.length(); ++i)
-						if(macroName[i]<='z' && macroName[i]>='a')
-							macroName[i] = macroName[i]+('Z'-'z');
+	cout << "\n\n now original grid: \n\n";
+	cout << *g;
 
-				string alreadyPresent = allCommands.Find(macroName);
-				if(alreadyPresent == ""){
-					allCommands.Insert(macroName);
-					break;
-				}
-				else{
-					cout << "Macro Name " << macroName << " is already present." << endl;
-					cout << "Please start over" << endl;
-				}
-			}
-			string s;
-			while(in >> s){
-				if(s == "-1"){
-					break;
-				}
-				norandomBlockSequence += (s + " ");
-			}
-			pair<string, string> newMacroCommand;
-			newMacroCommand.first = macroName;
-			newMacroCommand.second = norandomBlockSequence;
-			// You can't delete macros
-			// for(int i=0; i<macroCommands.size(); ++i){
-			// 	if(i.first == macroName){
-			// 		cout << macroName << " has been overwritten" << endl;
-			// 		break;
-			// 	}
-			// }
-			cout << macroName << " now means " << newMacroCommand.second << endl;
-			cout << "Note: You may also use auto-complete for macros." << endl;
-			macroCommands.push_back(newMacroCommand);
-			continue;
-		}
-		else if(command == "RESTART"){
-			Restart();
-		}
-		else if(command == "HINT"){}
-		else if(extraFeatureMacro){
-			string completeMacroCommand = allCommands.Find(command);
-			for(int i=0; i<macroCommands.size(); ++i){
-				if(macroCommands[i].first == completeMacroCommand){
-					stringstream iss(macroCommands[i].second);
-					ReadCommands(iss);
-					break;
-				}
-			}
-		}
+	// string command;
+	// while(in >> command){
+	// 	stringstream iss(command);
+	// 	int numberOfTimes;
+	// 	iss >> numberOfTimes;
+	// 	if(numberOfTimes < 0) // negative numbers aren't allowed
+	// 		continue;
+	// 	else if(numberOfTimes == 0 && command[0] != '0') // if there is no number, 
+	// 		numberOfTimes += 1; // command should run once
 
-		for(int i=0; i<numberOfTimes; ++i){ 
-			InterpretCommand(command);
-		}
+	// 	GetCommand(command); 
+	// 	// command does not have the number at the beginning now
 
-		// If the command is to move, then regardless of the number of times, go down by one.
-		if(command == "LEFT" || command == "RIGHT" || command == "DOWN" || 
-			command == "CLOCKWISE" || command == "COUNTERCLOCKWISE"){
-			currLevel->PostUpdate(*g);
-		}
+	// 	command = allCommands.Find(command); 
+	// 	// Command is now a complete command or "" 
+	// 	if(command == ""){
+	// 		cout << "Command not found." <<endl;
+	// 		continue;
+	// 	}
+	// 	cout << command << endl;
 
-		cout << *g;
-	}
+	// 	// If command is sequence, then ReadCommands from file
+	// 	if(command == "SEQUENCE"){
+	// 		string sequenceFileName;
+	// 		in >> sequenceFileName;
+	// 		for(int i=0; i<numberOfTimes; ++i){
+	// 			ifstream file(sequenceFileName);
+	// 			ReadCommands(file);
+	// 			file.close();
+	// 		}
+	// 		continue;
+	// 	}
+	// 	else if(command == "NORANDOM"){
+	// 		norandomSequenceIndex = 1;
+	// 		string norandomFileName;
+	// 		in >> norandomFileName;
+	// 		ifstream file(norandomFileName);
+	// 		string s;
+	// 		norandomBlockSequence = "";
+	// 		while(file >> s){
+	// 			norandomBlockSequence += s;
+	// 		}
+	// 		cout << "Blocks (in Level 3, 4) will now be in the sequence " << norandomBlockSequence << "." << endl;
+	// 		file.close();
+	// 		// ?? NOT RIGHT ///
+	// 		// SET this and next block ... This block np, but next block?
+	// 		// Restart();
+	// 		// g->SetShapes(' ', currLevel->ChooseShape());
+	// 		// if()
+	// 		// g->CreateNewShape(currLevel->ChooseShape(), currLevel->CurrentLevel());
+	// 		cout << *g;
+	// 		continue;
+	// 	}
+	// 	else if(command == "RANDOM"){
+	// 		norandomSequenceIndex = 0;
+	// 		norandomBlockSequence = "";
+	// 		cout << "Randomness Restored." << endl;
+	// 		continue;
+	// 	}
+	// 	// Extra feature: Macro
+	// 	else if(command == "MACRO" && extraFeatureMacro == true){
+	// 		cout << "Extra feature: Macro. Usage: macroName command1 command2 ... -1\n";
+	// 		string macroName;
+	// 		while(1){
+	// 			in >> macroName;
+	// 			// convert to UPPER case
+	// 			for(int i=0; i<macroName.length(); ++i)
+	// 					if(macroName[i]<='z' && macroName[i]>='a')
+	// 						macroName[i] = macroName[i]+('Z'-'z');
+
+	// 			string alreadyPresent = allCommands.Find(macroName);
+	// 			if(alreadyPresent == ""){
+	// 				allCommands.Insert(macroName);
+	// 				break;
+	// 			}
+	// 			else{
+	// 				cout << "Macro Name " << macroName << " is already present." << endl;
+	// 				cout << "Please start over" << endl;
+	// 			}
+	// 		}
+	// 		string s;
+	// 		while(in >> s){
+	// 			if(s == "-1"){
+	// 				break;
+	// 			}
+	// 			norandomBlockSequence += (s + " ");
+	// 		}
+	// 		pair<string, string> newMacroCommand;
+	// 		newMacroCommand.first = macroName;
+	// 		newMacroCommand.second = norandomBlockSequence;
+	// 		// You can't delete macros
+	// 		// for(int i=0; i<macroCommands.size(); ++i){
+	// 		// 	if(i.first == macroName){
+	// 		// 		cout << macroName << " has been overwritten" << endl;
+	// 		// 		break;
+	// 		// 	}
+	// 		// }
+	// 		cout << macroName << " now means " << newMacroCommand.second << endl;
+	// 		cout << "Note: You may also use auto-complete for macros." << endl;
+	// 		macroCommands.push_back(newMacroCommand);
+	// 		continue;
+	// 	}
+	// 	else if(command == "RESTART"){
+	// 		Restart();
+	// 	}
+	// 	else if(command == "HINT"){}
+	// 	else if(extraFeatureMacro){
+	// 		string completeMacroCommand = allCommands.Find(command);
+	// 		for(int i=0; i<macroCommands.size(); ++i){
+	// 			if(macroCommands[i].first == completeMacroCommand){
+	// 				stringstream iss(macroCommands[i].second);
+	// 				ReadCommands(iss);
+	// 				break;
+	// 			}
+	// 		}
+	// 	}
+
+	// 	for(int i=0; i<numberOfTimes; ++i){ 
+	// 		InterpretCommand(command);
+	// 	}
+
+	// 	// If the command is to move, then regardless of the number of times, go down by one.
+	// 	if(command == "LEFT" || command == "RIGHT" || command == "DOWN" || 
+	// 		command == "CLOCKWISE" || command == "COUNTERCLOCKWISE"){
+	// 		currLevel->PostUpdate(*g);
+	// 	}
+
+	// 	cout << *g;
+	// }
 }
 
 void Restart() {

@@ -395,6 +395,10 @@ bool Grid::IsMovePossible(Position tempWindow[4][4], Shape *tempShape) {
 	return true;
 }
 
+Grid::Grid(){
+	
+}
+
 Grid::Grid(int row, int col): NUM_ROWS{row}, NUM_COLS{col} {
 	td = new TextDisplay{NUM_ROWS, NUM_COLS};
 	if(!textOnly){
