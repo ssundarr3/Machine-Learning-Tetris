@@ -1,0 +1,95 @@
+COMMAND INTERPRETER
+rig
+3rig
+lef
+4lef
+I J S T Z O L
+clockwise
+2clockwise
+counterclockwise
+3counterclockwise
+18down right, lef, 3righ 4lef
+dro
+3dro
+restart // goes back to the level you started the program in
+levelu
+leveldo
+sequence
+
+Heavy Blocks
+seqHeavy1
+lef, right, down, 7ri, 4lef, 2clock, 6counter, level 3 and 4
+Move from level 3 and 4 down to Level 2, right doesn't do anything
+
+StarBlock
+// Show 5 blocks without clearing a row ??
+restart 4levelu 6dro 
+8ri dro 8ri dro 8ri dro 8ri dro 8ri dro 
+
+Scoring
+seqRowDelete1: (CurrentLevel (0) + LinesCleared (1))^2 + 
+		2(0+1)^2 = 3
+seqRowDelete2: (CurrentLevel (0) + LinesCleared (2))^2 + 
+		3(0+1)^2 =  7
+seqRowDelete3: 7 +  (CurrentLevel (0) + LinesCleared (2))^2 + 
+		2(0+1)^2 = 17 
+seqRowDelete4: (CurrentLevel (4) + LinesCleared (1))^2 + 
+		1(0+1)^2 + 1(1+1)^2 = 30
+seqRowDelete5: (CurrentLevel (4) + LinesCleard (4))^2 + 
+		4(0+1)^2 + 1(1+1)^2 + 1(2+1)^2 + 4(3+1)^2 + 1(4+1)^2
+		= 64 + (106) = 170
+seqRowDelete6: (CurrentLevel (4) + LinesCleared (1))^2 + 
+		1(0+1)^2 + 1(4+1)^2 = 51
+seqRowDelete7: (CurrentLevel (4) + LinesCleared (1))^2 + 
+		1(0+1)^2 + 1(4+1)^2 = 51
+
+hint
+norandom
+random
+
+
+COMMAND LINE INTERFACE
+./quadris -text
+
+./quadris -scriptfile sequence.txt
+
+./quadris -startlevel 0
+./quadris -startlevel 1
+./quadris -startlevel 2
+./quadris -startlevel 3
+./quadris -startlevel 4
+
+Restarting the level will make it go back to original start level
+./quadris -startlevel 3
+3leveldo
+restart
+
+./quadris -seed 5 -startlevel 2
+// seed 1 is default value
+./quadris -seed 1 -startlevel 2
+./quadris -startlevel 2
+
+Multiple cmd line arguments can be given at once and in any order
+
+./quadris -startlevel 3 -text -seed 5 -scriptfile seqLevel0
+
+
+EXTRAS
+-extraFeatureMacro
+Allows user to create a macro. eg:
+macroName cmd1 cmd2 cmd3 -1
+
+-extraFeatureGrid numberOfRows numberOfCols
+Allows user to change size of grid (min is 6x6) eg:
+
+
+
+
+
+
+
+
+
+
+
+
