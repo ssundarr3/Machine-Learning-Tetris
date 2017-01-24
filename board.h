@@ -1,10 +1,8 @@
 #include <vector>
 
-using namespace std;
-
 class Board {
 public:
-	vector<vector<bool>> grid;
+	std::vector<std::vector<bool>> grid;
 	const int width;
 	const int height;
 	int score;

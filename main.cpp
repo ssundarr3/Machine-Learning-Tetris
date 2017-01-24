@@ -39,7 +39,7 @@ void printBoard(Board b) {
 		for (int j = 0; j < 10; j++) {
 			if (b.grid[i][j]) {
 				cout << 'X';
-			}
+			} 
 			else {
 				cout << ' ';
 			}
