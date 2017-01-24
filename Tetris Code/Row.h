@@ -14,10 +14,13 @@ enum class SubscriberType;
 enum class SubjectType;
 
 class Row : public Subject, public Observer {
+	
+public:
 	std::vector<Cell *> columns;
 	int columnsSize;
 	int rowNum;
-public:
+
+	
 	Row(int, int, TextDisplay *, GraphicsDisplay *);
 	void SetCell(int, char);
 	void SetCell(int, DroppedBlock *);

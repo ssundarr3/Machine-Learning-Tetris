@@ -14,7 +14,6 @@
 #include "Level3.h"
 #include "Level4.h"
 extern Level* currLevel;
-extern bool textOnly;
 
 struct Orientation {
 	int orient[4][4];
@@ -395,13 +394,9 @@ bool Grid::IsMovePossible(Position tempWindow[4][4], Shape *tempShape) {
 	return true;
 }
 
-Grid::Grid(){
-	
-}
-
-Grid::Grid(int row, int col): NUM_ROWS{row}, NUM_COLS{col} {
-	td = new TextDisplay{NUM_ROWS, NUM_COLS};
-	if(!textOnly){
+Grid::Grid(int row, int col, bool useGra): NUM_ROWS{row}, NUM_COLS{col} {
+	td = new TextDisplay{NUM_ROWS, NUM_COLS, useGra};
+	if(useGra){
 		gd = new GraphicsDisplay{NUM_ROWS, NUM_COLS};
 	}else{
 		gd = nullptr;
@@ -418,7 +413,7 @@ Grid::Grid(int row, int col): NUM_ROWS{row}, NUM_COLS{col} {
 
 	for (int i = allRows.size() - 1; i > -1; --i) {
 		allRows[i]->Attach(td);
-		if(!textOnly){
+		if(useGra){
 			allRows[i]->Attach(gd);
 		}
 
@@ -959,7 +954,7 @@ bool Grid::RowAnnihilation(int currLevel) {
 			
 			allRows.insert(allRows.begin(), newRow);
 			allRows[0]->Attach(td);
-			if(!textOnly){
+			if(td->useGra){
 				allRows[0]->Attach(gd);
 			}
 
@@ -970,15 +965,17 @@ bool Grid::RowAnnihilation(int currLevel) {
 		}
 	}
 
+
 	if (numRowsKilled > 0) {
 		CalculateHS(currLevel, numRowsKilled);
 	}
 
-	return hasRowRemoved;
+	// return hasRowRemoved;
+	return numRowsKilled;
 }
 
 //Req: currShape is not already freed and nullptr, and will always be freed and set to nullptr.
-bool Grid::DropWindow(int currLevel) {
+int Grid::DropWindow(int currLevel) {
 	while(TranslateWindowDown() == true) {}
 
 	if (currShapeChar != '*') {
@@ -1129,7 +1126,7 @@ std::ostream &operator<<(std::ostream &out, Grid &g) {
 	out << nextShape << std::endl;
 
 
-	if(!textOnly){
+	if(g.td->useGra){
 		g.gd->PrintDisplay(currLevel->CurrentLevel(), g.currentHS, g.HS, nextShape);
 	}
 

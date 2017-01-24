@@ -8,11 +8,15 @@ class Subject;
 enum class SubscriberType;
 
 class TextDisplay : public Observer {
+	
+public:
+
 	std::vector<std::vector<char>> allLetters;
 	const int NUM_ROWS;
 	const int NUM_COLS;
-public:
-	TextDisplay(int, int);
+	bool useGra;
+
+	TextDisplay(int, int, bool);
 	std::string PrintDisplay();
 	void Notify(Subject &) override;
 	SubscriberType GetSubscriberType() override;

@@ -6,7 +6,6 @@
 #include "DroppedBlock.h"
 #include "GraphicsDisplay.h"
 #include "TextDisplay.h"
-extern bool textOnly;
 
 Row::Row(int columnsSize, int rowNum, TextDisplay *td, GraphicsDisplay *gd): columnsSize{columnsSize}, rowNum{rowNum} {
 	for (int i = 0; i < columnsSize; ++i) {
@@ -14,7 +13,7 @@ Row::Row(int columnsSize, int rowNum, TextDisplay *td, GraphicsDisplay *gd): col
 		columns.emplace_back(newCell);
 
 		columns[i]->Attach(td);
-		if(!textOnly){
+		if(td->useGra){
 			columns[i]->Attach(gd);
 		}
 		

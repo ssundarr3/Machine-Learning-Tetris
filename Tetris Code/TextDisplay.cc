@@ -5,7 +5,7 @@
 #include "SubjectType.h"
 #include "SubscriberType.h"
 
-TextDisplay::TextDisplay(int numRows, int numCols): NUM_ROWS{numRows}, NUM_COLS{numCols} {
+TextDisplay::TextDisplay(int numRows, int numCols, bool useGra): NUM_ROWS{numRows}, NUM_COLS{numCols}, useGra{useGra} {
 	for (int i = 0; i < NUM_ROWS; ++i) {
 		std::vector<char> newRow;
 

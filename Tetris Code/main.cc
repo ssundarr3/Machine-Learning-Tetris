@@ -10,6 +10,7 @@
 #include "Level2.h"
 #include "Level3.h"
 #include "Level4.h"
+#include "TextDisplay.h"
 using namespace std;
 Trie allCommands;
 string blocksFileName = "sequence.txt";
@@ -90,7 +91,7 @@ int main(int argc, char *argv[]){
 		}
 	}
 
-	g = new Grid(gridDimensions.first, gridDimensions.second);
+	g = new Grid(gridDimensions.first, gridDimensions.second, !textOnly);
 
 	g->SetShapes(' ', currLevel->ChooseShape());
 
@@ -127,27 +128,180 @@ void GetCommand(string &command){
     		command[i] = command[i]+('Z'-'z');
 }
 
+int findScore(vector<std::vector<char>> b, int r){
+	if(b[17][3] != ' ')
+		return 10;
+
+	else return 0;
+}
+
 
 // Reads in commands (from stdin/file) and calls InterpretCommands on each command
 void ReadCommands(istream &in){
-	// declaring helper funcitons
-	int FindCommandStartIndex(string &command);
-	void InterpretCommand(const string &command);
-	void Restart();
+
+	int numRotate = 4;
+
+	// if(tempGrid.currShapeChar == 'O') numRotate = 0;
+	// else if(tempGrid.currShapeChar == 'S' && tempGrid.currShapeChar == 'Z') numRotate = 2;
+	// else if(tempGrid.currShapeChar == 'O') numRotate = 0;
+	// else if(tempGrid.currShapeChar == 'O') numRotate = 0;
+	// else if(tempGrid.currShapeChar == 'O') numRotate = 0;
+	// else if(tempGrid.currShapeChar == 'O') numRotate = 0;
+	// else if(tempGrid.currShapeChar == 'O') numRotate = 0;
+
+	// Grid tempGrid(g->NUM_ROWS, g->NUM_COLS, true);
+	// tempGrid = (*g);
+
+	// tempGrid.RotateClockwise();
+	// int a;
+	// cin>>a;
 
 
-	Grid nextGrid;
+	while(1){
+		int maxFitness = 0;
+		int maxFitnessRight = 0;
+		int maxFitnessRotate = 0;
+		for(int i=0; i<g->NUM_COLS-1; ++i){ // width can never be less than 1
+			for(int j=0; j<numRotate; ++j){
+				Grid tempGrid(g->NUM_ROWS, g->NUM_COLS, true);
+
+				tempGrid = (*g);
+
+				// tempGrid.RotateClockwise();
+				// tempGrid.TranslateWindowRight();
+				// tempGrid.TranslateWindowRight();
+
+				
+
+				// int y;
+				// cin >> y;
+
+
+				for(int k=0;k<j; ++k){
+					tempGrid.RotateClockwise();
+				}
+				for(int k=0;k<i; ++k){
+					tempGrid.TranslateWindowRight();
+				}
+
+
+				cout << (*g) << tempGrid;
+				int rowsClearedNow = tempGrid.DropWindow(currLevel->CurrentLevel());
+				cout << (*g) << tempGrid;
+				int score = findScore(tempGrid.td->allLetters, rowsClearedNow);
+				std::cout <<  "score: " << score;
+				int x; 
+				cin>>x;
+				if(score > maxFitness){
+					maxFitness = score;
+					maxFitnessRight = i;
+					maxFitnessRotate = j;
+				}
+			}
+
+		}
+
+		for(int i=0; i<maxFitnessRight; ++i) g->TranslateWindowRight();
+		for(int i=0; i<maxFitnessRotate; ++i) g->RotateClockwise();
+
+		g->DropWindow(currLevel->CurrentLevel());
+			int x; 
+			cin>>x;
+
+		bool hasCreatedNewShape = g->CreateNewShape(currLevel->ChooseShape(), currLevel->CurrentLevel());
+
+		if(hasCreatedNewShape == false){
+			std::cout << "Game over, hit anything to break out!!";
+			int a; 
+			cin>>a;
+			break;
+		}
+
+		// createNextStates
+		// 	for each createNextState 
+		// 		calculate fitness
+		// if(gameOver in all cases) int a; cin >> a; break;
+		// make maxfitness Move
+
+
+	}
+
 	
-	nextGrid = (*g);
+	// int x = 1;
+	// if(x == 1){
+	// 	Grid tempGrid(g->NUM_ROWS, g->NUM_COLS);
 
-	nextGrid.TranslateWindowRight();
-	cout << nextGrid;
+	// 	tempGrid = (*g);
 
-	cout << "\n\n now original grid: \n\n";
-	cout << *g;
+	// COPYING GRID OVER
+	// for(int i=0; i<g->allRows.size(); ++i){
+	// 	for(int j=0; j<g->allRows[0]->columns.size(); ++j){
+	// 		(tempGrid.allRows[i]->columns)[j]->letter = (g->allRows[i]->columns)[j]->letter;
+	// 	}
+	// }
+
+	// if(g->currShapeChar == 'O'){(tempGrid.allRows[2]->columns)[0]->letter = ' '; (tempGrid.allRows[2]->columns)[1]->letter = ' '; (tempGrid.allRows[3]->columns)[0]->letter = ' '; (tempGrid.allRows[3]->columns)[1]->letter = ' ';}
+	// else if(g->currShapeChar == 'I'){(tempGrid.allRows[3]->columns)[0]->letter = ' '; (tempGrid.allRows[3]->columns)[1]->letter = ' '; (tempGrid.allRows[3]->columns)[2]->letter = ' '; (tempGrid.allRows[3]->columns)[3]->letter = ' ';}
+	// else if(g->currShapeChar == 'J'){(tempGrid.allRows[2]->columns)[0]->letter = ' '; (tempGrid.allRows[3]->columns)[1]->letter = ' '; (tempGrid.allRows[3]->columns)[2]->letter = ' '; (tempGrid.allRows[3]->columns)[0]->letter = ' ';}
+	// else if(g->currShapeChar == 'L'){(tempGrid.allRows[2]->columns)[2]->letter = ' '; (tempGrid.allRows[3]->columns)[1]->letter = ' '; (tempGrid.allRows[3]->columns)[2]->letter = ' '; (tempGrid.allRows[3]->columns)[0]->letter = ' ';}
+	// else if(g->currShapeChar == 'Z'){(tempGrid.allRows[2]->columns)[0]->letter = ' '; (tempGrid.allRows[2]->columns)[1]->letter = ' '; (tempGrid.allRows[3]->columns)[1]->letter = ' '; (tempGrid.allRows[3]->columns)[2]->letter = ' ';}
+	// else if(g->currShapeChar == 'S'){(tempGrid.allRows[2]->columns)[1]->letter = ' '; (tempGrid.allRows[2]->columns)[2]->letter = ' '; (tempGrid.allRows[3]->columns)[0]->letter = ' '; (tempGrid.allRows[3]->columns)[1]->letter = ' ';}
+	// else if(g->currShapeChar == 'T'){(tempGrid.allRows[2]->columns)[0]->letter = ' '; (tempGrid.allRows[2]->columns)[1]->letter = ' '; (tempGrid.allRows[2]->columns)[2]->letter = ' '; (tempGrid.allRows[3]->columns)[1]->letter = ' ';}
+
+	// tempGrid.currentHS = g->currentHS;
+	// tempGrid.HS = g->HS;
+
+	// tempGrid.SetShapes(' ', g->currShapeChar);
+	// tempGrid.CreateNewShape(g->nextShapeChar, 2);
+	// END COPY
+	
+
+	// g->TranslateWindowDown();
+	// g->TranslateWindowDown();
+	// g->TranslateWindowDown();
+	// g->TranslateWindowDown();
+
+	// tempGrid.TranslateWindowRight();
+	// tempGrid.TranslateWindowRight();
+
+	// tempGrid.TranslateWindowRight();
+	// tempGrid.DropWindow(currLevel->CurrentLevel());
+
+
+
+	// cout << *g;
+
+	// cout << tempGrid;
+
+
+	
+
+	// // cout << *g;
+
+	// int a;
+	// cin >> a;
+
+
+	// }
+
+
+	
+
+	
+
+
+	// // declaring helper funcitons
+	// int FindCommandStartIndex(string &command);
+	// void InterpretCommand(const string &command);
+	// void Restart();
 
 	// string command;
 	// while(in >> command){
+
+		
+
+		
+
 	// 	stringstream iss(command);
 	// 	int numberOfTimes;
 	// 	iss >> numberOfTimes;
@@ -303,8 +457,10 @@ void InterpretCommand(const string &command){
 	else if(command == "RIGHT"){ g->TranslateWindowRight(); }
 	else if(command == "DOWN"){ g->TranslateWindowDown(); }
 	else if(command == "DROP"){
-		bool hasRowDeleted = g->DropWindow(currLevel->CurrentLevel());
+		int rowsDeleted = g->DropWindow(currLevel->CurrentLevel());
 
+		bool hasRowDeleted;
+		if(rowsDeleted > 0 ) bool hasRowDeleted = true;
 		if (hasRowDeleted == true) {
 			currLevel->ResetStarCounter();
 		} else {

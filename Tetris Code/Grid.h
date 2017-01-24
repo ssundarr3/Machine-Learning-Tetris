@@ -4,6 +4,9 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include "Row.h"
+#include "Cell.h"
+
 class Row;
 class DroppedBlock;
 class TextDisplay;
@@ -17,9 +20,30 @@ struct Position {
 class Shape;
 
 class Grid {
-	
 public:
-	// START: WAS PRIVATE
+
+	Grid& operator=(const Grid& other){
+		for(int i=0; i<other.allRows.size(); ++i){
+			for(int j=0; j<other.allRows[0]->columns.size(); ++j){
+				(allRows[i]->columns)[j]->letter = (other.allRows[i]->columns)[j]->letter;
+			}
+		}
+
+		if(other.currShapeChar == 'O'){(allRows[2]->columns)[0]->letter = ' '; (allRows[2]->columns)[1]->letter = ' '; (allRows[3]->columns)[0]->letter = ' '; (allRows[3]->columns)[1]->letter = ' ';}
+		else if(other.currShapeChar == 'I'){(allRows[3]->columns)[0]->letter = ' '; (allRows[3]->columns)[1]->letter = ' '; (allRows[3]->columns)[2]->letter = ' '; (allRows[3]->columns)[3]->letter = ' ';}
+		else if(other.currShapeChar == 'J'){(allRows[2]->columns)[0]->letter = ' '; (allRows[3]->columns)[1]->letter = ' '; (allRows[3]->columns)[2]->letter = ' '; (allRows[3]->columns)[0]->letter = ' ';}
+		else if(other.currShapeChar == 'L'){(allRows[2]->columns)[2]->letter = ' '; (allRows[3]->columns)[1]->letter = ' '; (allRows[3]->columns)[2]->letter = ' '; (allRows[3]->columns)[0]->letter = ' ';}
+		else if(other.currShapeChar == 'Z'){(allRows[2]->columns)[0]->letter = ' '; (allRows[2]->columns)[1]->letter = ' '; (allRows[3]->columns)[1]->letter = ' '; (allRows[3]->columns)[2]->letter = ' ';}
+		else if(other.currShapeChar == 'S'){(allRows[2]->columns)[1]->letter = ' '; (allRows[2]->columns)[2]->letter = ' '; (allRows[3]->columns)[0]->letter = ' '; (allRows[3]->columns)[1]->letter = ' ';}
+		else if(other.currShapeChar == 'T'){(allRows[2]->columns)[0]->letter = ' '; (allRows[2]->columns)[1]->letter = ' '; (allRows[2]->columns)[2]->letter = ' '; (allRows[3]->columns)[1]->letter = ' ';}
+
+		currentHS = other.currentHS;
+		HS = other.HS;
+
+		SetShapes(' ', other.currShapeChar);
+		CreateNewShape(other.nextShapeChar, 2);
+	}
+
 	std::vector<Row *> allRows;
 	Shape *currShape;
 	Position window[4][4];
@@ -42,14 +66,13 @@ public:
 	bool IsMovePossible(Position tempWindow[4][4], Shape *);
 	bool RowAnnihilation(int);
 	std::string MakeNextShape();
-	// END: WAS PRIVATE
+
 
 
 
 
 	//Note: grid MUST at least be 6x6 to be a valid grid.
-	Grid();
-	Grid(int, int);
+	Grid(int, int, bool);
 	void SetShapes(char, char);
 	void ClearGrid();
 	bool TranslateWindowLeft();
@@ -58,7 +81,7 @@ public:
 	bool RotateClockwise();
 	bool RotateCounterClockwise();
 	bool ChangeShape(char);
-	bool DropWindow(int);
+	int DropWindow(int);
 	bool CreateNewShape(char, int);
 	void Hint();
 	~Grid();

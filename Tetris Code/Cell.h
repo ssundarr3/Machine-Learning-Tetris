@@ -6,10 +6,12 @@ class Info;
 enum class SubjectType;
 
 class Cell : public Subject {
+	
+public:
+
 	char letter;
 	int row;
 	int col;
-public:
 	Cell(int, int);
 	void SetCell(char);
 	void UpdateDropped();
