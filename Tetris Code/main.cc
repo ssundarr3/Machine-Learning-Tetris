@@ -11,6 +11,7 @@
 #include "Level3.h"
 #include "Level4.h"
 #include "TextDisplay.h"
+#include <math.h>
 using namespace std;
 Trie allCommands;
 string blocksFileName = "sequence.txt";
@@ -135,27 +136,65 @@ int findScore(vector<std::vector<char>> b, int r){
 	else return 0;
 }
 
+double coefficients[] = {3, -0.1, -7, -3.5, 8}; // standard deviation, max height, number of holes, 
+											// number of blockades, num lines cleared
+
+int calculateFitness(vector<vector<char>> board, const int numCleared) {
+	double average = 0;
+	int maxHeight = 0;
+	int numHoles = 0;
+	int height = board.size();
+	int width = board[0].size();
+	vector<int> colHeights;
+	for (int i = 0; i < width; i++) {
+		bool startCounting = false;
+		int currHeight = 0;
+		for (int j = 0; j < height; j++) {
+			if (board[j][i]) startCounting = true;
+			if (startCounting) {
+				currHeight++;
+				if (board[j][i] == false) {
+					numHoles++;
+				}
+			}
+		}
+		colHeights.push_back(currHeight);
+		if (currHeight > maxHeight) {
+			maxHeight = currHeight;
+		}
+		average += currHeight;
+	}
+	average /= width;
+	double averageSquaresDiff = 0;
+	for (int i = 0; i < width; i++) {
+		averageSquaresDiff += pow(colHeights[i] - average, 2);
+	}
+	averageSquaresDiff /= width;
+	double SD = sqrt(averageSquaresDiff);
+
+	int numBlockades = 0;
+	for (int i = 0; i < width; i++) {
+		bool startCounting = false;
+		for (int j = height - 1; j >= 0; j--) {
+			if (board[j][i] == 0) startCounting = true;
+			if (startCounting && board[j][i] == true) {
+				numBlockades++;
+			}
+		}
+	}
+
+	return coefficients[0] * SD + 
+		coefficients[1] * maxHeight + 
+		coefficients[2] * numHoles + 
+		coefficients[3] * numBlockades + 
+		coefficients[4] * numCleared;
+}
+
+
 
 // Reads in commands (from stdin/file) and calls InterpretCommands on each command
 void ReadCommands(istream &in){
-
 	int numRotate = 4;
-
-	// if(tempGrid.currShapeChar == 'O') numRotate = 0;
-	// else if(tempGrid.currShapeChar == 'S' && tempGrid.currShapeChar == 'Z') numRotate = 2;
-	// else if(tempGrid.currShapeChar == 'O') numRotate = 0;
-	// else if(tempGrid.currShapeChar == 'O') numRotate = 0;
-	// else if(tempGrid.currShapeChar == 'O') numRotate = 0;
-	// else if(tempGrid.currShapeChar == 'O') numRotate = 0;
-	// else if(tempGrid.currShapeChar == 'O') numRotate = 0;
-
-	// Grid tempGrid(g->NUM_ROWS, g->NUM_COLS, true);
-	// tempGrid = (*g);
-
-	// tempGrid.RotateClockwise();
-	// int a;
-	// cin>>a;
-
 
 	while(1){
 		int maxFitness = 0;
@@ -167,31 +206,23 @@ void ReadCommands(istream &in){
 
 				tempGrid = (*g);
 
-				// tempGrid.RotateClockwise();
-				// tempGrid.TranslateWindowRight();
-				// tempGrid.TranslateWindowRight();
-
-				
-
-				// int y;
-				// cin >> y;
-
 
 				for(int k=0;k<j; ++k){
 					tempGrid.RotateClockwise();
+					cout << (*g) << tempGrid;
 				}
 				for(int k=0;k<i; ++k){
 					tempGrid.TranslateWindowRight();
+					cout << (*g) << tempGrid;
 				}
 
 
-				cout << (*g) << tempGrid;
 				int rowsClearedNow = tempGrid.DropWindow(currLevel->CurrentLevel());
 				cout << (*g) << tempGrid;
-				int score = findScore(tempGrid.td->allLetters, rowsClearedNow);
+				int score = calculateFitness(tempGrid.td->allLetters, rowsClearedNow);
 				std::cout <<  "score: " << score;
-				int x; 
-				cin>>x;
+				// int x; 
+				// cin>>x;
 				if(score > maxFitness){
 					maxFitness = score;
 					maxFitnessRight = i;
@@ -201,14 +232,22 @@ void ReadCommands(istream &in){
 
 		}
 
-		for(int i=0; i<maxFitnessRight; ++i) g->TranslateWindowRight();
-		for(int i=0; i<maxFitnessRotate; ++i) g->RotateClockwise();
+		for(int i=0; i<maxFitnessRight; ++i){
+			g->TranslateWindowRight();
+			cout << (*g);
+		}
+		for(int i=0; i<maxFitnessRotate; ++i){
+			g->RotateClockwise();
+			cout << (*g);
+		}
 
 		g->DropWindow(currLevel->CurrentLevel());
-			int x; 
-			cin>>x;
+		std::cout << *g;
+		int x; 
+		cin>>x;
 
 		bool hasCreatedNewShape = g->CreateNewShape(currLevel->ChooseShape(), currLevel->CurrentLevel());
+
 
 		if(hasCreatedNewShape == false){
 			std::cout << "Game over, hit anything to break out!!";
@@ -217,6 +256,7 @@ void ReadCommands(istream &in){
 			break;
 		}
 
+		cout << *g;
 		// createNextStates
 		// 	for each createNextState 
 		// 		calculate fitness
@@ -225,210 +265,6 @@ void ReadCommands(istream &in){
 
 
 	}
-
-	
-	// int x = 1;
-	// if(x == 1){
-	// 	Grid tempGrid(g->NUM_ROWS, g->NUM_COLS);
-
-	// 	tempGrid = (*g);
-
-	// COPYING GRID OVER
-	// for(int i=0; i<g->allRows.size(); ++i){
-	// 	for(int j=0; j<g->allRows[0]->columns.size(); ++j){
-	// 		(tempGrid.allRows[i]->columns)[j]->letter = (g->allRows[i]->columns)[j]->letter;
-	// 	}
-	// }
-
-	// if(g->currShapeChar == 'O'){(tempGrid.allRows[2]->columns)[0]->letter = ' '; (tempGrid.allRows[2]->columns)[1]->letter = ' '; (tempGrid.allRows[3]->columns)[0]->letter = ' '; (tempGrid.allRows[3]->columns)[1]->letter = ' ';}
-	// else if(g->currShapeChar == 'I'){(tempGrid.allRows[3]->columns)[0]->letter = ' '; (tempGrid.allRows[3]->columns)[1]->letter = ' '; (tempGrid.allRows[3]->columns)[2]->letter = ' '; (tempGrid.allRows[3]->columns)[3]->letter = ' ';}
-	// else if(g->currShapeChar == 'J'){(tempGrid.allRows[2]->columns)[0]->letter = ' '; (tempGrid.allRows[3]->columns)[1]->letter = ' '; (tempGrid.allRows[3]->columns)[2]->letter = ' '; (tempGrid.allRows[3]->columns)[0]->letter = ' ';}
-	// else if(g->currShapeChar == 'L'){(tempGrid.allRows[2]->columns)[2]->letter = ' '; (tempGrid.allRows[3]->columns)[1]->letter = ' '; (tempGrid.allRows[3]->columns)[2]->letter = ' '; (tempGrid.allRows[3]->columns)[0]->letter = ' ';}
-	// else if(g->currShapeChar == 'Z'){(tempGrid.allRows[2]->columns)[0]->letter = ' '; (tempGrid.allRows[2]->columns)[1]->letter = ' '; (tempGrid.allRows[3]->columns)[1]->letter = ' '; (tempGrid.allRows[3]->columns)[2]->letter = ' ';}
-	// else if(g->currShapeChar == 'S'){(tempGrid.allRows[2]->columns)[1]->letter = ' '; (tempGrid.allRows[2]->columns)[2]->letter = ' '; (tempGrid.allRows[3]->columns)[0]->letter = ' '; (tempGrid.allRows[3]->columns)[1]->letter = ' ';}
-	// else if(g->currShapeChar == 'T'){(tempGrid.allRows[2]->columns)[0]->letter = ' '; (tempGrid.allRows[2]->columns)[1]->letter = ' '; (tempGrid.allRows[2]->columns)[2]->letter = ' '; (tempGrid.allRows[3]->columns)[1]->letter = ' ';}
-
-	// tempGrid.currentHS = g->currentHS;
-	// tempGrid.HS = g->HS;
-
-	// tempGrid.SetShapes(' ', g->currShapeChar);
-	// tempGrid.CreateNewShape(g->nextShapeChar, 2);
-	// END COPY
-	
-
-	// g->TranslateWindowDown();
-	// g->TranslateWindowDown();
-	// g->TranslateWindowDown();
-	// g->TranslateWindowDown();
-
-	// tempGrid.TranslateWindowRight();
-	// tempGrid.TranslateWindowRight();
-
-	// tempGrid.TranslateWindowRight();
-	// tempGrid.DropWindow(currLevel->CurrentLevel());
-
-
-
-	// cout << *g;
-
-	// cout << tempGrid;
-
-
-	
-
-	// // cout << *g;
-
-	// int a;
-	// cin >> a;
-
-
-	// }
-
-
-	
-
-	
-
-
-	// // declaring helper funcitons
-	// int FindCommandStartIndex(string &command);
-	// void InterpretCommand(const string &command);
-	// void Restart();
-
-	// string command;
-	// while(in >> command){
-
-		
-
-		
-
-	// 	stringstream iss(command);
-	// 	int numberOfTimes;
-	// 	iss >> numberOfTimes;
-	// 	if(numberOfTimes < 0) // negative numbers aren't allowed
-	// 		continue;
-	// 	else if(numberOfTimes == 0 && command[0] != '0') // if there is no number, 
-	// 		numberOfTimes += 1; // command should run once
-
-	// 	GetCommand(command); 
-	// 	// command does not have the number at the beginning now
-
-	// 	command = allCommands.Find(command); 
-	// 	// Command is now a complete command or "" 
-	// 	if(command == ""){
-	// 		cout << "Command not found." <<endl;
-	// 		continue;
-	// 	}
-	// 	cout << command << endl;
-
-	// 	// If command is sequence, then ReadCommands from file
-	// 	if(command == "SEQUENCE"){
-	// 		string sequenceFileName;
-	// 		in >> sequenceFileName;
-	// 		for(int i=0; i<numberOfTimes; ++i){
-	// 			ifstream file(sequenceFileName);
-	// 			ReadCommands(file);
-	// 			file.close();
-	// 		}
-	// 		continue;
-	// 	}
-	// 	else if(command == "NORANDOM"){
-	// 		norandomSequenceIndex = 1;
-	// 		string norandomFileName;
-	// 		in >> norandomFileName;
-	// 		ifstream file(norandomFileName);
-	// 		string s;
-	// 		norandomBlockSequence = "";
-	// 		while(file >> s){
-	// 			norandomBlockSequence += s;
-	// 		}
-	// 		cout << "Blocks (in Level 3, 4) will now be in the sequence " << norandomBlockSequence << "." << endl;
-	// 		file.close();
-	// 		// ?? NOT RIGHT ///
-	// 		// SET this and next block ... This block np, but next block?
-	// 		// Restart();
-	// 		// g->SetShapes(' ', currLevel->ChooseShape());
-	// 		// if()
-	// 		// g->CreateNewShape(currLevel->ChooseShape(), currLevel->CurrentLevel());
-	// 		cout << *g;
-	// 		continue;
-	// 	}
-	// 	else if(command == "RANDOM"){
-	// 		norandomSequenceIndex = 0;
-	// 		norandomBlockSequence = "";
-	// 		cout << "Randomness Restored." << endl;
-	// 		continue;
-	// 	}
-	// 	// Extra feature: Macro
-	// 	else if(command == "MACRO" && extraFeatureMacro == true){
-	// 		cout << "Extra feature: Macro. Usage: macroName command1 command2 ... -1\n";
-	// 		string macroName;
-	// 		while(1){
-	// 			in >> macroName;
-	// 			// convert to UPPER case
-	// 			for(int i=0; i<macroName.length(); ++i)
-	// 					if(macroName[i]<='z' && macroName[i]>='a')
-	// 						macroName[i] = macroName[i]+('Z'-'z');
-
-	// 			string alreadyPresent = allCommands.Find(macroName);
-	// 			if(alreadyPresent == ""){
-	// 				allCommands.Insert(macroName);
-	// 				break;
-	// 			}
-	// 			else{
-	// 				cout << "Macro Name " << macroName << " is already present." << endl;
-	// 				cout << "Please start over" << endl;
-	// 			}
-	// 		}
-	// 		string s;
-	// 		while(in >> s){
-	// 			if(s == "-1"){
-	// 				break;
-	// 			}
-	// 			norandomBlockSequence += (s + " ");
-	// 		}
-	// 		pair<string, string> newMacroCommand;
-	// 		newMacroCommand.first = macroName;
-	// 		newMacroCommand.second = norandomBlockSequence;
-	// 		// You can't delete macros
-	// 		// for(int i=0; i<macroCommands.size(); ++i){
-	// 		// 	if(i.first == macroName){
-	// 		// 		cout << macroName << " has been overwritten" << endl;
-	// 		// 		break;
-	// 		// 	}
-	// 		// }
-	// 		cout << macroName << " now means " << newMacroCommand.second << endl;
-	// 		cout << "Note: You may also use auto-complete for macros." << endl;
-	// 		macroCommands.push_back(newMacroCommand);
-	// 		continue;
-	// 	}
-	// 	else if(command == "RESTART"){
-	// 		Restart();
-	// 	}
-	// 	else if(command == "HINT"){}
-	// 	else if(extraFeatureMacro){
-	// 		string completeMacroCommand = allCommands.Find(command);
-	// 		for(int i=0; i<macroCommands.size(); ++i){
-	// 			if(macroCommands[i].first == completeMacroCommand){
-	// 				stringstream iss(macroCommands[i].second);
-	// 				ReadCommands(iss);
-	// 				break;
-	// 			}
-	// 		}
-	// 	}
-
-	// 	for(int i=0; i<numberOfTimes; ++i){ 
-	// 		InterpretCommand(command);
-	// 	}
-
-	// 	// If the command is to move, then regardless of the number of times, go down by one.
-	// 	if(command == "LEFT" || command == "RIGHT" || command == "DOWN" || 
-	// 		command == "CLOCKWISE" || command == "COUNTERCLOCKWISE"){
-	// 		currLevel->PostUpdate(*g);
-	// 	}
-
-	// 	cout << *g;
-	// }
 }
 
 void Restart() {
