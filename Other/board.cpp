@@ -108,7 +108,7 @@ double calculateFitness(Board board) {
 		averageSquaresDiff += pow(colHeights[i] - totalHeight, 2);
 	}
 	averageSquaresDiff /= board.width;
-	double SD = sqrt(averageSquaresDiff);*/
+	double SD = sqrt(averageSquaresDcdiff);*/
 
 	int numBlockades = 0;
 	for (int i = 0; i < board.width; i++) {
