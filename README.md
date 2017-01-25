@@ -1,6 +1,8 @@
 # Machine-Learning-Tetris
 A Machine Learning Algorithm that learns to play Tetris
 
+to simply run use ./out
+
 Uses a fitness function to compute the score of a board.
 The fitness computes the score by calculating various features of the board (like max height, number of holes etc).
 The fitness function receives a set of weights that determine how important each feature is.
