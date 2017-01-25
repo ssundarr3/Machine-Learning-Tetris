@@ -1,6 +1,6 @@
 #include <vector>
 
-class Board {
+class Board{
 public:
 	std::vector<std::vector<bool>> grid;
 	const int width;
@@ -12,6 +12,6 @@ public:
 		// do nothing
 	//}
 	//adds a piece to the board and returns the resulting board's fitness.
-	int addPiece(Board b, char piece, int position, char rotation);
-	void addPiece(Board * b, char piece, int position, char rotation);
+	// int addPiece(Board b, char piece, int position, char rotation);
+	// void addPiece(Board * b, char piece, int position, char rotation);
 };

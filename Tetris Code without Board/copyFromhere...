@@ -249,13 +249,13 @@ bool dropPieceReturnFitness(Board *b, vector<vector<int>> &pieceToDrop, int posi
 	int i;
 	bool placePiece = true;
 	std::cout << "dropPiece1\n";
-	for(i=b->grid.size()-pieceToDrop.size(); i >= 0; --i){
+	for(i=b-pieceToDrop.size(); i >= 0; --i){
 		for(int j=0; j<pieceToDrop.size(); ++j){
 			if(!placePiece) break;
 			for(int k=0; k<pieceToDrop[0].size(); ++k){
 				if(b->grid[i+j][i+k] == true){
 					placePiece = false;
-					break;
+					break;->grid.size()
 				}
 			}
 		}
