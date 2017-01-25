@@ -1,0 +1,509 @@
+Running it for 17 generations (each generation has 30 weights) results in an average of 700 lines being cleared before dying
+
+Reading the results : look at readme page.
+
+$ ./out
+score0:     0 score1:     0 score2:     0 Gen: 0 W:   0.132953  -0.959703  -0.291359   0.937319 AvgScore(of 3): 0
+score0:     0 score1:     0 score2:     0 Gen: 0 W:   0.724497   0.711002   0.914152  -0.449201 AvgScore(of 3): 0
+score0:    11 score1:    11 score2:     2 Gen: 0 W: -0.0957878  -0.820398   0.520333   0.209646 AvgScore(of 3): 8
+score0:     0 score1:     0 score2:     0 Gen: 0 W:   0.803441   0.895804  -0.668085   0.636357 AvgScore(of 3): 0
+score0:     0 score1:     0 score2:     0 Gen: 0 W:   0.846711  -0.926868   0.339987  -0.428255 AvgScore(of 3): 0
+score0:    36 score1:    21 score2:    44 Gen: 0 W:  -0.548515  -0.893224  -0.542166   0.222478 AvgScore(of 3): 33.6667
+score0:     3 score1:     4 score2:     1 Gen: 0 W:  -0.778452  -0.117251   0.902993   0.880722 AvgScore(of 3): 2.66667
+score0:     0 score1:     0 score2:     0 Gen: 0 W:  -0.891578   0.868608  -0.977063   0.241375 AvgScore(of 3): 0
+score0:     0 score1:     0 score2:     0 Gen: 0 W:   0.908905  -0.268422   0.178693   0.633401 AvgScore(of 3): 0
+score0:     1 score1:     4 score2:     0 Gen: 0 W:   -0.55742  0.0928456  -0.815799   0.346792 AvgScore(of 3): 1.66667
+score0:     0 score1:     0 score2:     0 Gen: 0 W:   0.272448   0.704534  -0.443562   0.075889 AvgScore(of 3): 0
+score0:     0 score1:     0 score2:     0 Gen: 0 W:   0.600338  -0.111648  -0.287754   0.447049 AvgScore(of 3): 0
+score0:    63 score1:    43 score2:    79 Gen: 0 W: -0.0385157  -0.947766  -0.981206    0.41297 AvgScore(of 3): 61.6667
+score0:     4 score1:     9 score2:     5 Gen: 0 W:   -0.84099  -0.523372  -0.364552  -0.619442 AvgScore(of 3): 6
+score0:     0 score1:     0 score2:     0 Gen: 0 W:   0.359378  -0.461559   -0.73872     0.4678 AvgScore(of 3): 0
+score0:     6 score1:     4 score2:     6 Gen: 0 W:  -0.592952  -0.715783  -0.290825  -0.684047 AvgScore(of 3): 5.33333
+score0:     1 score1:     0 score2:     0 Gen: 0 W:  0.0157954   0.887868   0.949355   0.458375 AvgScore(of 3): 0.333333
+score0:     7 score1:     1 score2:     6 Gen: 0 W: -0.0192865  -0.866444  -0.194832  -0.746839 AvgScore(of 3): 4.66667
+score0:     0 score1:     0 score2:     0 Gen: 0 W:    0.83809   0.361605    0.32905   0.438428 AvgScore(of 3): 0
+score0:    43 score1:    23 score2:    42 Gen: 0 W:  -0.750042  -0.958703  -0.114523   0.211442 AvgScore(of 3): 36
+score0:     0 score1:     1 score2:     1 Gen: 0 W:   -0.90647  -0.095729  -0.375588   -0.74746 AvgScore(of 3): 0.666667
+score0:     0 score1:     0 score2:     0 Gen: 0 W:   0.380899    0.25986  -0.366901  -0.259723 AvgScore(of 3): 0
+score0:     0 score1:     0 score2:     0 Gen: 0 W:     0.7983  -0.105621  -0.791923  -0.794651 AvgScore(of 3): 0
+score0:     0 score1:     0 score2:     0 Gen: 0 W:   0.178596 -0.0827486  -0.478698  -0.805608 AvgScore(of 3): 0
+score0:    18 score1:    28 score2:    29 Gen: 0 W:  -0.194881  -0.529344   0.652767   0.785833 AvgScore(of 3): 25
+--MaxOneAvgScore: 61.6667 MaxOneIndex: 12 MaxOneWeights -0.0385157  -0.947766  -0.981206    0.41297 --
+--MaxTwoAvgScore: 36 MaxTwoIndex: 19 MaxTwoWeights  -0.750042  -0.958703  -0.114523   0.211442 --
+------- Gen: 0 MaxAvgWtScore: 61.6667 AvgGenScore: 7.42667 --------
+score0:    71 score1:   109 score2:   159 Gen: 1 W:  -0.328073  -0.947766  -0.981206    0.41297 AvgScore(of 3): 113
+score0:    16 score1:    21 score2:    17 Gen: 1 W:  -0.750042         -1  -0.114523   0.156924 AvgScore(of 3): 18
+score0:    42 score1:    66 score2:    64 Gen: 1 W:  -0.339207  -0.947766  -0.981206    0.44447 AvgScore(of 3): 57.3333
+score0:    37 score1:    21 score2:    44 Gen: 1 W:  -0.663493  -0.958703  -0.114523    0.41297 AvgScore(of 3): 34
+score0:    72 score1:   202 score2:   264 Gen: 1 W: -0.0385157  -0.958703  -0.114523   0.211442 AvgScore(of 3): 179.333
+score0:   161 score1:    55 score2:    29 Gen: 1 W: -0.0385157  -0.947766  -0.981206    0.41297 AvgScore(of 3): 81.6667
+score0:    19 score1:    16 score2:    22 Gen: 1 W:  -0.750042  -0.947766  -0.114523   0.211442 AvgScore(of 3): 19
+score0:    75 score1:   156 score2:    54 Gen: 1 W: -0.000119926         -1  -0.840459    0.41297 AvgScore(of 3): 95
+score0:    21 score1:    41 score2:    48 Gen: 1 W:  -0.750042         -1  -0.114523   0.211442 AvgScore(of 3): 36.6667
+score0:   121 score1:   179 score2:   123 Gen: 1 W: -0.0385157  -0.947766  -0.114523    0.41297 AvgScore(of 3): 141
+score0:     4 score1:     5 score2:     3 Gen: 1 W:  -0.750042  -0.501277          1   0.211442 AvgScore(of 3): 4
+score0:    11 score1:    14 score2:    49 Gen: 1 W:  -0.750042  -0.958703  -0.114523    0.41297 AvgScore(of 3): 24.6667
+score0:    40 score1:    27 score2:    34 Gen: 1 W:  -0.750042         -1  -0.981206    0.41297 AvgScore(of 3): 33.6667
+score0:    18 score1:    16 score2:    28 Gen: 1 W:  -0.750042         -1  -0.981206   0.211442 AvgScore(of 3): 20.6667
+score0:    28 score1:    35 score2:    31 Gen: 1 W:  -0.750042  -0.947766   0.202915    0.41297 AvgScore(of 3): 31.3333
+score0:    50 score1:    39 score2:   100 Gen: 1 W: -0.0385157  -0.947766  -0.114523    0.41297 AvgScore(of 3): 63
+score0:    57 score1:    30 score2:    28 Gen: 1 W:  -0.499182  -0.947766         -1   0.211442 AvgScore(of 3): 38.3333
+score0:   146 score1:    93 score2:    65 Gen: 1 W:  -0.420525  -0.958703         -1    0.41297 AvgScore(of 3): 101.333
+score0:   184 score1:    92 score2:    57 Gen: 1 W: -0.0385157  -0.958703  -0.981206         -1 AvgScore(of 3): 111
+score0:   377 score1:   172 score2:   250 Gen: 1 W: -0.0385157   -0.33894  -0.114523    0.41297 AvgScore(of 3): 266.333
+score0:    16 score1:    21 score2:    27 Gen: 1 W:  -0.750042  -0.947766  -0.981206   0.211442 AvgScore(of 3): 21.3333
+score0:     3 score1:     7 score2:     6 Gen: 1 W:  -0.750042  -0.414491  -0.454795   0.211442 AvgScore(of 3): 5.33333
+score0:   120 score1:    84 score2:   122 Gen: 1 W:  -0.294875  -0.947766  -0.981206   0.211442 AvgScore(of 3): 108.667
+score0:   126 score1:    53 score2:   125 Gen: 1 W:  -0.123534  -0.947766  -0.981206    0.41297 AvgScore(of 3): 101.333
+score0:    14 score1:    25 score2:    20 Gen: 1 W:  -0.750042  -0.958703  -0.114523    0.41297 AvgScore(of 3): 19.6667
+--MaxOneAvgScore: 266.333 MaxOneIndex: 19 MaxOneWeights -0.0385157   -0.33894  -0.114523    0.41297 --
+--MaxTwoAvgScore: 179.333 MaxTwoIndex: 4 MaxTwoWeights -0.0385157  -0.958703  -0.114523   0.211442 --
+------- Gen: 1 MaxAvgWtScore: 266.333 AvgGenScore: 69.0267 --------
+score0:    65 score1:   443 score2:    56 Gen: 2 W: -0.0385157   -0.33894  -0.114523    0.41297 AvgScore(of 3): 188
+score0:    75 score1:   137 score2:   186 Gen: 2 W: -0.0385157  -0.958703  -0.114523   0.211442 AvgScore(of 3): 132.667
+score0:   360 score1:   151 score2:   163 Gen: 2 W: -0.0385157   -0.33894  -0.114523   0.205051 AvgScore(of 3): 224.667
+score0:   148 score1:   170 score2:   374 Gen: 2 W: -0.0385157   -0.33894  -0.114523   0.709916 AvgScore(of 3): 230.667
+score0:   688 score1:   125 score2:   824 Gen: 2 W: -0.0385157   -0.33894  -0.114523    0.41297 AvgScore(of 3): 545.667
+score0:    71 score1:    60 score2:   252 Gen: 2 W: -0.0385157  -0.958703  -0.114523    0.41297 AvgScore(of 3): 127.667
+score0:    54 score1:   131 score2:   104 Gen: 2 W: -0.0385157  -0.136823  -0.114523   0.211442 AvgScore(of 3): 96.3333
+score0:   107 score1:   138 score2:   891 Gen: 2 W: -0.0385157   -0.33894  -0.114523   0.211442 AvgScore(of 3): 378.667
+score0:   110 score1:    65 score2:   179 Gen: 2 W: -0.0385157  -0.161752  -0.114523    0.41297 AvgScore(of 3): 118
+score0:     0 score1:     2 score2:     0 Gen: 2 W:   0.541355  -0.958703   0.288041 0.00423057 AvgScore(of 3): 0.666667
+score0:    34 score1:    58 score2:    80 Gen: 2 W: -0.0385157         -1  -0.114523   0.211442 AvgScore(of 3): 57.3333
+score0:   144 score1:    29 score2:   231 Gen: 2 W: -0.0385157  -0.844485  -0.114523   0.285942 AvgScore(of 3): 134.667
+score0:     0 score1:     0 score2:     0 Gen: 2 W:   0.137659   -0.33894  -0.114523    0.41297 AvgScore(of 3): 0
+score0:   263 score1:   154 score2:   143 Gen: 2 W: -0.0385157   -0.33894   0.020959   0.598717 AvgScore(of 3): 186.667
+score0:    78 score1:   347 score2:   607 Gen: 2 W: -0.0385157   -0.33894  -0.114523   0.706037 AvgScore(of 3): 344
+score0:     0 score1:     0 score2:     0 Gen: 2 W:   0.377252   -0.88056  -0.114523    0.41297 AvgScore(of 3): 0
+score0:    68 score1:    98 score2:    71 Gen: 2 W: -0.0385157  -0.113302  -0.114523    0.41297 AvgScore(of 3): 79
+score0:    87 score1:    27 score2:    25 Gen: 2 W: -0.0385157  -0.958703  -0.114523    0.41297 AvgScore(of 3): 46.3333
+score0:   713 score1:   148 score2:   294 Gen: 2 W: -0.0385157   -0.33894  -0.114523   0.211442 AvgScore(of 3): 385
+score0:    39 score1:   186 score2:  1010 Gen: 2 W: -0.0385157  -0.958703  0.0203207   0.165517 AvgScore(of 3): 411.667
+score0:    95 score1:    14 score2:    57 Gen: 2 W: -0.0385157         -1  -0.198366    0.41297 AvgScore(of 3): 55.3333
+score0:    52 score1:    11 score2:    40 Gen: 2 W: -0.0385157  -0.466467  -0.114523    0.41297 AvgScore(of 3): 34.3333
+score0:   488 score1:  1154 score2:   319 Gen: 2 W: -0.0385157  -0.958703  0.0245459    0.41297 AvgScore(of 3): 653.667
+score0:   537 score1:   252 score2:   755 Gen: 2 W: -0.0385157  -0.167099  0.0324639    0.41297 AvgScore(of 3): 514.667
+score0:   355 score1:    70 score2:   347 Gen: 2 W: -0.0385157   -0.33894  -0.114523   0.211442 AvgScore(of 3): 257.333
+--MaxOneAvgScore: 653.667 MaxOneIndex: 22 MaxOneWeights -0.0385157  -0.958703  0.0245459    0.41297 --
+--MaxTwoAvgScore: 545.667 MaxTwoIndex: 4 MaxTwoWeights -0.0385157   -0.33894  -0.114523    0.41297 --
+------- Gen: 2 MaxAvgWtScore: 653.667 AvgGenScore: 208.12 --------
+score0:   131 score1:    65 score2:   846 Gen: 3 W: -0.0385157  -0.958703  0.0245459    0.41297 AvgScore(of 3): 347.333
+score0:   134 score1:   217 score2:   421 Gen: 3 W: -0.0385157  -0.352567  -0.114523   0.112989 AvgScore(of 3): 257.333
+score0:   149 score1:   229 score2:   146 Gen: 3 W: -0.0385157   -0.33894  0.0245459   0.355226 AvgScore(of 3): 174.667
+score0:   284 score1:   730 score2:    43 Gen: 3 W:  -0.058406  -0.954119  0.0245459    0.41297 AvgScore(of 3): 352.333
+score0:   172 score1:   239 score2:   270 Gen: 3 W: -0.0385157   -0.33894  -0.227536   0.681903 AvgScore(of 3): 227
+score0:    45 score1:    28 score2:    21 Gen: 3 W:  -0.279878   -0.33894  0.0245459   0.663187 AvgScore(of 3): 31.3333
+score0:    31 score1:   259 score2:    39 Gen: 3 W: -0.0385157  -0.958703  -0.173447    0.41297 AvgScore(of 3): 109.667
+score0:    14 score1:    12 score2:    22 Gen: 3 W:  -0.398137   -0.33894  -0.114523   0.410679 AvgScore(of 3): 16
+score0:    34 score1:   195 score2:    87 Gen: 3 W: -0.0385157  -0.201159  -0.269003    0.41297 AvgScore(of 3): 105.333
+score0:   612 score1:   632 score2:   290 Gen: 3 W: -0.0385157   -0.33894  0.0245459    0.41297 AvgScore(of 3): 511.333
+score0:    26 score1:   158 score2:   215 Gen: 3 W: -0.0385157   -0.33894 -0.0705787    0.41297 AvgScore(of 3): 133
+score0:   314 score1:   218 score2:    97 Gen: 3 W: -0.0418139   -0.33894  -0.114523    0.41297 AvgScore(of 3): 209.667
+score0:     0 score1:     0 score2:     0 Gen: 3 W:  0.0941106  -0.958703  -0.114523    0.41297 AvgScore(of 3): 0
+score0:   106 score1:    91 score2:   292 Gen: 3 W: -0.0385157  -0.958703  -0.114523    0.41297 AvgScore(of 3): 163
+score0:   804 score1:    72 score2:   152 Gen: 3 W: -0.0385157   -0.33894  0.0245459    0.41297 AvgScore(of 3): 342.667
+score0:   587 score1:   413 score2:   110 Gen: 3 W: -0.0385157   -0.41373 0.000365307   0.473326 AvgScore(of 3): 370
+score0:     4 score1:    15 score2:    11 Gen: 3 W: 0.00251839   -0.33894  -0.114523   0.899171 AvgScore(of 3): 10
+score0:   440 score1:    92 score2:    76 Gen: 3 W: -0.0900356  -0.958703  -0.114523    0.41297 AvgScore(of 3): 202.667
+score0:     2 score1:    11 score2:    23 Gen: 3 W: 0.00638717         -1  -0.114523    0.41297 AvgScore(of 3): 12
+score0:   461 score1:   315 score2:   162 Gen: 3 W:  -0.041044  -0.584843  0.0245459    0.41297 AvgScore(of 3): 312.667
+score0:    16 score1:   109 score2:   131 Gen: 3 W: -0.0385157    -0.9463  -0.114523    0.41297 AvgScore(of 3): 85.3333
+score0:     0 score1:     0 score2:     0 Gen: 3 W:   0.213921   -0.33894  0.0245459    0.41297 AvgScore(of 3): 0
+score0:   101 score1:   351 score2:    22 Gen: 3 W: -0.0385157   -0.33894  -0.114523   0.468796 AvgScore(of 3): 158
+score0:    71 score1:    65 score2:   130 Gen: 3 W: -0.0385157  -0.958703  -0.114523    0.41297 AvgScore(of 3): 88.6667
+score0:   167 score1:   245 score2:   501 Gen: 3 W: -0.0385157         -1  -0.114523    0.41297 AvgScore(of 3): 304.333
+--MaxOneAvgScore: 511.333 MaxOneIndex: 9 MaxOneWeights -0.0385157   -0.33894  0.0245459    0.41297 --
+--MaxTwoAvgScore: 370 MaxTwoIndex: 15 MaxTwoWeights -0.0385157   -0.41373 0.000365307   0.473326 --
+------- Gen: 3 MaxAvgWtScore: 511.333 AvgGenScore: 180.973 --------
+score0:   205 score1:   190 score2:   425 Gen: 4 W: -0.0385157   -0.33894     0.0705   0.494252 AvgScore(of 3): 273.333
+score0:    27 score1:    27 score2:    79 Gen: 4 W:  -0.243357   -0.41373  0.0389039   0.473326 AvgScore(of 3): 44.3333
+score0:   384 score1:   150 score2:   218 Gen: 4 W: -0.0385157   -0.33894 0.000365307    0.41297 AvgScore(of 3): 250.667
+score0:   115 score1:   156 score2:   592 Gen: 4 W: -0.0456465   -0.41373  0.0226818   0.580513 AvgScore(of 3): 287.667
+score0:   366 score1:   139 score2:   430 Gen: 4 W: -0.0385157  -0.402194 0.000365307    0.41297 AvgScore(of 3): 311.667
+score0:   786 score1:   129 score2:   187 Gen: 4 W: -0.0385157   -0.40404 0.000365307    0.75272 AvgScore(of 3): 367.333
+score0:    54 score1:   251 score2:   438 Gen: 4 W: -0.0385157   -0.41373 0.000365307   0.473326 AvgScore(of 3): 247.667
+score0:   573 score1:   162 score2:   202 Gen: 4 W: -0.0385157  -0.466215  0.0245459   0.473326 AvgScore(of 3): 312.333
+score0:     0 score1:     0 score2:     1 Gen: 4 W: 0.00964219  -0.394081  0.0956948    0.41297 AvgScore(of 3): 0.333333
+score0:    31 score1:   145 score2:    63 Gen: 4 W: -0.0385157  -0.558846  0.0245459   0.473326 AvgScore(of 3): 79.6667
+score0:    84 score1:   242 score2:    51 Gen: 4 W: -0.0789517   -0.33894  -0.263198    0.41297 AvgScore(of 3): 125.667
+score0:   522 score1:    94 score2:   328 Gen: 4 W: -0.0385157   -0.41373 0.000365307   0.636191 AvgScore(of 3): 314.667
+score0:     2 score1:     2 score2:     0 Gen: 4 W: -0.0385157 -0.0335252   0.326787    0.41297 AvgScore(of 3): 1.33333
+score0:   581 score1:    49 score2:   284 Gen: 4 W: -0.0385157   -0.33894 0.000365307   0.531191 AvgScore(of 3): 304.667
+score0:   510 score1:    26 score2:     4 Gen: 4 W: -0.0385157   -0.41373 0.000365307    0.41297 AvgScore(of 3): 180
+score0:    92 score1:   471 score2:   192 Gen: 4 W: -0.0385157   -0.33894  0.0245459   0.473326 AvgScore(of 3): 251.667
+score0:   256 score1:   231 score2:   625 Gen: 4 W: -0.0228986  -0.227326  0.0245459    0.41297 AvgScore(of 3): 370.667
+score0:   163 score1:  1093 score2:    85 Gen: 4 W: -0.0385157   -0.41373   0.017921   0.473326 AvgScore(of 3): 447
+score0:   140 score1:    79 score2:   222 Gen: 4 W: -0.0385157   -0.41373  0.0687697    0.41297 AvgScore(of 3): 147
+score0:   537 score1:  1413 score2:   408 Gen: 4 W: -0.0385157  -0.334394 0.000365307    0.41297 AvgScore(of 3): 786
+score0:  1581 score1:   362 score2:   585 Gen: 4 W: -0.0385157  -0.251407 0.000365307   0.473326 AvgScore(of 3): 842.667
+score0:   110 score1:   145 score2:    63 Gen: 4 W: -0.0385157   -0.33894   0.147395   0.473326 AvgScore(of 3): 106
+score0:   359 score1:    24 score2:   510 Gen: 4 W: -0.0385157   -0.41373  0.0245459   0.473326 AvgScore(of 3): 297.667
+score0:   278 score1:   472 score2:   101 Gen: 4 W: -0.0385157   -0.41373 0.000365307    0.41297 AvgScore(of 3): 283.667
+score0:   260 score1:   137 score2:   219 Gen: 4 W: -0.00480895   -0.33894 0.000365307   0.473326 AvgScore(of 3): 205.333
+--MaxOneAvgScore: 842.667 MaxOneIndex: 20 MaxOneWeights -0.0385157  -0.251407 0.000365307   0.473326 --
+--MaxTwoAvgScore: 786 MaxTwoIndex: 19 MaxTwoWeights -0.0385157  -0.334394 0.000365307    0.41297 --
+------- Gen: 4 MaxAvgWtScore: 842.667 AvgGenScore: 273.56 --------
+score0:  1266 score1:  2594 score2:   192 Gen: 5 W: -0.0385157  -0.281186 0.000365307   0.473326 AvgScore(of 3): 1350.67
+score0:  1154 score1:   731 score2:   115 Gen: 5 W: -0.0385157  -0.334394 -0.0718479    0.44048 AvgScore(of 3): 666.667
+score0:  1165 score1:   547 score2:   146 Gen: 5 W: -0.0385157  -0.334394 0.000365307   0.473326 AvgScore(of 3): 619.333
+score0:   494 score1:    40 score2:   167 Gen: 5 W: -0.0146198  -0.251407 0.000365307   0.473326 AvgScore(of 3): 233.667
+score0:   190 score1:    22 score2:   867 Gen: 5 W: -0.0385157  -0.234215 0.000365307   0.473326 AvgScore(of 3): 359.667
+score0:  1662 score1:   561 score2:   571 Gen: 5 W: -0.0385157  -0.334394 0.000365307   0.518129 AvgScore(of 3): 931.333
+score0:     0 score1:     0 score2:     0 Gen: 5 W:  0.0973451  -0.334394 0.000365307   0.473326 AvgScore(of 3): 0
+score0:    94 score1:    36 score2:   252 Gen: 5 W: -0.0385157  -0.251407  -0.261993   0.473326 AvgScore(of 3): 127.333
+score0:   207 score1:   440 score2:   382 Gen: 5 W: -0.0385157  -0.334394  0.0467442    0.41297 AvgScore(of 3): 343
+score0:   178 score1:   466 score2:    89 Gen: 5 W: -0.0385157  -0.251407 -0.0377932   0.473326 AvgScore(of 3): 244.333
+score0:   878 score1:   447 score2:    82 Gen: 5 W: -0.0385157  -0.334394 0.000365307   0.356781 AvgScore(of 3): 469
+score0:    71 score1:    21 score2:   360 Gen: 5 W: -0.0385157  -0.334394 0.000365307   0.473326 AvgScore(of 3): 150.667
+score0:   647 score1:  1501 score2:   299 Gen: 5 W: -0.0385157  -0.251407 0.000365307   0.473326 AvgScore(of 3): 815.667
+score0:   196 score1:   456 score2:   410 Gen: 5 W: -0.0385157  -0.334394 0.000365307    0.41297 AvgScore(of 3): 354
+score0:   493 score1:   432 score2:   529 Gen: 5 W: -0.0385157  -0.251899 -0.0351357   0.473326 AvgScore(of 3): 484.667
+score0:   586 score1:    45 score2:   311 Gen: 5 W: -0.0385157  -0.334394 0.000365307    0.41297 AvgScore(of 3): 314
+score0:  1014 score1:   278 score2:   335 Gen: 5 W: -0.0385157  -0.238147 0.000365307   0.473326 AvgScore(of 3): 542.333
+score0:  2126 score1:  1295 score2:   252 Gen: 5 W: -0.0590602  -0.334394 0.000365307    0.41297 AvgScore(of 3): 1224.33
+score0:   152 score1:    97 score2:    92 Gen: 5 W:   -0.10851  -0.231191 0.000365307    0.41297 AvgScore(of 3): 113.667
+score0:   345 score1:   195 score2:   274 Gen: 5 W: -0.0412672  -0.334394 0.000365307    0.41297 AvgScore(of 3): 271.333
+score0:  1190 score1:   468 score2:   318 Gen: 5 W: -0.0563739  -0.334394 0.000365307    0.41297 AvgScore(of 3): 658.667
+score0:   190 score1:   412 score2:    40 Gen: 5 W: -0.0525245  -0.164559  0.0212547    0.41297 AvgScore(of 3): 214
+score0:   193 score1:   474 score2:   838 Gen: 5 W: -0.0385157  -0.182675 0.000365307    0.41297 AvgScore(of 3): 501.667
+score0:    53 score1:   235 score2:   272 Gen: 5 W: -0.0385157  -0.387967 0.000365307    0.41297 AvgScore(of 3): 186.667
+score0:   353 score1:   389 score2:    44 Gen: 5 W: -0.0427697   -0.38593 0.000365307    0.41297 AvgScore(of 3): 262
+--MaxOneAvgScore: 1350.67 MaxOneIndex: 0 MaxOneWeights -0.0385157  -0.281186 0.000365307   0.473326 --
+--MaxTwoAvgScore: 1224.33 MaxTwoIndex: 17 MaxTwoWeights -0.0590602  -0.334394 0.000365307    0.41297 --
+------- Gen: 5 MaxAvgWtScore: 1350.67 AvgGenScore: 457.547 --------
+score0:  1765 score1:   561 score2:   479 Gen: 6 W: -0.0385157  -0.281186  0.0301628   0.423145 AvgScore(of 3): 935
+score0:   640 score1:   341 score2:   774 Gen: 6 W: -0.0590602  -0.349696 -0.0163272    0.41297 AvgScore(of 3): 585
+score0:   905 score1:   173 score2:   557 Gen: 6 W: -0.0385157  -0.334394 0.000365307    0.41297 AvgScore(of 3): 545
+score0:   156 score1:   453 score2:   185 Gen: 6 W: -0.0590602  -0.281186 -0.0881752   0.473326 AvgScore(of 3): 264.667
+score0:    70 score1:   328 score2:    16 Gen: 6 W: -0.0385157  -0.310378   0.136484   0.408739 AvgScore(of 3): 138
+score0:    73 score1:   317 score2:   389 Gen: 6 W: -0.0590602  -0.334394 -0.0642787   0.452626 AvgScore(of 3): 259.667
+score0:   143 score1:  2365 score2:   499 Gen: 6 W: -0.0385157  -0.281186 0.000365307    0.41297 AvgScore(of 3): 1002.33
+score0:  1197 score1:    81 score2:   868 Gen: 6 W: -0.0385157   -0.39899 0.000365307    0.41297 AvgScore(of 3): 715.333
+score0:   808 score1:    91 score2:   128 Gen: 6 W: -0.0590602  -0.334394 -0.0251165   0.436915 AvgScore(of 3): 342.333
+score0:  1195 score1:   212 score2:   626 Gen: 6 W: -0.0590602  -0.281186 0.000365307    0.41297 AvgScore(of 3): 677.667
+score0:   291 score1:   525 score2:   460 Gen: 6 W: -0.0385157  -0.334394 0.000365307   0.515465 AvgScore(of 3): 425.333
+score0:   146 score1:   488 score2:   339 Gen: 6 W: -0.0385157  -0.281186 0.000365307    0.41297 AvgScore(of 3): 324.333
+score0:   189 score1:  2046 score2:   587 Gen: 6 W: -0.0545831   -0.29661  -0.034352    0.41297 AvgScore(of 3): 940.667
+score0:   130 score1:   443 score2:   110 Gen: 6 W: -0.0385157  -0.151749 0.000365307   0.473326 AvgScore(of 3): 227.667
+score0:  1168 score1:  1699 score2:  1766 Gen: 6 W: -0.0385157  -0.281186 0.000365307    0.41297 AvgScore(of 3): 1544.33
+score0:   134 score1:   446 score2:   268 Gen: 6 W: -0.0385157  -0.334394 0.000365307   0.473326 AvgScore(of 3): 282.667
+score0:   112 score1:   170 score2:   356 Gen: 6 W: -0.0715848  -0.281186 0.000365307   0.473326 AvgScore(of 3): 212.667
+score0:  1412 score1:   302 score2:   650 Gen: 6 W: -0.0590602  -0.321426    0.05774    0.41297 AvgScore(of 3): 788
+score0:   483 score1:    75 score2:    18 Gen: 6 W: -0.0449378  -0.281186 0.000365307   0.473326 AvgScore(of 3): 192
+score0:  3184 score1:  1891 score2:   340 Gen: 6 W: -0.0590602  -0.253697 0.000365307   0.473326 AvgScore(of 3): 1805
+score0:    65 score1:   124 score2:   582 Gen: 6 W: -0.0667402  -0.281186 0.000365307    0.41297 AvgScore(of 3): 257
+score0:    73 score1:   108 score2:    80 Gen: 6 W:  -0.136951  -0.334394 0.000365307    0.41297 AvgScore(of 3): 87
+score0:   336 score1:  1688 score2:   691 Gen: 6 W: -0.0385157  -0.334394 0.000365307    0.41297 AvgScore(of 3): 905
+score0:   824 score1:   762 score2:   502 Gen: 6 W: -0.0590602  -0.281186 0.000365307   0.459996 AvgScore(of 3): 696
+score0:   344 score1:   145 score2:   427 Gen: 6 W: -0.0590602  -0.281186 0.000365307   0.473326 AvgScore(of 3): 305.333
+--MaxOneAvgScore: 1805 MaxOneIndex: 19 MaxOneWeights -0.0590602  -0.253697 0.000365307   0.473326 --
+--MaxTwoAvgScore: 1544.33 MaxTwoIndex: 14 MaxTwoWeights -0.0385157  -0.281186 0.000365307    0.41297 --
+------- Gen: 6 MaxAvgWtScore: 1805 AvgGenScore: 578.32 --------
+score0:   802 score1:   646 score2:   163 Gen: 7 W: -0.0590602  -0.267047 0.000365307   0.473326 AvgScore(of 3): 537
+score0:   686 score1:  1740 score2:   731 Gen: 7 W: -0.0385157  -0.237334 0.000365307    0.41297 AvgScore(of 3): 1052.33
+score0:   554 score1:  1251 score2:   191 Gen: 7 W: -0.0590602  -0.306855  0.0284305   0.473326 AvgScore(of 3): 665.333
+score0:   258 score1:   113 score2:   375 Gen: 7 W: -0.0385157  -0.253697 -0.0154901    0.41297 AvgScore(of 3): 248.667
+score0:   588 score1:   164 score2:   169 Gen: 7 W: -0.0125668  -0.281186 0.000365307   0.473326 AvgScore(of 3): 307
+score0:  2168 score1:  1781 score2:   859 Gen: 7 W: -0.0590602  -0.281186  -0.028055   0.473326 AvgScore(of 3): 1602.67
+score0:    79 score1:    59 score2:    83 Gen: 7 W:   -0.15894  -0.281186 0.000365307   0.420804 AvgScore(of 3): 73.6667
+score0:   580 score1:   602 score2:   588 Gen: 7 W: -0.0590602  -0.281186 -0.0164022   0.473326 AvgScore(of 3): 590
+score0:    67 score1:  3184 score2:   225 Gen: 7 W: -0.0473118  -0.281186 0.000365307   0.473326 AvgScore(of 3): 1158.67
+score0:   358 score1:   733 score2:   871 Gen: 7 W: -0.0385157  -0.281186 0.000365307   0.328452 AvgScore(of 3): 654
+score0:   234 score1:    38 score2:   634 Gen: 7 W: -0.0385157  -0.281186 0.000365307    0.41297 AvgScore(of 3): 302
+score0:   398 score1:  1996 score2:  1269 Gen: 7 W: -0.0590602  -0.281186  0.0293877   0.489133 AvgScore(of 3): 1221
+score0:   495 score1:   631 score2:    59 Gen: 7 W: -0.0385157  -0.253697 0.000365307   0.473326 AvgScore(of 3): 395
+score0:   542 score1:   108 score2:   437 Gen: 7 W: -0.0590602  -0.281186 -0.0897955    0.41297 AvgScore(of 3): 362.333
+score0:   746 score1:  1155 score2:   713 Gen: 7 W: -0.0385157   -0.34099  0.0321849   0.440441 AvgScore(of 3): 871.333
+score0:  1245 score1:   998 score2:   630 Gen: 7 W: -0.0590602  -0.282935  0.0249401   0.473326 AvgScore(of 3): 957.667
+score0:   186 score1:   808 score2:  1920 Gen: 7 W: -0.0590602  -0.281186 0.000365307   0.473326 AvgScore(of 3): 971.333
+score0:   102 score1:   434 score2:   434 Gen: 7 W: -0.0385157  -0.281186 0.000365307    0.41297 AvgScore(of 3): 323.333
+score0:    98 score1:   148 score2:   171 Gen: 7 W: -0.0385157  -0.281186  -0.213866   0.473326 AvgScore(of 3): 139
+score0:   731 score1:  1366 score2:   746 Gen: 7 W: -0.0385157  -0.253697 0.000365307   0.473326 AvgScore(of 3): 947.667
+score0:    41 score1:   206 score2:    72 Gen: 7 W:  -0.111832  -0.253697 0.000365307    0.41297 AvgScore(of 3): 106.333
+score0:   135 score1:    21 score2:   163 Gen: 7 W: -0.0590602  -0.253697  0.0843103   0.473326 AvgScore(of 3): 106.333
+score0:   911 score1:   164 score2:   748 Gen: 7 W: -0.0237793  -0.281186 0.000365307   0.473326 AvgScore(of 3): 607.667
+score0:    45 score1:   821 score2:   945 Gen: 7 W: -0.0385157  -0.281186 0.000365307   0.473326 AvgScore(of 3): 603.667
+score0:   254 score1:   564 score2:   261 Gen: 7 W: -0.0590602  -0.253697 -0.0429595   0.473326 AvgScore(of 3): 359.667
+--MaxOneAvgScore: 1602.67 MaxOneIndex: 5 MaxOneWeights -0.0590602  -0.281186  -0.028055   0.473326 --
+--MaxTwoAvgScore: 1221 MaxTwoIndex: 11 MaxTwoWeights -0.0590602  -0.281186  0.0293877   0.489133 --
+------- Gen: 7 MaxAvgWtScore: 1602.67 AvgGenScore: 606.547 --------
+score0:   174 score1:   538 score2:   365 Gen: 8 W: -0.0590602  -0.281186  -0.028055   0.473326 AvgScore(of 3): 359
+score0:  1909 score1:  1380 score2:   219 Gen: 8 W: -0.0590602  -0.285161  0.0293877   0.489133 AvgScore(of 3): 1169.33
+score0:   149 score1:   255 score2:   159 Gen: 8 W: -0.0702238  -0.281186 -0.0486229   0.484971 AvgScore(of 3): 187.667
+score0:   436 score1:   210 score2:   737 Gen: 8 W: -0.0590602  -0.281186  0.0293877   0.473326 AvgScore(of 3): 461
+score0:   847 score1:  1011 score2:  1040 Gen: 8 W: -0.0590602  -0.281186  0.0185592   0.473326 AvgScore(of 3): 966
+score0:    44 score1:   254 score2:    88 Gen: 8 W: -0.0113314  -0.281186  -0.028055   0.473326 AvgScore(of 3): 128.667
+score0:    36 score1:    16 score2:    19 Gen: 8 W: -0.0590602 -0.0554129  0.0352502   0.473326 AvgScore(of 3): 23.6667
+score0:  1221 score1:    41 score2:  2339 Gen: 8 W: -0.0590602  -0.288204  0.0293877   0.473326 AvgScore(of 3): 1200.33
+score0:   350 score1:   230 score2:   798 Gen: 8 W: -0.0590602  -0.247313 -0.0539405   0.503852 AvgScore(of 3): 459.333
+score0:   581 score1:  1170 score2:   797 Gen: 8 W: -0.0590602  -0.281186  0.0293877   0.489133 AvgScore(of 3): 849.333
+score0:   247 score1:   196 score2:   362 Gen: 8 W:  -0.075578  -0.281186  0.0293877   0.473326 AvgScore(of 3): 268.333
+score0:   320 score1:  1156 score2:  2091 Gen: 8 W: -0.0590602  -0.281186  0.0367518   0.519238 AvgScore(of 3): 1189
+score0:   155 score1:   229 score2:   356 Gen: 8 W: -0.0590602  -0.267753  -0.028055   0.489133 AvgScore(of 3): 246.667
+score0:    61 score1:    60 score2:   130 Gen: 8 W:  -0.129792  -0.310647  -0.028055   0.473326 AvgScore(of 3): 83.6667
+score0:   553 score1:   520 score2:   952 Gen: 8 W: -0.0590602  -0.281186  0.0293877   0.473326 AvgScore(of 3): 675
+score0:  1024 score1:   527 score2:   204 Gen: 8 W: -0.0590602  -0.281186  0.0293877   0.457748 AvgScore(of 3): 585
+score0:   457 score1:   341 score2:   211 Gen: 8 W: -0.0590602  -0.281186  -0.028055   0.473326 AvgScore(of 3): 336.333
+score0:   927 score1:   485 score2:   131 Gen: 8 W: -0.0590602  -0.281186  -0.028055   0.473326 AvgScore(of 3): 514.333
+score0:   307 score1:   202 score2:   950 Gen: 8 W: -0.0590602  -0.281186  0.0405619   0.473326 AvgScore(of 3): 486.333
+score0:    85 score1:   181 score2:    93 Gen: 8 W: -0.0264062  -0.281186  -0.028055    0.47443 AvgScore(of 3): 119.667
+score0:    66 score1:   140 score2:   507 Gen: 8 W: -0.0590602  -0.281186  -0.028055   0.489133 AvgScore(of 3): 237.667
+score0:    55 score1:   264 score2:  2434 Gen: 8 W: -0.0363902  -0.281186  -0.028055    0.49741 AvgScore(of 3): 917.667
+score0:   376 score1:   834 score2:   771 Gen: 8 W: -0.0590602  -0.281186  -0.028055   0.489133 AvgScore(of 3): 660.333
+score0:   482 score1:   313 score2:   903 Gen: 8 W: -0.0590602  -0.281186 -0.0809671   0.489133 AvgScore(of 3): 566
+score0:   225 score1:   517 score2:   639 Gen: 8 W: -0.0590602  -0.281186  -0.028055   0.427895 AvgScore(of 3): 460.333
+--MaxOneAvgScore: 1200.33 MaxOneIndex: 7 MaxOneWeights -0.0590602  -0.288204  0.0293877   0.473326 --
+--MaxTwoAvgScore: 1189 MaxTwoIndex: 11 MaxTwoWeights -0.0590602  -0.281186  0.0367518   0.519238 --
+------- Gen: 8 MaxAvgWtScore: 1200.33 AvgGenScore: 526.027 --------
+score0:   799 score1:   375 score2:   271 Gen: 9 W: -0.0590602  -0.288204  0.0293877   0.435546 AvgScore(of 3): 481.667
+score0:   327 score1:   689 score2:   187 Gen: 9 W: -0.0590602  -0.267936  0.0646825   0.519238 AvgScore(of 3): 401
+score0:   102 score1:   357 score2:   584 Gen: 9 W: -0.0590602  -0.200611  0.0367518   0.519238 AvgScore(of 3): 347.667
+score0:  1222 score1:   138 score2:  1655 Gen: 9 W: -0.0590602  -0.281186  0.0367518   0.519238 AvgScore(of 3): 1005
+score0:   150 score1:   522 score2:   307 Gen: 9 W: -0.0590602  -0.281186  0.0293877   0.611606 AvgScore(of 3): 326.333
+score0:    12 score1:    38 score2:    31 Gen: 9 W: -0.000412001  -0.288204  0.0293877   0.519238 AvgScore(of 3): 27
+score0:    94 score1:   405 score2:    62 Gen: 9 W:  -0.110955  -0.288204  0.0367518   0.417682 AvgScore(of 3): 187
+score0:   316 score1:   407 score2:  2947 Gen: 9 W: -0.0590602  -0.288204  0.0367518   0.473326 AvgScore(of 3): 1223.33
+score0:   160 score1:   417 score2:    37 Gen: 9 W: -0.0590602  -0.281186   -0.13155   0.504375 AvgScore(of 3): 204.667
+score0:    49 score1:   136 score2:   221 Gen: 9 W:   -0.12668  -0.281186  0.0293877   0.473326 AvgScore(of 3): 135.333
+score0:    99 score1:    80 score2:   380 Gen: 9 W: -0.0590602  -0.288204 -0.0315001   0.473326 AvgScore(of 3): 186.333
+score0:   245 score1:   158 score2:   114 Gen: 9 W:  -0.106995  -0.281186  0.0293877   0.519238 AvgScore(of 3): 172.333
+score0:   329 score1:   890 score2:   223 Gen: 9 W: -0.0493067  -0.281186  0.0671189   0.473326 AvgScore(of 3): 480.667
+score0:   804 score1:    63 score2:   737 Gen: 9 W: -0.0590602  -0.281186  0.0293877   0.473326 AvgScore(of 3): 534.667
+score0:    99 score1:   210 score2:    75 Gen: 9 W: -0.0366673  -0.214442 -0.0869353   0.473326 AvgScore(of 3): 128
+score0:  1708 score1:  2654 score2:   427 Gen: 9 W: -0.0591585  -0.288204  0.0367518   0.473326 AvgScore(of 3): 1596.33
+score0:  1280 score1:   112 score2:   545 Gen: 9 W: -0.0590602  -0.281186  0.0367518   0.473326 AvgScore(of 3): 645.667
+score0:   696 score1:   220 score2:  1640 Gen: 9 W: -0.0590602  -0.288204  0.0367518   0.473326 AvgScore(of 3): 852
+score0:   240 score1:   464 score2:   457 Gen: 9 W: -0.0735061  -0.281186  0.0293877   0.519238 AvgScore(of 3): 387
+score0:   400 score1:    95 score2:   141 Gen: 9 W:  -0.110883  -0.281186  0.0367518   0.519238 AvgScore(of 3): 212
+score0:   584 score1:   406 score2:   657 Gen: 9 W: -0.0590602  -0.281186  0.0771024   0.431686 AvgScore(of 3): 549
+score0:   519 score1:   280 score2:   800 Gen: 9 W: -0.0340618  -0.288204  0.0116337   0.519238 AvgScore(of 3): 533
+score0:   282 score1:   398 score2:   364 Gen: 9 W: -0.0590602  -0.288204  0.0293877   0.519238 AvgScore(of 3): 348
+score0:  1270 score1:   676 score2:    64 Gen: 9 W: -0.0590602  -0.281186  0.0447034   0.676541 AvgScore(of 3): 670
+score0:   101 score1:  2951 score2:   540 Gen: 9 W: -0.0590602  -0.333541  0.0293877   0.392932 AvgScore(of 3): 1197.33
+--MaxOneAvgScore: 1596.33 MaxOneIndex: 15 MaxOneWeights -0.0591585  -0.288204  0.0367518   0.473326 --
+--MaxTwoAvgScore: 1223.33 MaxTwoIndex: 7 MaxTwoWeights -0.0590602  -0.288204  0.0367518   0.473326 --
+------- Gen: 9 MaxAvgWtScore: 1596.33 AvgGenScore: 513.253 --------
+score0:   460 score1:   309 score2:   185 Gen: 10 W: -0.0591585  -0.303153  -0.080945   0.473326 AvgScore(of 3): 318
+score0:  1280 score1:   417 score2:   708 Gen: 10 W: -0.0590602  -0.288204  0.0367518   0.473326 AvgScore(of 3): 801.667
+score0:   839 score1:   713 score2:  2351 Gen: 10 W: -0.0590602   -0.31433  0.0367518   0.473326 AvgScore(of 3): 1301
+score0:   269 score1:    93 score2:    75 Gen: 10 W: -0.0591585  -0.288204   0.117246   0.473326 AvgScore(of 3): 145.667
+score0:   591 score1:   240 score2:   219 Gen: 10 W: -0.0477331  -0.288204  0.0112873   0.473326 AvgScore(of 3): 350
+score0:   304 score1:   266 score2:   361 Gen: 10 W: -0.0590602  -0.288204  0.0870434   0.473326 AvgScore(of 3): 310.333
+score0:    83 score1:   100 score2:    77 Gen: 10 W: -0.0590602  -0.288204   0.206989   0.450835 AvgScore(of 3): 86.6667
+score0:   462 score1:   580 score2:   237 Gen: 10 W: -0.0590602  -0.306827  0.0367518   0.473326 AvgScore(of 3): 426.333
+score0:   528 score1:   115 score2:   823 Gen: 10 W:  -0.045444  -0.288204  0.0367518   0.473326 AvgScore(of 3): 488.667
+score0:   605 score1:   253 score2:   172 Gen: 10 W: -0.0862217  -0.273224  0.0367518   0.503536 AvgScore(of 3): 343.333
+score0:  2781 score1:   186 score2:   527 Gen: 10 W: -0.0591585  -0.288204  0.0367518   0.473326 AvgScore(of 3): 1164.67
+score0:  1282 score1:  2404 score2:  1304 Gen: 10 W: -0.0590602  -0.292614  0.0367518   0.507225 AvgScore(of 3): 1663.33
+score0:   199 score1:   704 score2:   963 Gen: 10 W: -0.0590602  -0.288204  0.0367518   0.473326 AvgScore(of 3): 622
+score0:   754 score1:   341 score2:  1479 Gen: 10 W: -0.0591585  -0.258032  0.0367518   0.494284 AvgScore(of 3): 858
+score0:   422 score1:   364 score2:   812 Gen: 10 W: -0.0590602  -0.288204  0.0367518   0.473326 AvgScore(of 3): 532.667
+score0:    35 score1:    39 score2:    42 Gen: 10 W:  -0.255725  -0.288204  0.0367518   0.588029 AvgScore(of 3): 38.6667
+score0:    94 score1:   172 score2:   380 Gen: 10 W: -0.0590602  -0.288204  0.0381424   0.473326 AvgScore(of 3): 215.333
+score0:   575 score1:   944 score2:  1629 Gen: 10 W: -0.0591585  -0.288204  0.0367518   0.520161 AvgScore(of 3): 1049.33
+score0:   100 score1:   285 score2:   120 Gen: 10 W: -0.0132842  -0.288204  0.0367518   0.473326 AvgScore(of 3): 168.333
+score0:   292 score1:   816 score2:   541 Gen: 10 W: -0.0591585  -0.288204  0.0367518   0.473326 AvgScore(of 3): 549.667
+score0:  1465 score1:   153 score2:   440 Gen: 10 W: -0.0590602  -0.288204  0.0367518   0.476971 AvgScore(of 3): 686
+score0:   288 score1:    76 score2:   487 Gen: 10 W: -0.0591585  -0.288204  0.0993797   0.473326 AvgScore(of 3): 283.667
+score0:   103 score1:   172 score2:   482 Gen: 10 W: -0.0276502  -0.288204  0.0367518   0.473326 AvgScore(of 3): 252.333
+score0:   255 score1:  2527 score2:   574 Gen: 10 W: -0.0591585  -0.288204  0.0149956   0.451742 AvgScore(of 3): 1118.67
+score0:   235 score1:   359 score2:   429 Gen: 10 W: -0.0590602  -0.288204  0.0367518   0.394457 AvgScore(of 3): 341
+--MaxOneAvgScore: 1663.33 MaxOneIndex: 11 MaxOneWeights -0.0590602  -0.292614  0.0367518   0.507225 --
+--MaxTwoAvgScore: 1301 MaxTwoIndex: 2 MaxTwoWeights -0.0590602   -0.31433  0.0367518   0.473326 --
+------- Gen: 10 MaxAvgWtScore: 1663.33 AvgGenScore: 564.613 --------
+score0:    91 score1:   191 score2:   279 Gen: 11 W: -0.0590602  -0.292614  0.0367518   0.489463 AvgScore(of 3): 187
+score0:   969 score1:   409 score2:    79 Gen: 11 W: -0.0590602   -0.31433  0.0367518   0.473326 AvgScore(of 3): 485.667
+score0:   163 score1:   149 score2:   944 Gen: 11 W: -0.0590602   -0.31433  0.0367518   0.507225 AvgScore(of 3): 418.667
+score0:   524 score1:   362 score2:   188 Gen: 11 W: -0.0590602   -0.31433  0.0367518   0.473326 AvgScore(of 3): 358
+score0:   275 score1:  1564 score2:   363 Gen: 11 W: -0.0590602  -0.292614  0.0367518   0.473326 AvgScore(of 3): 734
+score0:   281 score1:   689 score2:   400 Gen: 11 W: -0.0590602  -0.292614  0.0367518   0.507225 AvgScore(of 3): 456.667
+score0:   941 score1:   434 score2:   536 Gen: 11 W: -0.0590602   -0.31433  0.0367518   0.538773 AvgScore(of 3): 637
+score0:   101 score1:   184 score2:   366 Gen: 11 W:    -0.1165   -0.31433  0.0367518   0.507225 AvgScore(of 3): 217
+score0:   112 score1:   143 score2:    25 Gen: 11 W: -0.0590602  -0.292614   0.119453   0.473326 AvgScore(of 3): 93.3333
+score0:  2323 score1:   323 score2:   775 Gen: 11 W: -0.0590602  -0.292614  0.0367518    0.51967 AvgScore(of 3): 1140.33
+score0:  1911 score1:   753 score2:   323 Gen: 11 W: -0.0590602   -0.32304  0.0367518   0.507225 AvgScore(of 3): 995.667
+score0:   151 score1:   133 score2:    78 Gen: 11 W: -0.0923383   -0.31433  0.0367518   0.507225 AvgScore(of 3): 120.667
+score0:   368 score1:   146 score2:   207 Gen: 11 W: -0.0656638   -0.31433  0.0367518   0.473326 AvgScore(of 3): 240.333
+score0:  2228 score1:   393 score2:  1664 Gen: 11 W: -0.0590602  -0.292614  0.0367518   0.507225 AvgScore(of 3): 1428.33
+score0:   385 score1:  1027 score2:   589 Gen: 11 W: -0.0590602  -0.292614  0.0367518   0.473326 AvgScore(of 3): 667
+score0:   288 score1:  1310 score2:   634 Gen: 11 W: -0.0502776   -0.31433 -0.0647724   0.467617 AvgScore(of 3): 744
+score0:    69 score1:   735 score2:   554 Gen: 11 W: -0.0590602  -0.292614  0.0367518    0.52548 AvgScore(of 3): 452.667
+score0:   604 score1:   249 score2:  1948 Gen: 11 W: -0.0590602   -0.31433  0.0367518   0.507225 AvgScore(of 3): 933.667
+score0:    93 score1:    14 score2:   348 Gen: 11 W: -0.0590602  -0.292614  0.0367518   0.473326 AvgScore(of 3): 151.667
+score0:    28 score1:    95 score2:    66 Gen: 11 W: -0.00947057   -0.31433  0.0367518   0.507225 AvgScore(of 3): 63
+score0:  1223 score1:  1106 score2:  1093 Gen: 11 W: -0.0590602   -0.31433  0.0367518   0.507225 AvgScore(of 3): 1140.67
+score0:   159 score1:   195 score2:   553 Gen: 11 W: -0.0590602  -0.292614  0.0957982   0.507225 AvgScore(of 3): 302.333
+score0:   418 score1:   250 score2:  1016 Gen: 11 W: -0.0590602   -0.31433  0.0521139   0.473326 AvgScore(of 3): 561.333
+score0:  2021 score1:   149 score2:  1930 Gen: 11 W: -0.0590602   -0.31433  0.0367518   0.641111 AvgScore(of 3): 1366.67
+score0:   720 score1:  1202 score2:  1239 Gen: 11 W: -0.0590602  -0.292614   0.048636   0.516437 AvgScore(of 3): 1053.67
+--MaxOneAvgScore: 1428.33 MaxOneIndex: 13 MaxOneWeights -0.0590602  -0.292614  0.0367518   0.507225 --
+--MaxTwoAvgScore: 1366.67 MaxTwoIndex: 23 MaxTwoWeights -0.0590602   -0.31433  0.0367518   0.641111 --
+------- Gen: 11 MaxAvgWtScore: 1428.33 AvgGenScore: 597.973 --------
+score0:   505 score1:   180 score2:   551 Gen: 12 W: -0.0590602  -0.292614  0.0367518   0.507225 AvgScore(of 3): 412
+score0:   667 score1:   173 score2:   964 Gen: 12 W: -0.0590602  -0.292687  0.0367518   0.641111 AvgScore(of 3): 601.333
+score0:   106 score1:  1439 score2:    50 Gen: 12 W: -0.0590602   -0.31433  0.0367518   0.507225 AvgScore(of 3): 531.667
+score0:   128 score1:  1616 score2:  1304 Gen: 12 W: -0.0590602  -0.292614  0.0367518   0.641111 AvgScore(of 3): 1016
+score0:     0 score1:     0 score2:     0 Gen: 12 W:  0.0363268   -0.31433  0.0367518   0.641111 AvgScore(of 3): 0
+score0:   210 score1:   685 score2:   380 Gen: 12 W: -0.0590602   -0.31433  0.0367518   0.641111 AvgScore(of 3): 425
+score0:     0 score1:     0 score2:    12 Gen: 12 W:  0.0382221   -0.31433  -0.103226   0.641111 AvgScore(of 3): 4
+score0:  1692 score1:   377 score2:   503 Gen: 12 W: -0.0590602   -0.31433 0.00779188   0.641111 AvgScore(of 3): 857.333
+score0:  1181 score1:   316 score2:  1966 Gen: 12 W: -0.0590602  -0.292614  0.0367518   0.507225 AvgScore(of 3): 1154.33
+score0:    57 score1:   329 score2:    40 Gen: 12 W: -0.0247345   -0.31433  0.0367518   0.641111 AvgScore(of 3): 142
+score0:   276 score1:  1811 score2:  1141 Gen: 12 W: -0.0590602  -0.292614  0.0367518   0.507225 AvgScore(of 3): 1076
+score0:  1070 score1:   700 score2:   363 Gen: 12 W: -0.0590602  -0.292614  0.0213154   0.534796 AvgScore(of 3): 711
+score0:   753 score1:  3361 score2:   290 Gen: 12 W: -0.0590602   -0.31433 0.00836235   0.507225 AvgScore(of 3): 1468
+score0:   278 score1:   231 score2:   210 Gen: 12 W:  -0.154296  -0.507627  0.0367518   0.507225 AvgScore(of 3): 239.667
+score0:   740 score1:   365 score2:   523 Gen: 12 W: -0.0590602  -0.292614  0.0367518   0.581315 AvgScore(of 3): 542.667
+score0:   103 score1:   161 score2:    77 Gen: 12 W:  -0.103442   -0.26743  0.0367518   0.641111 AvgScore(of 3): 113.667
+score0:     0 score1:     0 score2:     0 Gen: 12 W:  0.0471103  -0.186374  0.0367518   0.641111 AvgScore(of 3): 0
+score0:     0 score1:     5 score2:     0 Gen: 12 W: 0.00548878  -0.292614  0.0367518   0.641111 AvgScore(of 3): 1.66667
+score0:   204 score1:    90 score2:   288 Gen: 12 W: -0.0590602  -0.292614  0.0796738   0.507225 AvgScore(of 3): 194
+score0:    28 score1:   420 score2:   167 Gen: 12 W: -0.0590602  -0.287818  0.0367518   0.641111 AvgScore(of 3): 205
+score0:   119 score1:   693 score2:   665 Gen: 12 W: -0.0590602   -0.31433  0.0354789   0.570895 AvgScore(of 3): 492.333
+score0:   265 score1:  2955 score2:  2850 Gen: 12 W: -0.0590602  -0.320268  0.0367518   0.641111 AvgScore(of 3): 2023.33
+score0:   844 score1:   610 score2:   261 Gen: 12 W: -0.0590602  -0.277838  0.0120247   0.641111 AvgScore(of 3): 571.667
+score0:   448 score1:  3351 score2:   521 Gen: 12 W: -0.0627137   -0.31433  0.0367518   0.507225 AvgScore(of 3): 1440
+score0:  1105 score1:   996 score2:   553 Gen: 12 W: -0.0590602  -0.309741  0.0525479   0.641111 AvgScore(of 3): 884.667
+--MaxOneAvgScore: 2023.33 MaxOneIndex: 21 MaxOneWeights -0.0590602  -0.320268  0.0367518   0.641111 --
+--MaxTwoAvgScore: 1468 MaxTwoIndex: 12 MaxTwoWeights -0.0590602   -0.31433 0.00836235   0.507225 --
+------- Gen: 12 MaxAvgWtScore: 2023.33 AvgGenScore: 604.293 --------
+score0:   364 score1:   681 score2:   183 Gen: 13 W: -0.0490987  -0.320268  0.0367518   0.641111 AvgScore(of 3): 409.333
+score0:   276 score1:   832 score2:   319 Gen: 13 W: -0.0590602   -0.31433 0.00836235   0.507225 AvgScore(of 3): 475.667
+score0:   282 score1:   465 score2:   822 Gen: 13 W: -0.0590602  -0.320268 0.00836235   0.507225 AvgScore(of 3): 523
+score0:  1444 score1:   971 score2:   276 Gen: 13 W: -0.0590602  -0.320268 0.00836235   0.661976 AvgScore(of 3): 897
+score0:  3997 score1:  1223 score2:   900 Gen: 13 W: -0.0590602  -0.320268  0.0289232   0.507225 AvgScore(of 3): 2040
+score0:  1573 score1:   819 score2:   590 Gen: 13 W: -0.0590602   -0.26477 0.00745056   0.507225 AvgScore(of 3): 994
+score0:   396 score1:   804 score2:  2262 Gen: 13 W: -0.0590602  -0.369301 0.00836235   0.507225 AvgScore(of 3): 1154
+score0:   578 score1:  1124 score2:  1104 Gen: 13 W: -0.0590602  -0.320268  0.0367518   0.641111 AvgScore(of 3): 935.333
+score0:   381 score1:   437 score2:   806 Gen: 13 W: -0.0677631   -0.31433 0.00836235   0.641111 AvgScore(of 3): 541.333
+score0:    78 score1:   608 score2:   106 Gen: 13 W:  -0.112268  -0.343352  0.0367518   0.507225 AvgScore(of 3): 264
+score0:   718 score1:   392 score2:   322 Gen: 13 W: -0.0590602  -0.320268  0.0138971   0.641111 AvgScore(of 3): 477.333
+score0:   624 score1:   322 score2:    56 Gen: 13 W: -0.0522798   -0.31433 -0.0101393   0.507225 AvgScore(of 3): 334
+score0:   539 score1:    61 score2:  1587 Gen: 13 W: -0.0590602  -0.320268  0.0150811   0.486271 AvgScore(of 3): 729
+score0:   562 score1:  1615 score2:  2212 Gen: 13 W: -0.0590602   -0.31433 0.00836235   0.507225 AvgScore(of 3): 1463
+score0:   265 score1:   355 score2:  1900 Gen: 13 W: -0.0721023   -0.31433  0.0367518   0.653195 AvgScore(of 3): 840
+score0:   194 score1:   186 score2:   233 Gen: 13 W: -0.0590602  -0.337695 -0.0468198    0.61611 AvgScore(of 3): 204.333
+score0:     0 score1:     0 score2:     0 Gen: 13 W:  0.0761574  -0.320268 0.00836235   0.507225 AvgScore(of 3): 0
+score0:  1476 score1:   284 score2:    24 Gen: 13 W: -0.0544939  -0.320268  0.0383574   0.507225 AvgScore(of 3): 594.667
+score0:  1040 score1:   473 score2:   256 Gen: 13 W: -0.0478104  -0.320268  0.0367518   0.507225 AvgScore(of 3): 589.667
+score0:    14 score1:  1173 score2:   935 Gen: 13 W: -0.0590602  -0.304403 0.00836235   0.677798 AvgScore(of 3): 707.333
+score0:   713 score1:  1164 score2:   325 Gen: 13 W: -0.0590602   -0.31433  0.0643116   0.507225 AvgScore(of 3): 734
+score0:  1132 score1:   900 score2:   366 Gen: 13 W: -0.0590602  -0.320268  -0.041211   0.613158 AvgScore(of 3): 799.333
+score0:    90 score1:   129 score2:    95 Gen: 13 W:  -0.036469  -0.320268  0.0752848   0.641111 AvgScore(of 3): 104.667
+score0:   604 score1:  4163 score2:   495 Gen: 13 W: -0.0590602  -0.320268 0.00836235   0.507225 AvgScore(of 3): 1754
+score0:   293 score1:   286 score2:   610 Gen: 13 W: -0.0590602  -0.294908  0.0771998   0.667362 AvgScore(of 3): 396.333
+--MaxOneAvgScore: 2040 MaxOneIndex: 4 MaxOneWeights -0.0590602  -0.320268  0.0289232   0.507225 --
+--MaxTwoAvgScore: 1754 MaxTwoIndex: 23 MaxTwoWeights -0.0590602  -0.320268 0.00836235   0.507225 --
+------- Gen: 13 MaxAvgWtScore: 2040 AvgGenScore: 718.453 --------
+score0:  1905 score1:  3632 score2:    38 Gen: 14 W: -0.0590602  -0.320268  0.0289232   0.507225 AvgScore(of 3): 1858.33
+score0:   287 score1:   459 score2:    97 Gen: 14 W: -0.0590602  -0.281949 0.00836235   0.507225 AvgScore(of 3): 281
+score0:   287 score1:   284 score2:   650 Gen: 14 W: -0.0590602  -0.356301 0.00836235   0.507225 AvgScore(of 3): 407
+score0:   410 score1:   110 score2:   634 Gen: 14 W: -0.0590602  -0.320268  0.0289232   0.507225 AvgScore(of 3): 384.667
+score0:  1162 score1:  2078 score2:  2085 Gen: 14 W: -0.0590602  -0.330031  0.0289232   0.507225 AvgScore(of 3): 1775
+score0:  1102 score1:  2660 score2:    14 Gen: 14 W: -0.0590602  -0.320268  0.0289232   0.507225 AvgScore(of 3): 1258.67
+score0:   106 score1:   894 score2:   811 Gen: 14 W: -0.0590602  -0.303349 0.00684422   0.507225 AvgScore(of 3): 603.667
+score0:   346 score1:   620 score2:  1188 Gen: 14 W: -0.0590602  -0.303753  0.0289232   0.507225 AvgScore(of 3): 718
+score0:   819 score1:  1056 score2:   539 Gen: 14 W: -0.0590602  -0.320268 0.00836235   0.507225 AvgScore(of 3): 804.667
+score0:   122 score1:   628 score2:  1911 Gen: 14 W: -0.0590602  -0.320268  0.0289232   0.507225 AvgScore(of 3): 887
+score0:   655 score1:  1008 score2:   217 Gen: 14 W: -0.0590602  -0.320268  0.0289232    0.52793 AvgScore(of 3): 626.667
+score0:   720 score1:   115 score2:   506 Gen: 14 W: -0.0590602  -0.251786 0.00836235   0.507225 AvgScore(of 3): 447
+score0:  1883 score1:  5527 score2:   301 Gen: 14 W: -0.0590602  -0.342105 0.00672327   0.507225 AvgScore(of 3): 2570.33
+score0:  3229 score1:    49 score2:   887 Gen: 14 W: -0.0590602  -0.320268 0.00836235   0.507225 AvgScore(of 3): 1388.33
+score0:  1333 score1:   132 score2:   860 Gen: 14 W: -0.0590602  -0.320268 0.00836235   0.524817 AvgScore(of 3): 775
+score0:  1252 score1:    50 score2:   873 Gen: 14 W: -0.0590602  -0.333901  0.0289232   0.463028 AvgScore(of 3): 725
+score0:    59 score1:   235 score2:   464 Gen: 14 W: -0.0590602  -0.326225 0.00836235   0.507225 AvgScore(of 3): 252.667
+score0:   969 score1:   343 score2:   626 Gen: 14 W: -0.0590602  -0.320268 0.00836235   0.507225 AvgScore(of 3): 646
+score0:   101 score1:   205 score2:  1598 Gen: 14 W: -0.0590602  -0.320268 0.00836235   0.507225 AvgScore(of 3): 634.667
+score0:   180 score1:  1836 score2:  2132 Gen: 14 W: -0.0590602   -0.33899 0.00836235   0.492862 AvgScore(of 3): 1382.67
+score0:   630 score1:  1234 score2:   174 Gen: 14 W: -0.0760521  -0.320268 0.00836235   0.507225 AvgScore(of 3): 679.333
+score0:   160 score1:  1241 score2:   329 Gen: 14 W: -0.0772915  -0.312076 0.00836235   0.581783 AvgScore(of 3): 576.667
+score0:   613 score1:  1576 score2:   336 Gen: 14 W: -0.0590602  -0.317612   0.022401   0.495261 AvgScore(of 3): 841.667
+score0:    99 score1:   494 score2:   124 Gen: 14 W: -0.0590602  -0.320268 0.00836235   0.476205 AvgScore(of 3): 239
+score0:  3008 score1:   223 score2:  1923 Gen: 14 W: -0.0590602  -0.320268  0.0343933   0.507225 AvgScore(of 3): 1718
+--MaxOneAvgScore: 2570.33 MaxOneIndex: 12 MaxOneWeights -0.0590602  -0.342105 0.00672327   0.507225 --
+--MaxTwoAvgScore: 1858.33 MaxTwoIndex: 0 MaxTwoWeights -0.0590602  -0.320268  0.0289232   0.507225 --
+------- Gen: 14 MaxAvgWtScore: 2570.33 AvgGenScore: 899.24 --------
+score0:   510 score1:   616 score2:   323 Gen: 15 W: -0.0590602  -0.342105 0.00672327   0.507225 AvgScore(of 3): 483
+score0:  1485 score1:  1140 score2:   412 Gen: 15 W: -0.0590602  -0.320268  0.0289232   0.507225 AvgScore(of 3): 1012.33
+score0:   561 score1:   264 score2:   231 Gen: 15 W: -0.0590602  -0.329249  0.0289232   0.507225 AvgScore(of 3): 352
+score0:   211 score1:   398 score2:   350 Gen: 15 W:  -0.120307  -0.312377  0.0509015   0.507225 AvgScore(of 3): 319.667
+score0:  1328 score1:   189 score2:   331 Gen: 15 W: -0.0590602  -0.329887  0.0289232   0.494865 AvgScore(of 3): 616
+score0:   365 score1:   270 score2:  2038 Gen: 15 W: -0.0590602  -0.362169 0.00672327   0.507225 AvgScore(of 3): 891
+score0:  1082 score1:    15 score2:   268 Gen: 15 W: -0.0436157  -0.320268  0.0289232   0.507225 AvgScore(of 3): 455
+score0:   948 score1:  1232 score2:   803 Gen: 15 W: -0.0590602  -0.320268  -0.004357   0.509509 AvgScore(of 3): 994.333
+score0:   265 score1:   258 score2:   310 Gen: 15 W: -0.0204133  -0.342105  0.0289232   0.507225 AvgScore(of 3): 277.667
+score0:   375 score1:  2727 score2:  2085 Gen: 15 W: -0.0590602  -0.342105 0.00672327   0.507225 AvgScore(of 3): 1729
+score0:   266 score1:   333 score2:   986 Gen: 15 W: -0.0590602  -0.342105 -0.0273123   0.507225 AvgScore(of 3): 528.333
+score0:   594 score1:   222 score2:  1706 Gen: 15 W: -0.0590602  -0.342105  0.0289232   0.507225 AvgScore(of 3): 840.667
+score0:   529 score1:   577 score2:  2222 Gen: 15 W: -0.0590602  -0.342105  0.0289232   0.511118 AvgScore(of 3): 1109.33
+score0:    89 score1:   303 score2:    84 Gen: 15 W: -0.0375454  -0.342105  0.0289232   0.516429 AvgScore(of 3): 158.667
+score0:   816 score1:  1817 score2:   337 Gen: 15 W: -0.0590602  -0.342105 0.00672327   0.507225 AvgScore(of 3): 990
+score0:   493 score1:   679 score2:   909 Gen: 15 W: -0.0590602  -0.320268  0.0289232   0.507225 AvgScore(of 3): 693.667
+score0:   195 score1:   475 score2:   306 Gen: 15 W: -0.0590602  -0.320268 0.00672327   0.507225 AvgScore(of 3): 325.333
+score0:   166 score1:   814 score2:   183 Gen: 15 W: -0.0590602  -0.342105  0.0289232   0.507225 AvgScore(of 3): 387.667
+score0:   343 score1:   719 score2:  1207 Gen: 15 W: -0.0590602  -0.342105 0.00672327   0.507225 AvgScore(of 3): 756.333
+score0:   771 score1:   400 score2:   238 Gen: 15 W: -0.0318578  -0.320268  0.0289232   0.507225 AvgScore(of 3): 469.667
+score0:   305 score1:    12 score2:   241 Gen: 15 W: -0.0590602  -0.319582   0.130071   0.507225 AvgScore(of 3): 186
+score0:  1319 score1:   382 score2:  1515 Gen: 15 W: -0.0590602  -0.342105 0.00672327   0.507225 AvgScore(of 3): 1072
+score0:   472 score1:   551 score2:   284 Gen: 15 W: -0.0590602  -0.320268 0.00672327   0.507225 AvgScore(of 3): 435.667
+score0:   466 score1:  1098 score2:   776 Gen: 15 W: -0.0743748  -0.342105  0.0432912   0.507225 AvgScore(of 3): 780
+score0:   317 score1:   108 score2:   779 Gen: 15 W: -0.0590602  -0.320268 0.00672327   0.507225 AvgScore(of 3): 401.333
+--MaxOneAvgScore: 1729 MaxOneIndex: 9 MaxOneWeights -0.0590602  -0.342105 0.00672327   0.507225 --
+--MaxTwoAvgScore: 1109.33 MaxTwoIndex: 12 MaxTwoWeights -0.0590602  -0.342105  0.0289232   0.511118 --
+------- Gen: 15 MaxAvgWtScore: 1729 AvgGenScore: 650.587 --------
+score0:  1222 score1:   262 score2:  2054 Gen: 16 W: -0.0590602  -0.342105 0.00672327   0.461877 AvgScore(of 3): 1179.33
+score0:   245 score1:   114 score2:  1252 Gen: 16 W: -0.0590602  -0.342105 0.00806106   0.511118 AvgScore(of 3): 537
+score0:   195 score1:  1132 score2:   494 Gen: 16 W: -0.0549067  -0.342105  0.0322599   0.507225 AvgScore(of 3): 607
+score0:    64 score1:    42 score2:    31 Gen: 16 W:  -0.242568  -0.364542 0.00916505   0.499142 AvgScore(of 3): 45.6667
+score0:   230 score1:   136 score2:   376 Gen: 16 W: -0.0590602  -0.342105  0.0430545   0.507225 AvgScore(of 3): 247.333
+score0:   379 score1:  1206 score2:   288 Gen: 16 W: -0.0590602  -0.342105 0.00672327   0.511118 AvgScore(of 3): 624.333
+score0:   730 score1:   225 score2:    87 Gen: 16 W: -0.0590602  -0.342105  0.0289232   0.507225 AvgScore(of 3): 347.333
+score0:    75 score1:    30 score2:    92 Gen: 16 W: -0.0247615  -0.342105  0.0289232   0.507225 AvgScore(of 3): 65.6667
+score0:   568 score1:   422 score2:     1 Gen: 16 W: -0.0590602  -0.342105  0.0289232   0.507225 AvgScore(of 3): 330.333
+score0:   651 score1:    71 score2:   318 Gen: 16 W: -0.0590602  -0.342105 -0.0664411   0.511118 AvgScore(of 3): 346.667
+score0:   450 score1:   524 score2:   227 Gen: 16 W: -0.0590602  -0.342105 0.00672327   0.486973 AvgScore(of 3): 400.333
+score0:   341 score1:  2546 score2:   121 Gen: 16 W: -0.0524687  -0.434712  0.0289232   0.511118 AvgScore(of 3): 1002.67
+score0:   917 score1:  3960 score2:  3383 Gen: 16 W: -0.0590602  -0.342105 0.00672327   0.511118 AvgScore(of 3): 2753.33
+score0:   720 score1:   248 score2:   215 Gen: 16 W: -0.0652018  -0.342105  0.0289232   0.507225 AvgScore(of 3): 394.333
+score0:   800 score1:   883 score2:   405 Gen: 16 W: -0.0590602  -0.336216  0.0289232   0.536274 AvgScore(of 3): 696
+score0:  1705 score1:    75 score2:   141 Gen: 16 W: -0.0590602  -0.342105 -0.0193413   0.513145 AvgScore(of 3): 640.333
+score0:  2137 score1:   122 score2:  2928 Gen: 16 W: -0.0590602  -0.342105 0.00672327   0.511118 AvgScore(of 3): 1729
+score0:   540 score1:  1562 score2:   106 Gen: 16 W: -0.0590602   -0.34041  0.0289232   0.507225 AvgScore(of 3): 736
+score0:   514 score1:  1484 score2:  2357 Gen: 16 W: -0.0590602  -0.342105  0.0469907   0.511118 AvgScore(of 3): 1451.67
+score0:    33 score1:    84 score2:  1710 Gen: 16 W: -0.0590602  -0.354649  0.0289232   0.526778 AvgScore(of 3): 609
+score0:    21 score1:    61 score2:   906 Gen: 16 W: -0.0590602  -0.342105  0.0289232   0.511118 AvgScore(of 3): 329.333
+score0:   699 score1:  1679 score2:  1735 Gen: 16 W: -0.0590602  -0.342105 0.00672327   0.511118 AvgScore(of 3): 1371
+score0:  1481 score1:  1677 score2:   236 Gen: 16 W: -0.0590602  -0.342105  0.0289232   0.511118 AvgScore(of 3): 1131.33
+score0:   165 score1:   928 score2:   758 Gen: 16 W: -0.0590602  -0.329736  0.0289232   0.520363 AvgScore(of 3): 617
+score0:  1195 score1:    42 score2:    98 Gen: 16 W: -0.0745626  -0.342105 0.00672327   0.507225 AvgScore(of 3): 445
+--MaxOneAvgScore: 2753.33 MaxOneIndex: 12 MaxOneWeights -0.0590602  -0.342105 0.00672327   0.511118 --
+--MaxTwoAvgScore: 1729 MaxTwoIndex: 16 MaxTwoWeights -0.0590602  -0.342105 0.00672327   0.511118 --
+------- Gen: 16 MaxAvgWtScore: 2753.33 AvgGenScore: 745.48 --------
+score0:   461 score1:   151 score2:  1348 Gen: 17 W: -0.0590602  -0.342105 0.00672327   0.511118 AvgScore(of 3): 653.333
+score0:  1114 score1:   319 score2:   930 Gen: 17 W: -0.0590602  -0.342105 0.00672327   0.511118 AvgScore(of 3): 787.667
+score0:    38 score1:   498 score2:  1279 Gen: 17 W: -0.0590602  -0.356226 0.00672327   0.481306 AvgScore(of 3): 605
+score0:  1911 score1:   748 score2:  1176 Gen: 17 W: -0.0590602  -0.342105 0.00672327   0.475001 AvgScore(of 3): 1278.33
+score0:   552 score1:   463 score2:   668 Gen: 17 W: -0.0590602  -0.327698 0.00672327   0.511118 AvgScore(of 3): 561
+score0:   135 score1:   224 score2:   674 Gen: 17 W: -0.0547642  -0.342105 0.00303646   0.511118 AvgScore(of 3): 344.333
+score0:   880 score1:   428 score2:  1398 Gen: 17 W: -0.0590602  -0.342105 0.00672327   0.511118 AvgScore(of 3): 902
+score0:  1591 score1:   548 score2:  1417 Gen: 17 W: -0.0590602  -0.342105 0.00672327   0.511118 AvgScore(of 3): 1185.33
+score0:   179 score1:   260 score2:   931 Gen: 17 W: -0.0590602  -0.342105  0.0129595   0.511118 AvgScore(of 3): 456.667
+score0:     0 score1:     0 score2:     0 Gen: 17 W: 0.00878461  -0.342105 0.00672327   0.544917 AvgScore(of 3): 0
+score0:   422 score1:  2351 score2:  1945 Gen: 17 W: -0.0590602  -0.342105 0.00672327   0.511118 AvgScore(of 3): 1572.67
+score0:   208 score1:   288 score2:   194 Gen: 17 W: -0.0590602  -0.342105 0.00672327   0.498662 AvgScore(of 3): 230
+score0:   367 score1:   366 score2:   669 Gen: 17 W: -0.0590602  -0.373931 0.00672327   0.521457 AvgScore(of 3): 467.333
+score0:   404 score1:    34 score2:   824 Gen: 17 W: -0.0590602  -0.340106 0.00672327   0.511118 AvgScore(of 3): 420.667
+score0:  1101 score1:   600 score2:   146 Gen: 17 W:  -0.048068  -0.342105 0.00672327   0.511118 AvgScore(of 3): 615.667
+score0:   268 score1:  3389 score2:  2300 Gen: 17 W: -0.0590602  -0.342105 0.00672327   0.511118 AvgScore(of 3): 1985.67
+score0:  1018 score1:   353 score2:   916 Gen: 17 W: -0.0590602  -0.342105 0.00672327   0.511118 AvgScore(of 3): 762.333
+score0:   409 score1:   681 score2:    91 Gen: 17 W: -0.0392791  -0.342105 0.00672327   0.511118 AvgScore(of 3): 393.667
+score0:   392 score1:   413 score2:   143 Gen: 17 W: -0.0590602  -0.342105 -0.0231458   0.511118 AvgScore(of 3): 316
+score0:   456 score1:   323 score2:   156 Gen: 17 W: -0.0590602  -0.342105  0.0524121   0.511118 AvgScore(of 3): 311.667
+score0:   403 score1:   197 score2:   340 Gen: 17 W: -0.0590602  -0.331943 -0.000804842   0.511118 AvgScore(of 3): 313.333
+score0:   863 score1:   156 score2:  1394 Gen: 17 W: -0.0590602  -0.342105   0.001258   0.511118 AvgScore(of 3): 804.333
+score0:  2368 score1:   810 score2:   268 Gen: 17 W: -0.0590602  -0.342105  0.0229867   0.502092 AvgScore(of 3): 1148.67
+score0:   940 score1:   482 score2:   505 Gen: 17 W: -0.0590602  -0.342105 0.00672327   0.511118 AvgScore(of 3): 642.333
+score0:   198 score1:   950 score2:   872 Gen: 17 W: -0.0590602  -0.356248 0.00672327   0.511118 AvgScore(of 3): 673.333
+--MaxOneAvgScore: 1985.67 MaxOneIndex: 15 MaxOneWeights -0.0590602  -0.342105 0.00672327   0.511118 --
+--MaxTwoAvgScore: 1572.67 MaxTwoIndex: 10 MaxTwoWeights -0.0590602  -0.342105 0.00672327   0.511118 --
+------- Gen: 17 MaxAvgWtScore: 1985.67 AvgGenScore: 697.253 --------
