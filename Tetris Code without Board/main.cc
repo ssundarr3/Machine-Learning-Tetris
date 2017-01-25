@@ -32,7 +32,7 @@ int main(){
 	// Set PMap, PChar, PNum, B
 	initialize();
 
-	vector<double> weights = {-3.71, -4.79, -0.2, -1.87};
+	vector<double> weights = { -0.18, -0.75, -0.2, 0.56};
 
 	runSimulation(B, weights);
 
@@ -44,7 +44,7 @@ int runSimulation(vector<vector<char>> board, vector<double>& weights){
 	// function prototypes
 	void printBoard(const vector<vector<char>> &v);
 	int dropAndRemoveClears(vector<vector<char>>& v, const int col, const char c, const int rot);
-	double calculateFitness(vector<vector<char>>& v, const vector<double>& coefficients, const int numCleared);
+	double calculateFitness(vector<vector<char>> v, const vector<double>& coefficients, const int numCleared);
 	char generatePiece();
 
 	int totalLinesCleared = 0;
@@ -71,6 +71,7 @@ int runSimulation(vector<vector<char>> board, vector<double>& weights){
 				if(numCleared == -1) fitness = INT_MIN;
 				else fitness = calculateFitness(tempBoard, weights, numCleared);
 
+				cout << "piece: " << c << ", rotation: " << i << ", col: " << j << ", fitness: " << fitness << endl;
 
 				if(fitness > maxFitness){
 					maxFitness = fitness;
@@ -80,9 +81,15 @@ int runSimulation(vector<vector<char>> board, vector<double>& weights){
 			}
 		}
 
+		
+		cout << "MAX: " << "piece: " << c << ", rotation: " << maxRot << ", column: " << maxRig << ", fitness: " << maxFitness << endl;
+		
 		// make max move
 		int numCleared = dropAndRemoveClears(board, maxRig, c, maxRot);
-		
+		printBoard(board);
+
+		int x;
+		cin>>x;
 
 		if(numCleared == -1){
 			cout << "Game Over!\n";
@@ -90,13 +97,13 @@ int runSimulation(vector<vector<char>> board, vector<double>& weights){
 			break;
 		}
 
-		printBoard(board);
+		
 		totalLinesCleared += numCleared;
 	}
 }
 
 // Calculates fitness
-double calculateFitness(vector<vector<char>>& v, const vector<double>& coefficients, const int numCleared){
+double calculateFitness(vector<vector<char>> v, const vector<double>& coefficients, const int numCleared){
 	int totalHeight = 0;
 	int maxHeight = 0;
 	int numHoles = 0;
