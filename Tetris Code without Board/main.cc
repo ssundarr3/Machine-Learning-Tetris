@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <string>
 #include <climits>
+#include <ctime>
+#include <iomanip>
 using namespace std;
 
 // GLOBAL variables are in caps
@@ -20,27 +22,91 @@ vector<char> PChar;
 int PNum;
 
 
-int seed = 1485360783;
+int seed = 0;
 
 
 int main(){
 	// Function prototypes
 	void initialize();
 	int runSimulation(vector<vector<char>> board, vector<double>& weights);
-		
+	void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& avgScoreForWeight);
+
+
 	seed = time(NULL);
 	// Set PMap, PChar, PNum, B
 	initialize();
 
-	vector<double> weights = { -0.18, -0.75, -0.2, 0.56};
+	const int numCoefficient = 4;
+	const int numGeneration = 1;
+	const int numWeights = 10;
+	const int gamesPerWeight = 3;
 
-	runSimulation(B, weights);
+	vector<vector<double>> weightsForGen;
+	vector<double> avgScoreForWeight;
+	avgScoreForWeight.resize(numWeights);
 
+	// Randomize initial weights
+	weightsForGen.resize(numWeights);
+	for(int i=0; i<numWeights; ++i){
+		weightsForGen[i].resize(numCoefficient);
+		for(int j=0; j<numCoefficient; ++j){
+			weightsForGen[i][j] = ((2) * ( (double)rand() / (double)RAND_MAX ) + -1);
+			// cout << weightsForGen[i][j] << " ";
+		}
+		// cout << "\n";
+	}
+
+	for(int i=0; i<numGeneration; ++i){
+		double genAvg = 0;
+		for(int j=0; j<numWeights; ++j){
+			double weightAvg = 0;
+			for(int k=0; k<gamesPerWeight; ++k){
+				int score = runSimulation(B, weightsForGen[j]);
+				weightAvg += score;
+			}
+			weightAvg /= gamesPerWeight;
+			genAvg += weightAvg;
+			cout << "Gen: " << i << " W: ";
+			//Printing Weights
+			for(int q=0; q<numCoefficient; ++q) cout << setw(10) << weightsForGen[j][q] << " ";
+			cout << "AvgScore(of " << gamesPerWeight << "): " << weightAvg << "\n";
+			// adding score for weight j
+			avgScoreForWeight[j] = weightAvg;
+		}
+		genAvg /= numWeights;
+		cout << "------- Gen: " << i << " AvgScore: " << genAvg << " --------\n";
+		// resetWeightAndScore(weightsForGen, avgScoreForWeight);
+	}
 	return 0;
 }
 
+void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& avgScoreForWeight){
+	double IndexOne = 0, IndexTwo = 1;
+	if(avgScoreForWeight[IndexTwo] > avgScoreForWeight[IndexOne]){
+		swap(IndexOne, IndexTwo);
+	}
+	for(int i=2; i<avgScoreForWeight.size(); ++i){
+		if(avgScoreForWeight[i] > avgScoreForWeight[IndexOne]){
+			IndexTwo = IndexOne;
+			IndexOne = i;
+		}
+		else if(avgScoreForWeight[i] > avgScoreForWeight[IndexTwo]){
+			IndexTwo = i;
+		}
+	}
+	// IndexOne and IndexTwo are indices of top two weights
+
+	for(int i=0; i<weightsForGen.size(); ++i){
+		for(int j=0; j<weightsForGen[i].size(); ++j){
+			
+		}
+	}
+
+}
+
+
 // Runs the simulation on board board, and using weights 'weights' and returns the _total_ number of lines cleared
-int runSimulation(vector<vector<char>> board, vector<double>& weights){
+int runSimulation(vector<vector<char>> board, vector<double>& coefficients){
 	// function prototypes
 	void printBoard(const vector<vector<char>> &v);
 	int dropAndRemoveClears(vector<vector<char>>& v, const int col, const char c, const int rot);
@@ -65,13 +131,12 @@ int runSimulation(vector<vector<char>> board, vector<double>& weights){
 
 				// rotation i, column j, piece c on tempBoard
 				int numCleared = dropAndRemoveClears(tempBoard, j, c, i);
-
 				double fitness;
 	
 				if(numCleared == -1) fitness = INT_MIN;
-				else fitness = calculateFitness(tempBoard, weights, numCleared);
+				else fitness = calculateFitness(tempBoard, coefficients, numCleared);
 
-				cout << "piece: " << c << ", rotation: " << i << ", col: " << j << ", fitness: " << fitness << endl;
+				// cout << "piece: " << c << ", rotation: " << i << ", col: " << j << ", fitness: " << fitness << endl;
 
 				if(fitness > maxFitness){
 					maxFitness = fitness;
@@ -82,19 +147,20 @@ int runSimulation(vector<vector<char>> board, vector<double>& weights){
 		}
 
 		
-		cout << "MAX: " << "piece: " << c << ", rotation: " << maxRot << ", column: " << maxRig << ", fitness: " << maxFitness << endl;
+		// cout << "MAX: " << "piece: " << c << ", rotation: " << maxRot << ", column: " << maxRig << ", fitness: " << maxFitness << endl;
 		
 		// make max move
 		int numCleared = dropAndRemoveClears(board, maxRig, c, maxRot);
-		printBoard(board);
+		// printBoard(board);
+		// int x;
+		// cin>>x;
 
-		int x;
-		cin>>x;
+		
 
 		if(numCleared == -1){
-			cout << "Game Over!\n";
-			cout << "Lines Cleard: " << totalLinesCleared << "\n";
-			break;
+			// cout << "Game Over!\n";
+			// cout << "Lines Cleard: " << totalLinesCleared << "\n";
+			return totalLinesCleared;
 		}
 
 		
@@ -104,6 +170,11 @@ int runSimulation(vector<vector<char>> board, vector<double>& weights){
 
 // Calculates fitness
 double calculateFitness(vector<vector<char>> v, const vector<double>& coefficients, const int numCleared){
+	// void printBoard(const vector<vector<char>> &v);
+	// printBoard(v);
+	// int x;
+	// cin>>x;
+
 	int totalHeight = 0;
 	int maxHeight = 0;
 	int numHoles = 0;
@@ -113,11 +184,11 @@ double calculateFitness(vector<vector<char>> v, const vector<double>& coefficien
 	for (int i = 0; i < C; i++) {
 		bool startCounting = false;
 		int currHeight = 0;
-		for (int j = 0; j < C; j++) {
-			if (v[j][i]) startCounting = true;
+		for (int j = 0; j < R; j++) {
+			if (v[j][i] != ' ') startCounting = true;
 			if (startCounting) {
 				currHeight++;
-				if (v[j][i] == false) {
+				if (v[j][i] == ' ') {
 						numHoles++;
 				}
 			}
@@ -146,13 +217,14 @@ double calculateFitness(vector<vector<char>> v, const vector<double>& coefficien
 	for (int i = 0; i < C; i++) {
 		bool startCounting = false;
 		for (int j = R - 1; j >= 0; j--) {
-			if (v[j][i] == 0) startCounting = true;
-			if (startCounting && v[j][i] == true) {
+			if (v[j][i] == ' ') startCounting = true;
+			if (startCounting && v[j][i] != ' ') {
 				numBlockades++;
 			}
 		}
 	}
 	// coefficients = {"heightDifferences" . "numHoles" . "maxHeight" . "numClears" };
+
 	return coefficients[0] * heightDifferences +
 		coefficients[1] * numHoles +
 		coefficients[2] * maxHeight +
