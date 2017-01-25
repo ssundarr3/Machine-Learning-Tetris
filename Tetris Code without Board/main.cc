@@ -29,7 +29,7 @@ int main(){
 	// Function prototypes
 	void initialize();
 	int runSimulation(vector<vector<char>> board, vector<double>& weights);
-	void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& avgScoreForWeight);
+	void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& avgScoreForWeight, int numRandom);
 
 
 	seed = time(NULL);
@@ -37,8 +37,8 @@ int main(){
 	initialize();
 
 	const int numCoefficient = 4;
-	const int numGeneration = 1;
-	const int numWeights = 10;
+	const int numGeneration = 100;
+	const int numWeights = 25;
 	const int gamesPerWeight = 3;
 
 	vector<vector<double>> weightsForGen;
@@ -56,8 +56,10 @@ int main(){
 		// cout << "\n";
 	}
 
+	
 	for(int i=0; i<numGeneration; ++i){
 		double genAvg = 0;
+		double MaxAvgWtScore = INT_MIN;
 		for(int j=0; j<numWeights; ++j){
 			double weightAvg = 0;
 			for(int k=0; k<gamesPerWeight; ++k){
@@ -65,6 +67,7 @@ int main(){
 				weightAvg += score;
 			}
 			weightAvg /= gamesPerWeight;
+			if(weightAvg > MaxAvgWtScore) MaxAvgWtScore = weightAvg;
 			genAvg += weightAvg;
 			cout << "Gen: " << i << " W: ";
 			//Printing Weights
@@ -74,13 +77,14 @@ int main(){
 			avgScoreForWeight[j] = weightAvg;
 		}
 		genAvg /= numWeights;
-		cout << "------- Gen: " << i << " AvgScore: " << genAvg << " --------\n";
-		// resetWeightAndScore(weightsForGen, avgScoreForWeight);
+		resetWeightAndScore(weightsForGen, avgScoreForWeight, 0); // make 0 completely random
+		cout << "------- Gen: " << i << " MaxAvgWtScore: " << MaxAvgWtScore << " AvgGenScore: " << genAvg << " --------\n";
+		
 	}
 	return 0;
 }
 
-void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& avgScoreForWeight){
+void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& avgScoreForWeight, int numRandom){
 	double IndexOne = 0, IndexTwo = 1;
 	if(avgScoreForWeight[IndexTwo] > avgScoreForWeight[IndexOne]){
 		swap(IndexOne, IndexTwo);
@@ -94,12 +98,64 @@ void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& 
 			IndexTwo = i;
 		}
 	}
-	// IndexOne and IndexTwo are indices of top two weights
+	
+	// int biasTowardOne = (avgScoreForWeight[IndexOne] - avgScoreForWeight[IndexTwo]); 
+	int biasTowardOne = 2;
 
+	vector<vector<double>> newWeights;
+	newWeights.resize(weightsForGen.size());
+	for(int i=0; i<weightsForGen.size(); ++i) newWeights[i].resize(weightsForGen[0].size());
+	newWeights[0] = weightsForGen[IndexOne];
+	newWeights[1] = weightsForGen[IndexTwo];
+
+
+	// IndexOne and IndexTwo are indices of top two weights
+	// printing top two weights
+	cout << "--MaxOneAvgScore: " << avgScoreForWeight[IndexOne] << " MaxOneIndex: " << IndexOne << " MaxOneWeights ";
+	for(int q=0; q<weightsForGen[0].size(); ++q) cout << setw(10) << newWeights[0][q] << " ";
+	cout << "--\n";
+	cout << "--MaxTwoAvgScore: " << avgScoreForWeight[IndexTwo] << " MaxTwoIndex: " << IndexTwo << " MaxTwoWeights ";
+	for(int q=0; q<weightsForGen[0].size(); ++q) cout << setw(10) << newWeights[1][q] << " ";
+	cout << "--\n";
+
+	// the last numRandom are completely random
+	for(int i=2; i<weightsForGen.size()-numRandom; ++i){
+		for(int j=0; j<weightsForGen[i].size(); ++j){
+			int pickFromWhere = rand() % (biasTowardOne);
+			if(pickFromWhere == 0){ // pick coefficient of second best
+				newWeights[i][j] = newWeights[1][j];
+			}
+			else{ // pick coefficient of first best
+				newWeights[i][j] = newWeights[0][j];
+			}
+		}
+	}
+
+	// Making the last numRandom completely random
+	for(int i=weightsForGen.size()-numRandom; i<weightsForGen.size(); ++i){
+		for(int j=0; j<weightsForGen[0].size(); ++j){
+			newWeights[i][j] = ((2) * ( (double)rand() / (double)RAND_MAX ) + -1);
+		}
+	}
+
+
+	// we mutate 1 in every 3 coefficients (3 how? numCoefficient/2 + 1)
+	// one in every 3*numCoefficients are modified by large amount
+	// one in every 2*numCoefficients are modified by medium amount
+	// one in every 1*numCoefficients are modified by small amount
+	// Mutations in coefficients 
 	for(int i=0; i<weightsForGen.size(); ++i){
 		for(int j=0; j<weightsForGen[i].size(); ++j){
-			
+			int extremeMutation = rand() % (7*(weightsForGen[0].size()/2));
+			int largeMutation = rand() % (3*(weightsForGen[0].size()/2));
+			int mediumMutation = rand() % (2*(weightsForGen[0].size()/2));
+			int smallMutation = rand() % (1*(weightsForGen[0].size()/2));
+			if(extremeMutation == 0) newWeights[i][j] += (0.4) * ((2) * ( (double)rand() / (double)RAND_MAX ) + -1);
+			else if(largeMutation == 0) newWeights[i][j] += (0.2) * ((2) * ( (double)rand() / (double)RAND_MAX ) + -1);
+			else if(mediumMutation == 0) newWeights[i][j] += (0.1) * ((2) * ( (double)rand() / (double)RAND_MAX ) + -1);
+			else if(smallMutation == 0) newWeights[i][j] += (0.5) * ((2) * ( (double)rand() / (double)RAND_MAX ) + -1);
 		}
+		weightsForGen[i] = newWeights[i];
 	}
 
 }
