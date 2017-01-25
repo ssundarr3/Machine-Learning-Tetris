@@ -6,6 +6,7 @@
 #include <climits>
 #include <ctime>
 #include <iomanip>
+#include <sstream>
 using namespace std;
 
 
@@ -31,9 +32,9 @@ int PNum;
 int seed = 0;
 
 const int numCoefficient = 4;
-const int numGeneration = 100;
-const int numWeights = 25;
-const int gamesPerWeight = 3;
+int numGeneration = 100;
+int numWeights = 25;
+int gamesPerWeight = 3;
 
 bool graphics = false;
 bool play = false;
@@ -67,6 +68,22 @@ int main(int argc, char *argv[]){
 			stringstream tempIss(argv[i]);
 			if(tempIss >> seed){}
 		}
+		else if(cmdLineArgument == "-gen"){
+			i += 1;
+			stringstream tempIss(argv[i]);
+			if(tempIss >> numGeneration){}
+		}
+		else if(cmdLineArgument == "-wts"){
+			i += 1;
+			stringstream tempIss(argv[i]);
+			if(tempIss >> numWeights){}
+		}
+		else if(cmdLineArgument == "-gpw"){
+			i += 1;
+			stringstream tempIss(argv[i]);
+			if(tempIss >> gamesPerWeight){}
+		}
+
 	}
 
 	if(play){
