@@ -1,10 +1,31 @@
 #include "board.h"
+#include <iostream>
+#include <math.h>
+//#include <unordered_map>
 
 using namespace std;
 
-// global variables
-double coefficients[] = { -1, -1, -7.5, -3.5, 8, -1 }; // standard deviation, height Differeces, number of holes, 
-												  // number of blockades, num lines cleared, max Height
+// global variables	double a = average;
+//unordered_map<string, double> coefficients = { {"heightDifferences", -0.18 }, {"numHoles",  -0.75}, {"numBlockades", 0}, {"maxHeight", -0.2}, {"numClears", 0.56}, {"StandardDeviation", 0} };
+//vector<double> coefficients = { -0.18, -0.75, -0.2, 0.56};
+vector<double> coefficients = { -1, -1, -1, 1};
+
+void updateCoefficients(int index, double x) {
+	coefficients[index] += x;
+}
+
+int getCoefficient(int index) {
+	return coefficients[index];
+}
+
+void Board::init() {
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			grid[i][j] = false;
+		}
+	}
+	score = 0;
+}
 
 Board::Board() : width(10), height(20), score(0) {
 	for (int i = 0; i < height; i++) {
@@ -48,9 +69,10 @@ int removeClears(Board * b) {
 	return clears;
 }
 
-int calculateFitness(Board board) {
+double calculateFitness(Board board) {
 	int numCleared = removeClears(&board);
-	double average = 0;
+
+	int totalHeight = 0;
 	int maxHeight = 0;
 	int numHoles = 0;
 	int lastHeight;
@@ -68,24 +90,25 @@ int calculateFitness(Board board) {
 				}
 			}
 		}
-		///////////////////////////////////////////////
+
 		if (i == 0) lastHeight = currHeight;
 		heightDifferences += abs(currHeight - lastHeight);
 		lastHeight = currHeight;
-		//////////////////////////////////////////////
+
 		colHeights.push_back(currHeight);
 		if (currHeight > maxHeight) {
 			maxHeight = currHeight;
 		}
-		average += currHeight;
+
+		totalHeight += currHeight;
 	}
-	//average /= board.width;
+	/*int average = totalHeight / board.width;
 	double averageSquaresDiff = 0;
 	for (int i = 0; i < board.width; i++) {
-		averageSquaresDiff += pow(colHeights[i] - average, 2);
+		averageSquaresDiff += pow(colHeights[i] - totalHeight, 2);
 	}
 	averageSquaresDiff /= board.width;
-	double SD = sqrt(averageSquaresDiff);
+	double SD = sqrt(averageSquaresDiff);*/
 
 	int numBlockades = 0;
 	for (int i = 0; i < board.width; i++) {
@@ -97,23 +120,16 @@ int calculateFitness(Board board) {
 			}
 		}
 	}
-	/*
-	return coefficients[0] * SD +
-		coefficients[1] * heightDifferences+
-		coefficients[2] * numHoles +   
-		coefficients[3] * numBlockades +
-		coefficients[4] * numCleared +
-		coefficients[5] * maxHeight ;*/
-	double a = average;
-	double b = numCleared;
-	double c = numHoles;
-	double d = heightDifferences;
-	double e = maxHeight;
-	return e * -1 + b * 0.76 + c * -0.35 + d * -0.18;
+	// coefficients = {"heightDifferences" . "numHoles" . "maxHeight" . "numClears" };
+	return coefficients[0] * heightDifferences +
+		coefficients[1] * numHoles +
+		coefficients[2] * maxHeight +
+		coefficients[3] * numCleared;
 }
 
 
-int Board::addPiece(Board b, char piece, int position, char rotation) {
+double Board::addPiece(Board b, char piece, int position, int rotation) {
+	//cout << "PIECE: " << piece << ". POSITION: " << position << "ROTATION: " << rotation << ". ";
 	int row = 0;
 	switch (piece) {
 	case 'I': {
@@ -596,8 +612,7 @@ int Board::addPiece(Board b, char piece, int position, char rotation) {
 	return calculateFitness(b);
 }
 
-
-void Board::addPiece(Board * b, char piece, int position, char rotation) {
+void Board::addPiece(Board * b, char piece, int position, int rotation) {
 	int row = 0;
 	switch (piece) {
 	case 'I': {
