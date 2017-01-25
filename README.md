@@ -29,16 +29,19 @@ Then, random mutations are put in all weights. The amount by which a mutation ch
 
 ./out to run
 
--play to show the play of a single game
-
-   (the following are only applicable if -play has also been given)
-	
-    -coefficient to give your own coefficients (between -1, 1)
-	
-    -graphics adds graphics (not yet implemented)
-	
+-gen numberOfGenerations (default is 100) (might take some time on default settings)
+-wts numberOfWeightsPerGeneration (default is 30)
+-gpr numberOfGamesPerWeight (default is 3)
 
 -seed to set the seed (initial value is time(NULL))
 
+
+-play to show the play of a single game
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The following are only applicable if -play has also been given:
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-coefficient to give your own coefficients (between -1, 1)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-graphics adds graphics (not yet implemented)
 
 
