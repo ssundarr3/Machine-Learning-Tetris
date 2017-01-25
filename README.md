@@ -30,8 +30,11 @@ Then, random mutations are put in all weights. The amount by which a mutation ch
 ./out to run
 
 -gen numberOfGenerations (default is 100) (might take some time on default settings)
+
 -wts numberOfWeightsPerGeneration (default is 30)
--gpr numberOfGamesPerWeight (default is 3)
+
+-gpw numberOfGamesPerWeight (default is 3)
+
 
 -seed to set the seed (initial value is time(NULL))
 
