@@ -23,7 +23,24 @@ First, coefficients from the two weights are randomly taken to create new weight
 
 Then, random mutations are put in all weights. The amount by which a mutation changes the value is a function of the average score for a generation. Further, mutations which create small changes occur more often, while mutations that create large changes occur less frequently.
 
+## Reading output
 
+    score0: .....
+    .
+    .
+    .
+    score0:   282 score1:   398 score2:   364 Gen: 9 W: -0.0590602  -0.288204  0.0293877   0.519238 AvgScore(of 3): 348
+    score0:  1270 score1:   676 score2:    64 Gen: 9 W: -0.0590602  -0.281186  0.0447034   0.676541 AvgScore(of 3): 670
+    score0:   101 score1:  2951 score2:   540 Gen: 9 W: -0.0590602  -0.333541  0.0293877   0.392932 AvgScore(of 3): 1197.33
+    --MaxOneAvgScore: 1596.33 MaxOneIndex: 15 MaxOneWeights -0.0591585  -0.288204  0.0367518   0.473326 --
+    --MaxTwoAvgScore: 1223.33 MaxTwoIndex: 7 MaxTwoWeights -0.0590602  -0.288204  0.0367518   0.473326 --
+    ------- Gen: 9 MaxAvgWtScore: 1596.33 AvgGenScore: 513.253 --------
+
+score0, score1, score2 are the scores from running the weights W: weight1, weight2, ... AvgScore(of 3) is the average of score0, score1, ...
+
+MaxOneAvgScore is the maximum average of the list of weights. MaxOneIndex is the index of the weight being used, MaxOneWeights are the weights of the maximum average.
+
+Gen is the generation number, MaxAvgWtScore is the maximumAverage of the generation, AvgGenScore is the average score of the weights
 
 ##Command line arguments
 
