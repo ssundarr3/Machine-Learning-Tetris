@@ -8,7 +8,14 @@
 #include <iomanip>
 using namespace std;
 
-// GLOBAL variables are in caps
+
+// !!
+// NOTE: R, C, Gen, numWeifhts, gamesPerWeight, seed changed without breaking the program!
+// !!
+
+
+// -0.294046    -1.3458  0.0847383   0.091462 resulted in 4200 lines
+// GLOBAL variables are in caps. 
 // B is our board
 vector<vector<char>> B;
 int R = 20, C = 10;
@@ -21,41 +28,74 @@ unordered_map<char, vector<vector<vector<int>>>> PMap;
 vector<char> PChar;
 int PNum;
 
-
 int seed = 0;
 
+const int numCoefficient = 4;
+const int numGeneration = 100;
+const int numWeights = 25;
+const int gamesPerWeight = 3;
 
-int main(){
+bool graphics = false;
+bool play = false;
+bool coefficient = false;
+
+int main(int argc, char *argv[]){
 	// Function prototypes
 	void initialize();
 	int runSimulation(vector<vector<char>> board, vector<double>& weights);
-	void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& avgScoreForWeight, int numRandom);
-
+	void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& avgScoreForWeight, int numRandom, double maxScore);
+	void randomizeWeights(vector<vector<double>>& weightsForGen);
 
 	seed = time(NULL);
 	// Set PMap, PChar, PNum, B
 	initialize();
+	
+	// command line arguments
+	for(int i=1; i<argc; ++i){
+		string cmdLineArgument = string(argv[i]);
+		if(cmdLineArgument == "-play"){
+			play = true;
+		}
+		else if(cmdLineArgument == "-coefficient"){
+			coefficient = true;
+		}
+		else if(cmdLineArgument == "-graphics"){
+			graphics = true;
+		}
+		else if(cmdLineArgument == "-seed"){
+			i += 1;
+			stringstream tempIss(argv[i]);
+			if(tempIss >> seed){}
+		}
+	}
 
-	const int numCoefficient = 4;
-	const int numGeneration = 100;
-	const int numWeights = 25;
-	const int gamesPerWeight = 3;
+	if(play){
+		vector<double> ws;
+		ws = {-0.294046, -1.3458, 0.0847383, 0.091462};
+		if(coefficient){
+			for(int i=0; i<numCoefficient; ++i){
+				cout << "Enter coefficient #" << i;
+				cin >> ws[i];
+				cout << endl;
+				exit(0);
+			}
+		}
+		cout << "Running\n";
+		runSimulation(B, ws);
+		exit(0);
+	}
+
+	
+
 
 	vector<vector<double>> weightsForGen;
 	vector<double> avgScoreForWeight;
 	avgScoreForWeight.resize(numWeights);
 
-	// Randomize initial weights
-	weightsForGen.resize(numWeights);
-	for(int i=0; i<numWeights; ++i){
-		weightsForGen[i].resize(numCoefficient);
-		for(int j=0; j<numCoefficient; ++j){
-			weightsForGen[i][j] = ((2) * ( (double)rand() / (double)RAND_MAX ) + -1);
-			// cout << weightsForGen[i][j] << " ";
-		}
-		// cout << "\n";
-	}
+	// Randomize weights 
+	randomizeWeights(weightsForGen);
 
+	// weightsForGen[0] = {-0.294046, -1.3458, 0.0847383, 0.091462};
 	
 	for(int i=0; i<numGeneration; ++i){
 		double genAvg = 0;
@@ -65,6 +105,7 @@ int main(){
 			for(int k=0; k<gamesPerWeight; ++k){
 				int score = runSimulation(B, weightsForGen[j]);
 				weightAvg += score;
+				cout << "score" << k << ": " << setw(5) << score << " ";
 			}
 			weightAvg /= gamesPerWeight;
 			if(weightAvg > MaxAvgWtScore) MaxAvgWtScore = weightAvg;
@@ -77,18 +118,32 @@ int main(){
 			avgScoreForWeight[j] = weightAvg;
 		}
 		genAvg /= numWeights;
-		resetWeightAndScore(weightsForGen, avgScoreForWeight, 0); // make 0 completely random
+		resetWeightAndScore(weightsForGen, avgScoreForWeight, 0, MaxAvgWtScore); // make 0 completely random
 		cout << "------- Gen: " << i << " MaxAvgWtScore: " << MaxAvgWtScore << " AvgGenScore: " << genAvg << " --------\n";
 		
 	}
 	return 0;
 }
 
-void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& avgScoreForWeight, int numRandom){
+void randomizeWeights(vector<vector<double>>& weightsForGen){
+	// Randomize initial weights
+	weightsForGen.resize(numWeights);
+	for(int i=0; i<numWeights; ++i){
+		weightsForGen[i].resize(numCoefficient);
+		for(int j=0; j<numCoefficient; ++j){
+			weightsForGen[i][j] = ((2) * ( (double)rand() / (double)RAND_MAX ) + -1);
+			// cout << weightsForGen[i][j] << " ";
+		}
+		// cout << "\n";
+	}
+}
+
+void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& avgScoreForWeight, int numRandom, double MaxAvgWtScore){
 	double IndexOne = 0, IndexTwo = 1;
 	if(avgScoreForWeight[IndexTwo] > avgScoreForWeight[IndexOne]){
 		swap(IndexOne, IndexTwo);
 	}
+	// finding best two scores
 	for(int i=2; i<avgScoreForWeight.size(); ++i){
 		if(avgScoreForWeight[i] > avgScoreForWeight[IndexOne]){
 			IndexTwo = IndexOne;
@@ -102,9 +157,10 @@ void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& 
 	// int biasTowardOne = (avgScoreForWeight[IndexOne] - avgScoreForWeight[IndexTwo]); 
 	int biasTowardOne = 2;
 
+	// resizing newWeights vector
 	vector<vector<double>> newWeights;
-	newWeights.resize(weightsForGen.size());
-	for(int i=0; i<weightsForGen.size(); ++i) newWeights[i].resize(weightsForGen[0].size());
+	newWeights.resize(numWeights);
+	for(int i=0; i<numWeights; ++i) newWeights[i].resize(numCoefficient);
 	newWeights[0] = weightsForGen[IndexOne];
 	newWeights[1] = weightsForGen[IndexTwo];
 
@@ -112,14 +168,14 @@ void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& 
 	// IndexOne and IndexTwo are indices of top two weights
 	// printing top two weights
 	cout << "--MaxOneAvgScore: " << avgScoreForWeight[IndexOne] << " MaxOneIndex: " << IndexOne << " MaxOneWeights ";
-	for(int q=0; q<weightsForGen[0].size(); ++q) cout << setw(10) << newWeights[0][q] << " ";
+	for(int q=0; q<numCoefficient; ++q) cout << setw(10) << newWeights[0][q] << " ";
 	cout << "--\n";
 	cout << "--MaxTwoAvgScore: " << avgScoreForWeight[IndexTwo] << " MaxTwoIndex: " << IndexTwo << " MaxTwoWeights ";
-	for(int q=0; q<weightsForGen[0].size(); ++q) cout << setw(10) << newWeights[1][q] << " ";
+	for(int q=0; q<numCoefficient; ++q) cout << setw(10) << newWeights[1][q] << " ";
 	cout << "--\n";
 
 	// the last numRandom are completely random
-	for(int i=2; i<weightsForGen.size()-numRandom; ++i){
+	for(int i=2; i<numWeights-numRandom; ++i){
 		for(int j=0; j<weightsForGen[i].size(); ++j){
 			int pickFromWhere = rand() % (biasTowardOne);
 			if(pickFromWhere == 0){ // pick coefficient of second best
@@ -132,8 +188,8 @@ void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& 
 	}
 
 	// Making the last numRandom completely random
-	for(int i=weightsForGen.size()-numRandom; i<weightsForGen.size(); ++i){
-		for(int j=0; j<weightsForGen[0].size(); ++j){
+	for(int i=numWeights-numRandom; i<numWeights; ++i){
+		for(int j=0; j<numCoefficient; ++j){
 			newWeights[i][j] = ((2) * ( (double)rand() / (double)RAND_MAX ) + -1);
 		}
 	}
@@ -144,20 +200,31 @@ void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& 
 	// one in every 2*numCoefficients are modified by medium amount
 	// one in every 1*numCoefficients are modified by small amount
 	// Mutations in coefficients 
-	for(int i=0; i<weightsForGen.size(); ++i){
+	// keep the best anyway
+	// the amount is a function of the MaxAvgWtScore
+	// 
+	weightsForGen[0] = newWeights[0];
+	for(int i=0; i<numWeights; ++i){
 		for(int j=0; j<weightsForGen[i].size(); ++j){
-			int extremeMutation = rand() % (7*(weightsForGen[0].size()/2));
-			int largeMutation = rand() % (3*(weightsForGen[0].size()/2));
-			int mediumMutation = rand() % (2*(weightsForGen[0].size()/2));
-			int smallMutation = rand() % (1*(weightsForGen[0].size()/2));
-			if(extremeMutation == 0) newWeights[i][j] += (0.4) * ((2) * ( (double)rand() / (double)RAND_MAX ) + -1);
-			else if(largeMutation == 0) newWeights[i][j] += (0.2) * ((2) * ( (double)rand() / (double)RAND_MAX ) + -1);
-			else if(mediumMutation == 0) newWeights[i][j] += (0.1) * ((2) * ( (double)rand() / (double)RAND_MAX ) + -1);
-			else if(smallMutation == 0) newWeights[i][j] += (0.5) * ((2) * ( (double)rand() / (double)RAND_MAX ) + -1);
+			int extremeMutation = rand() % (10*(numCoefficient));
+			int largeMutation = rand() % (4*(numCoefficient));
+			int mediumMutation = rand() % (3*(numCoefficient));
+			int smallMutation = rand() % (2*(numCoefficient));
+			double changeBy = ((2) * ( (double)rand() / (double)RAND_MAX ) + -1);
+			changeBy *= (1000.0/MaxAvgWtScore);
+			if(extremeMutation == 0) newWeights[i][j] += (0.4) *changeBy;
+			else if(largeMutation == 0) newWeights[i][j] += (0.2) *changeBy;
+			else if(mediumMutation == 0) newWeights[i][j] += (0.1) *changeBy;
+			else if(smallMutation == 0) newWeights[i][j] += (0.05) *changeBy;
+
+			
+
+			// weights can only be betwen [-1, 1]
+			if(newWeights[i][j] < -1) newWeights[i][j] = -1;
+			else if(newWeights[i][j] > +1) newWeights[i][j] = +1;
 		}
 		weightsForGen[i] = newWeights[i];
 	}
-
 }
 
 
@@ -201,24 +268,25 @@ int runSimulation(vector<vector<char>> board, vector<double>& coefficients){
 				}
 			}
 		}
-
-		
-		// cout << "MAX: " << "piece: " << c << ", rotation: " << maxRot << ", column: " << maxRig << ", fitness: " << maxFitness << endl;
+		if(play){
+			cout << "MAX: " << "piece: " << c << ", rotation: " << maxRot << ", column: " << maxRig << ", fitness: " << maxFitness << endl;
+		}
 		
 		// make max move
 		int numCleared = dropAndRemoveClears(board, maxRig, c, maxRot);
-		// printBoard(board);
-		// int x;
-		// cin>>x;
-
-		
-
-		if(numCleared == -1){
-			// cout << "Game Over!\n";
-			// cout << "Lines Cleard: " << totalLinesCleared << "\n";
-			return totalLinesCleared;
+		if(play){
+			printBoard(board);
+			// int x;
+			// cin>>x;
 		}
 
+		if(numCleared == -1){
+			if(play){
+				cout << "Game Over!\n";
+				cout << "Lines Cleard: " << totalLinesCleared << "\n";
+			}
+			return totalLinesCleared;
+		}
 		
 		totalLinesCleared += numCleared;
 	}
