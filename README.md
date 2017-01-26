@@ -1,7 +1,9 @@
 # Machine-Learning-Tetris
 A Machine Learning Algorithm that learns to play Tetris
 
-to simply run use ./out
+![alt text](https://github.com/ssundarr3/Machine-Learning-Tetris/blob/master/pics/TetrisMachineLearning.gif "Machine Learning GIF")
+
+
 
 ## How it works
 ### Fitness Function
