@@ -23,7 +23,7 @@ First, coefficients from the two weights are randomly taken to create new weight
 
 Then, random mutations are put in all weights. The amount by which a mutation changes the value is a function of the average score for a generation. Further, mutations which create small changes occur more often, while mutations that create large changes occur less frequently.
 
-## Reading output
+## Understanding output
 
     score0: .....
     .
