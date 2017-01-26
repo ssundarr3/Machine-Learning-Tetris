@@ -7,6 +7,7 @@
 #include <ctime>
 #include <iomanip>
 #include <sstream>
+// #include "GraphicsDisplay.h"
 using namespace std;
 
 
@@ -88,7 +89,7 @@ int main(int argc, char *argv[]){
 
 	if(play){
 		vector<double> ws;
-		ws = {-0.294046, -1.3458, 0.0847383, 0.091462};
+		ws = {-0.10314, -0.412885, 0.0631569, 0.330902};
 		if(coefficient){
 			for(int i=0; i<numCoefficient; ++i){
 				cout << "Enter coefficient #" << i;
@@ -112,7 +113,7 @@ int main(int argc, char *argv[]){
 	// Randomize weights 
 	randomizeWeights(weightsForGen);
 
-	// weightsForGen[0] = {-0.294046, -1.3458, 0.0847383, 0.091462};
+	weightsForGen[0] = {-0.10314, -0.412885, 0.0631569, 0.330902}; // {-0.294046, -1.3458, 0.0847383, 0.091462};
 	
 	for(int i=0; i<numGeneration; ++i){
 		double genAvg = 0;
@@ -286,12 +287,13 @@ int runSimulation(vector<vector<char>> board, vector<double>& coefficients){
 			}
 		}
 		if(play){
-			cout << "MAX: " << "piece: " << c << ", rotation: " << maxRot << ", column: " << maxRig << ", fitness: " << maxFitness << endl;
+			// cout << "MAX: " << "piece: " << c << ", rotation: " << maxRot << ", column: " << maxRig << ", fitness: " << maxFitness << endl;
 		}
 		
 		// make max move
 		int numCleared = dropAndRemoveClears(board, maxRig, c, maxRot);
 		if(play){
+
 			printBoard(board);
 			// int x;
 			// cin>>x;
