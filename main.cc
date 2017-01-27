@@ -22,7 +22,7 @@ using namespace std;
 vector<vector<char>> B;
 int R = 20, C = 10;
 // H is a vector of heights of board B
-// vector<int> H;
+vector<int> H;
 
 // PMap is a hashmap of a character to a vector of rotations of that piece
 unordered_map<char, vector<vector<vector<int>>>> PMap;
@@ -90,7 +90,7 @@ int main(int argc, char *argv[]){
 
 	if(play){
 		vector<double> ws;
-		// ws = {-0.10314, -0.412885, 0.0631569, 0.330902};
+		ws = {-0.181566,  -0.989805,  -0.211556,   0.811782,   0.233264,    0.27951};
 		if(coefficient){
 			for(int i=0; i<numCoefficient; ++i){
 				cout << "Enter coefficient #" << i;
@@ -297,7 +297,8 @@ int runSimulation(vector<vector<char>> board, vector<double>& coefficients){
 			}
 		}
 		if(play){
-			// cout << "MAX: " << "piece: " << c << ", rotation: " << maxRot << ", column: " << maxRig << ", fitness: " << maxFitness << endl;
+			cout << "MAX: " << "piece: " << c << ", rotation: " << maxRot << ", column: " << maxRig << ", fitness: " << maxFitness << endl;
+			cout << "Lines Cleared so far: " << totalLinesCleared << endl;
 		}
 		
 		// make max move
