@@ -22,7 +22,7 @@ using namespace std;
 vector<vector<char>> B;
 int R = 20, C = 10;
 // H is a vector of heights of board B
-vector<int> H;
+// vector<int> H;
 
 // PMap is a hashmap of a character to a vector of rotations of that piece
 unordered_map<char, vector<vector<vector<int>>>> PMap;
@@ -32,10 +32,11 @@ int PNum;
 
 int seed = 0;
 
-const int numCoefficient = 4;
-int numGeneration = 100;
-int numWeights = 25;
-int gamesPerWeight = 3;
+int numGeneration = 10000;
+int numWeights = 12;
+int gamesPerWeight = 1;
+const int numCoefficient = 6;
+
 
 bool graphics = false;
 bool play = false;
@@ -89,7 +90,7 @@ int main(int argc, char *argv[]){
 
 	if(play){
 		vector<double> ws;
-		ws = {-0.10314, -0.412885, 0.0631569, 0.330902};
+		// ws = {-0.10314, -0.412885, 0.0631569, 0.330902};
 		if(coefficient){
 			for(int i=0; i<numCoefficient; ++i){
 				cout << "Enter coefficient #" << i;
@@ -103,8 +104,6 @@ int main(int argc, char *argv[]){
 		exit(0);
 	}
 
-	
-
 
 	vector<vector<double>> weightsForGen;
 	vector<double> avgScoreForWeight;
@@ -113,8 +112,7 @@ int main(int argc, char *argv[]){
 	// Randomize weights 
 	randomizeWeights(weightsForGen);
 
-	weightsForGen[0] = {-0.10314, -0.412885, 0.0631569, 0.330902}; // {-0.294046, -1.3458, 0.0847383, 0.091462};
-	
+	// weightsForGen[0][24] = 1; // = {-0.10314, -0.412885, 0.0631569, 0.330902}; // {-0.294046, -1.3458, 0.0847383, 0.091462};
 	for(int i=0; i<numGeneration; ++i){
 		double genAvg = 0;
 		double MaxAvgWtScore = INT_MIN;
@@ -122,6 +120,7 @@ int main(int argc, char *argv[]){
 			double weightAvg = 0;
 			for(int k=0; k<gamesPerWeight; ++k){
 				int score = runSimulation(B, weightsForGen[j]);
+
 				weightAvg += score;
 				cout << "score" << k << ": " << setw(5) << score << " ";
 			}
@@ -171,9 +170,10 @@ void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& 
 			IndexTwo = i;
 		}
 	}
+
 	
 	// int biasTowardOne = (avgScoreForWeight[IndexOne] - avgScoreForWeight[IndexTwo]); 
-	int biasTowardOne = 2;
+	int biasTowardOne = 4;
 
 	// resizing newWeights vector
 	vector<vector<double>> newWeights;
@@ -181,6 +181,7 @@ void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& 
 	for(int i=0; i<numWeights; ++i) newWeights[i].resize(numCoefficient);
 	newWeights[0] = weightsForGen[IndexOne];
 	newWeights[1] = weightsForGen[IndexTwo];
+
 
 
 	// IndexOne and IndexTwo are indices of top two weights
@@ -192,42 +193,55 @@ void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& 
 	for(int q=0; q<numCoefficient; ++q) cout << setw(10) << newWeights[1][q] << " ";
 	cout << "--\n";
 
+
 	// the last numRandom are completely random
 	for(int i=2; i<numWeights-numRandom; ++i){
-		for(int j=0; j<weightsForGen[i].size(); ++j){
-			int pickFromWhere = rand() % (biasTowardOne);
-			if(pickFromWhere == 0){ // pick coefficient of second best
-				newWeights[i][j] = newWeights[1][j];
-			}
-			else{ // pick coefficient of first best
-				newWeights[i][j] = newWeights[0][j];
-			}
+		int pickFromWhere = rand() % (biasTowardOne);
+		if(pickFromWhere == 0){ // pick coefficient of second best
+			newWeights[i] = newWeights[1];
 		}
+		else{ // pick coefficient of first best
+			newWeights[i] = newWeights[0];
+		}
+		// for(int j=0; j<weightsForGen[i].size(); ++j){
+			
+		// }
 	}
+
+
 
 	// Making the last numRandom completely random
 	for(int i=numWeights-numRandom; i<numWeights; ++i){
 		for(int j=0; j<numCoefficient; ++j){
-			newWeights[i][j] = ((2) * ( (double)rand() / (double)RAND_MAX ) + -1);
+			int pickFromWhere = rand() % biasTowardOne;
+			if(pickFromWhere == 0){
+				newWeights[i][j] = newWeights[1][j];
+			}
+			else{
+				newWeights[i][j] = ((2) * ( (double)rand() / (double)RAND_MAX ) + -1);
+			}
 		}
 	}
 
 
 	// we mutate 1 in every 3 coefficients (3 how? numCoefficient/2 + 1)
-	// one in every 3*numCoefficients are modified by large amount
-	// one in every 2*numCoefficients are modified by medium amount
-	// one in every 1*numCoefficients are modified by small amount
+	// one in every 3*numCoefficient are modified by large amount
+	// one in every 2*numCoefficient are modified by medium amount
+	// one in every 1*numCoefficient are modified by small amount
 	// Mutations in coefficients 
 	// keep the best anyway
 	// the amount is a function of the MaxAvgWtScore
 	// 
 	weightsForGen[0] = newWeights[0];
-	for(int i=0; i<numWeights; ++i){
+	for(int i=1; i<numWeights; ++i){
 		for(int j=0; j<weightsForGen[i].size(); ++j){
-			int extremeMutation = rand() % (10*(numCoefficient));
-			int largeMutation = rand() % (4*(numCoefficient));
-			int mediumMutation = rand() % (3*(numCoefficient));
-			int smallMutation = rand() % (2*(numCoefficient));
+			// int change = rand() % 4;
+			// if(change == 0) newWeights[i][j] += newWeights[i][j]*0.01; //(0.1*((2) * ( (double)rand() / (double)RAND_MAX ) + -1)) ;
+
+			int extremeMutation = rand() % 25;//(10*(numCoefficient));
+			int largeMutation = rand() % 16;//(4*(numCoefficient));
+			int mediumMutation = rand() % 8;//(3*(numCoefficient));
+			int smallMutation = rand() % 6; //(2*(numCoefficient));
 			double changeBy = ((2) * ( (double)rand() / (double)RAND_MAX ) + -1);
 			changeBy *= (1000.0/MaxAvgWtScore);
 			if(extremeMutation == 0) newWeights[i][j] += (0.4) *changeBy;
@@ -255,7 +269,6 @@ int runSimulation(vector<vector<char>> board, vector<double>& coefficients){
 	char generatePiece();
 
 	int totalLinesCleared = 0;
-
 	while(1){
 		bool GameNotOver = true;
 		int maxRot = 0, maxRig = 0;
@@ -269,14 +282,11 @@ int runSimulation(vector<vector<char>> board, vector<double>& coefficients){
 			int pieceWidth = pieceRotations[i][0].size();
 			for(int j=0; j<C-pieceWidth+1; ++j){
 				vector<vector<char>> tempBoard = board;
-
 				// rotation i, column j, piece c on tempBoard
 				int numCleared = dropAndRemoveClears(tempBoard, j, c, i);
 				double fitness;
-	
 				if(numCleared == -1) fitness = INT_MIN;
 				else fitness = calculateFitness(tempBoard, coefficients, numCleared);
-
 				// cout << "piece: " << c << ", rotation: " << i << ", col: " << j << ", fitness: " << fitness << endl;
 
 				if(fitness > maxFitness){
@@ -311,7 +321,8 @@ int runSimulation(vector<vector<char>> board, vector<double>& coefficients){
 	}
 }
 
-// Calculates fitness
+
+// USING OLD FITNESS FUNCTION
 double calculateFitness(vector<vector<char>> v, const vector<double>& coefficients, const int numCleared){
 	// void printBoard(const vector<vector<char>> &v);
 	// printBoard(v);
@@ -366,13 +377,125 @@ double calculateFitness(vector<vector<char>> v, const vector<double>& coefficien
 			}
 		}
 	}
+
+	// for(int b=0; b<C; ++b){
+	// 	int numHoles = 0;
+	// 	bool seenPiece = false;
+	// 	for(int a=0; a<R; ++a){
+	// 		if(!seenPiece && v[a][b] != ' '){
+	// 			if(b == 0){
+	// 				features[0] = (R-a);
+	// 			}
+	// 			else if(b == C){
+	// 				features[1] = R-a;
+	// 			}
+	// 			seenPiece = true;
+	// 			continue;
+	// 		}
+	// 		else if(seenPiece && v[a][b] == ' '){
+	// 			numHoles += 1;
+	// 		}
+	// 	}
+	// 	// features[b+C] = numHoles; 
+	// 	totalHoles += numHoles;
+	// 	totalHeight += features[b];
+	// 	if(features[b] > greatestHeight) greatestHeight = features[b];
+	// 	if(features[b] < lowestHeight) lowestHeight = features[b];
+	// }
+
+	int firstHeight = 0, finalHeight = 0;
+	for(int a=0; a<R;++a){
+		if(v[a][0] != ' '){
+			firstHeight = R-a;
+			break;
+		}
+	}
+	for(int a=0; a<R;++a){
+		if(v[a][C-1] != ' '){
+			finalHeight = R-a;
+			break;
+		}
+	}
+
 	// coefficients = {"heightDifferences" . "numHoles" . "maxHeight" . "numClears" };
 
 	return coefficients[0] * heightDifferences +
 		coefficients[1] * numHoles +
 		coefficients[2] * maxHeight +
-		coefficients[3] * numCleared;
+		coefficients[3] * numCleared +
+		coefficients[4] * firstHeight + 
+		coefficients[5] * finalHeight;
 }
+
+
+// Calculates fitness
+// double calculateFitness(vector<vector<char>> v, const vector<double>& coefficients, const int numCleared){
+// 	// void printBoard(const vector<vector<char>> &v);
+// 	// printBoard(v);
+// 	// int x;
+// 	// cin>>x;
+
+// 	// features is 10 heights, 10 numHoles, totalHeight, averageHeight, lowestHeight, greatestHeight, numCleared
+// 	// changed features to 10heights, numHoles, totalHeight, avgHeight, lowestHeight, greatestheight, numCleared
+// 	// changed again, now first height, last height, numHoles, totalHeight, avgHeight, lowestHeight, greatestheight, numCleared
+// 	vector<double> features;
+// 	features.resize(numCoefficient);
+
+// 	double totalHeight = 0.0, averageHeight = 0.0, lowestHeight = INT_MAX, greatestHeight = INT_MIN;
+// 	int totalHoles = 0;
+// 	for(int b=0; b<C; ++b){
+// 		int numHoles = 0;
+// 		bool seenPiece = false;
+// 		for(int a=0; a<R; ++a){
+// 			if(!seenPiece && v[a][b] != ' '){
+// 				if(b == 0){
+// 					features[0] = (R-a);
+// 				}
+// 				else if(b == C){
+// 					features[1] = R-a;
+// 				}
+// 				seenPiece = true;
+// 				continue;
+// 			}
+// 			else if(seenPiece && v[a][b] == ' '){
+// 				numHoles += 1;
+// 			}
+// 		}
+// 		// features[b+C] = numHoles; 
+// 		totalHoles += numHoles;
+// 		totalHeight += features[b];
+// 		if(features[b] > greatestHeight) greatestHeight = features[b];
+// 		if(features[b] < lowestHeight) lowestHeight = features[b];
+// 	}
+// 	averageHeight = totalHeight/C;
+
+// 	features[2] = totalHoles;
+// 	features[3] = totalHeight;
+// 	features[4] = averageHeight;
+// 	features[5] = lowestHeight;
+// 	features[6] = greatestHeight;
+// 	features[7] = numCleared;
+
+// 	int numBlockades = 0;
+// 	for (int i = 0; i < C; i++) {
+// 		bool startCounting = false;
+// 		for (int j = R - 1; j >= 0; j--) {
+// 			if (v[j][i] == ' ') startCounting = true;
+// 			if (startCounting && v[j][i] != ' ') {
+// 				numBlockades++;
+// 			}
+// 		}
+// 	}
+
+// 	features[8] = numBlockades;
+
+// 	double fitness = 0.0;
+// 	for(int i=0; i<numCoefficient; ++i){
+// 		fitness += (features[i]*coefficients[i]);
+// 	}
+
+// 	return fitness;
+// }
 
 // returns number of lines cleared, -1 if game over
 int dropAndRemoveClears(vector<vector<char>>& v, const int col, const char c, const int rot){
