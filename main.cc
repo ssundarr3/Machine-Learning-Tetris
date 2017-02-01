@@ -44,7 +44,7 @@ bool coefficient = false;
 int main(int argc, char *argv[]){
 	// Function prototypes
 	void initialize();
-	int runSimulation(vector<vector<char>> board, vector<double>& weights);
+	int runSimulation(vector<vector<char>> board, vector<double>& weights, int maxSize);
 	void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& avgScoreForWeight, int numRandom, double maxScore);
 	void randomizeWeights(vector<vector<double>>& weightsForGen);
 
@@ -87,41 +87,45 @@ int main(int argc, char *argv[]){
 
 	}
 
-	if(play){
-		vector<double> ws;
-		ws = {-0.10314, -0.412885, 0.0631569, 0.330902};
-		if(coefficient){
-			for(int i=0; i<numCoefficient; ++i){
-				cout << "Enter coefficient #" << i;
-				cin >> ws[i];
-				cout << endl;
-				exit(0);
-			}
-		}
-		cout << "Running\n";
-		runSimulation(B, ws);
-		exit(0);
-	}
+	// if(play){
+	// 	vector<double> ws;
+	// 	ws = {-0.10314, -0.412885, 0.0631569, 0.330902};
+	// 	if(coefficient){
+	// 		for(int i=0; i<numCoefficient; ++i){
+	// 			cout << "Enter coefficient #" << i;
+	// 			cin >> ws[i];
+	// 			cout << endl;
+	// 			exit(0);
+	// 		}
+	// 	}
+	// 	cout << "Running\n";
+	// 	runSimulation(B, ws, 500);
+	// 	exit(0);
+	// }
 
 	
 
 
 	vector<vector<double>> weightsForGen;
+	vector<vector<double>> bestWeightsForGen;
 	vector<double> avgScoreForWeight;
 	avgScoreForWeight.resize(numWeights);
 
 	// Randomize weights 
 	randomizeWeights(weightsForGen);
 
-	weightsForGen[0] = {-0.10314, -0.412885, 0.0631569, 0.330902}; // {-0.294046, -1.3458, 0.0847383, 0.091462};
-	
+	weightsForGen[0] = {-0.10314, -0.412885, 0.0631569, 0.330902, -0.2}; // {-0.294046, -1.3458, 0.0847383, 0.091462};
+
+	int consecutiveNongrowth = 0;	
+	double lastGenAvg = 1;
+	int testSize = 500;
 	for(int i=0; i<numGeneration; ++i){
 		double genAvg = 0;
 		double MaxAvgWtScore = INT_MIN;
 		for(int j=0; j<numWeights; ++j){
 			double weightAvg = 0;
 			for(int k=0; k<gamesPerWeight; ++k){
-				int score = runSimulation(B, weightsForGen[j]);
+				int score = runSimulation(B, weightsForGen[j], testSize);
 				weightAvg += score;
 				cout << "score" << k << ": " << setw(5) << score << " ";
 			}
@@ -136,6 +140,26 @@ int main(int argc, char *argv[]){
 			avgScoreForWeight[j] = weightAvg;
 		}
 		genAvg /= numWeights;
+		//checking for stagnation:
+		lastGenAvg = genAvg;
+		if (genAvg > 50) {
+			if (genAvg / lastGenAvg < 0.95) {
+				consecutiveNongrowth += 2;
+			}
+			else if (genAvg / lastGenAvg < 1.05) {
+				consecutiveNongrowth += 1;
+			}
+			if (consecutiveNongrowth > 10) {
+				bestWeightsForGen.swap(weightsForGen);
+				randomizeWeights(weightsForGen);
+				cout << "\n\nResetting Weights\nCurrent best: ";
+				for (int q = 0; q < numCoefficient; ++q) cout << setw(10) << weightsForGen[0][q] << "\n\n";
+			}	
+		}
+		else {
+			consecutiveNongrowth = 0;
+		}
+		// Continue algorithm
 		resetWeightAndScore(weightsForGen, avgScoreForWeight, 0, MaxAvgWtScore); // make 0 completely random
 		cout << "------- Gen: " << i << " MaxAvgWtScore: " << MaxAvgWtScore << " AvgGenScore: " << genAvg << " --------\n";
 		
@@ -171,7 +195,6 @@ void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& 
 			IndexTwo = i;
 		}
 	}
-	
 	// int biasTowardOne = (avgScoreForWeight[IndexOne] - avgScoreForWeight[IndexTwo]); 
 	int biasTowardOne = 2;
 
@@ -193,7 +216,7 @@ void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& 
 	cout << "--\n";
 
 	// the last numRandom are completely random
-	for(int i=2; i<numWeights-numRandom; ++i){
+	for(int i=0; i<numWeights-numRandom; ++i){
 		for(int j=0; j<weightsForGen[i].size(); ++j){
 			int pickFromWhere = rand() % (biasTowardOne);
 			if(pickFromWhere == 0){ // pick coefficient of second best
@@ -211,7 +234,7 @@ void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& 
 			newWeights[i][j] = ((2) * ( (double)rand() / (double)RAND_MAX ) + -1);
 		}
 	}
-
+	
 
 	// we mutate 1 in every 3 coefficients (3 how? numCoefficient/2 + 1)
 	// one in every 3*numCoefficients are modified by large amount
@@ -222,6 +245,7 @@ void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& 
 	// the amount is a function of the MaxAvgWtScore
 	// 
 	weightsForGen[0] = newWeights[0];
+	weightsForGen[1] = newWeights[1];
 	for(int i=0; i<numWeights; ++i){
 		for(int j=0; j<weightsForGen[i].size(); ++j){
 			int extremeMutation = rand() % (10*(numCoefficient));
@@ -238,8 +262,8 @@ void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& 
 			
 
 			// weights can only be betwen [-1, 1]
-			if(newWeights[i][j] < -1) newWeights[i][j] = -1;
-			else if(newWeights[i][j] > +1) newWeights[i][j] = +1;
+			// if(newWeights[i][j] < -1) newWeights[i][j] = -1;
+			// else if(newWeights[i][j] > +1) newWeights[i][j] = +1;
 		}
 		weightsForGen[i] = newWeights[i];
 	}
@@ -247,7 +271,7 @@ void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& 
 
 
 // Runs the simulation on board board, and using weights 'weights' and returns the _total_ number of lines cleared
-int runSimulation(vector<vector<char>> board, vector<double>& coefficients){
+int runSimulation(vector<vector<char>> board, vector<double>& coefficients, int maxSize){
 	// function prototypes
 	void printBoard(const vector<vector<char>> &v);
 	int dropAndRemoveClears(vector<vector<char>>& v, const int col, const char c, const int rot);
@@ -256,7 +280,8 @@ int runSimulation(vector<vector<char>> board, vector<double>& coefficients){
 
 	int totalLinesCleared = 0;
 
-	while(1){
+	while(maxSize > 0){
+		maxSize--;		
 		bool GameNotOver = true;
 		int maxRot = 0, maxRig = 0;
 		double maxFitness = INT_MIN;
@@ -295,8 +320,8 @@ int runSimulation(vector<vector<char>> board, vector<double>& coefficients){
 		if(play){
 
 			printBoard(board);
-			// int x;
-			// cin>>x;
+			int x;
+			cin>>x;
 		}
 
 		if(numCleared == -1){
@@ -317,7 +342,6 @@ double calculateFitness(vector<vector<char>> v, const vector<double>& coefficien
 	// printBoard(v);
 	// int x;
 	// cin>>x;
-
 	int totalHeight = 0;
 	int maxHeight = 0;
 	int numHoles = 0;
@@ -371,7 +395,8 @@ double calculateFitness(vector<vector<char>> v, const vector<double>& coefficien
 	return coefficients[0] * heightDifferences +
 		coefficients[1] * numHoles +
 		coefficients[2] * maxHeight +
-		coefficients[3] * numCleared;
+		coefficients[3] * numCleared +
+		coefficients[4] * numBlockades;
 }
 
 // returns number of lines cleared, -1 if game over

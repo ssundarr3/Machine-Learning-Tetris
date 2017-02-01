@@ -1,0 +1,232 @@
+In file included from /usr/include/c++/4.8/unordered_map:35:0,
+                 from main.cc:4:
+/usr/include/c++/4.8/bits/c++0x_warning.h:32:2: error: #error This file requires compiler and library support for the ISO C++ 2011 standard. This support is currently experimental, and must be enabled with the -std=c++11 or -std=gnu++11 compiler options.
+ #error This file requires compiler and library support for the \
+  ^
+main.cc:22:19: error: ‘>>’ should be ‘> >’ within a nested template argument list
+ vector<vector<char>> B;
+                   ^
+main.cc:28:1: error: ‘unordered_map’ does not name a type
+ unordered_map<char, vector<vector<vector<int>>>> PMap;
+ ^
+main.cc: In function ‘int main(int, char**)’:
+main.cc:47:38: error: ‘>>’ should be ‘> >’ within a nested template argument list
+  int runSimulation(vector<vector<char>> board, vector<double>& weights);
+                                      ^
+main.cc:48:47: error: ‘>>’ should be ‘> >’ within a nested template argument list
+  void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& avgScoreForWeight, int numRandom, double maxScore);
+                                               ^
+main.cc:49:44: error: ‘>>’ should be ‘> >’ within a nested template argument list
+  void randomizeWeights(vector<vector<double>>& weightsForGen);
+                                            ^
+main.cc:92:49: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+   ws = {-0.10314, -0.412885, 0.0631569, 0.330902};
+                                                 ^
+main.cc:92:6: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+   ws = {-0.10314, -0.412885, 0.0631569, 0.330902};
+      ^
+main.cc:92:6: error: no match for ‘operator=’ (operand types are ‘std::vector<double>’ and ‘<brace-enclosed initializer list>’)
+main.cc:92:6: note: candidate is:
+In file included from /usr/include/c++/4.8/vector:69:0,
+                 from main.cc:2:
+/usr/include/c++/4.8/bits/vector.tcc:160:5: note: std::vector<_Tp, _Alloc>& std::vector<_Tp, _Alloc>::operator=(const std::vector<_Tp, _Alloc>&) [with _Tp = double; _Alloc = std::allocator<double>]
+     vector<_Tp, _Alloc>::
+     ^
+/usr/include/c++/4.8/bits/vector.tcc:160:5: note:   no known conversion for argument 1 from ‘<brace-enclosed initializer list>’ to ‘const std::vector<double>&’
+main.cc:98:11: error: ‘exit’ was not declared in this scope
+     exit(0);
+           ^
+main.cc:103:9: error: ‘exit’ was not declared in this scope
+   exit(0);
+         ^
+main.cc:109:22: error: ‘>>’ should be ‘> >’ within a nested template argument list
+  vector<vector<double>> weightsForGen;
+                      ^
+main.cc:110:22: error: ‘>>’ should be ‘> >’ within a nested template argument list
+  vector<vector<double>> bestWeightsForGen;
+                      ^
+main.cc:117:62: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  weightsForGen[0] = {-0.10314, -0.412885, 0.0631569, 0.330902}; // {-0.294046, -1.3458, 0.0847383, 0.091462};
+                                                              ^
+main.cc:117:19: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  weightsForGen[0] = {-0.10314, -0.412885, 0.0631569, 0.330902}; // {-0.294046, -1.3458, 0.0847383, 0.091462};
+                   ^
+main.cc:117:19: error: no match for ‘operator=’ (operand types are ‘std::vector<double>’ and ‘<brace-enclosed initializer list>’)
+main.cc:117:19: note: candidate is:
+In file included from /usr/include/c++/4.8/vector:69:0,
+                 from main.cc:2:
+/usr/include/c++/4.8/bits/vector.tcc:160:5: note: std::vector<_Tp, _Alloc>& std::vector<_Tp, _Alloc>::operator=(const std::vector<_Tp, _Alloc>&) [with _Tp = double; _Alloc = std::allocator<double>]
+     vector<_Tp, _Alloc>::
+     ^
+/usr/include/c++/4.8/bits/vector.tcc:160:5: note:   no known conversion for argument 1 from ‘<brace-enclosed initializer list>’ to ‘const std::vector<double>&’
+main.cc: At global scope:
+main.cc:165:43: error: ‘>>’ should be ‘> >’ within a nested template argument list
+ void randomizeWeights(vector<vector<double>>& weightsForGen){
+                                           ^
+main.cc: In function ‘void randomizeWeights(std::vector<std::vector<double> >&)’:
+main.cc:171:48: error: ‘rand’ was not declared in this scope
+    weightsForGen[i][j] = ((2) * ( (double)rand() / (double)RAND_MAX ) + -1);
+                                                ^
+main.cc:171:60: error: ‘RAND_MAX’ was not declared in this scope
+    weightsForGen[i][j] = ((2) * ( (double)rand() / (double)RAND_MAX ) + -1);
+                                                            ^
+main.cc: At global scope:
+main.cc:178:46: error: ‘>>’ should be ‘> >’ within a nested template argument list
+ void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& avgScoreForWeight, int numRandom, double MaxAvgWtScore){
+                                              ^
+main.cc: In function ‘void resetWeightAndScore(std::vector<std::vector<double> >&, std::vector<double>&, int, double)’:
+main.cc:198:22: error: ‘>>’ should be ‘> >’ within a nested template argument list
+  vector<vector<double>> newWeights;
+                      ^
+main.cc:217:29: error: ‘rand’ was not declared in this scope
+    int pickFromWhere = rand() % (biasTowardOne);
+                             ^
+main.cc:230:45: error: ‘rand’ was not declared in this scope
+    newWeights[i][j] = ((2) * ( (double)rand() / (double)RAND_MAX ) + -1);
+                                             ^
+main.cc:230:57: error: ‘RAND_MAX’ was not declared in this scope
+    newWeights[i][j] = ((2) * ( (double)rand() / (double)RAND_MAX ) + -1);
+                                                         ^
+main.cc:246:31: error: ‘rand’ was not declared in this scope
+    int extremeMutation = rand() % (10*(numCoefficient));
+                               ^
+main.cc:250:56: error: ‘RAND_MAX’ was not declared in this scope
+    double changeBy = ((2) * ( (double)rand() / (double)RAND_MAX ) + -1);
+                                                        ^
+main.cc: At global scope:
+main.cc:269:37: error: ‘>>’ should be ‘> >’ within a nested template argument list
+ int runSimulation(vector<vector<char>> board, vector<double>& coefficients){
+                                     ^
+main.cc: In function ‘int runSimulation(std::vector<std::vector<char> >, std::vector<double>&)’:
+main.cc:271:42: error: ‘>>’ should be ‘> >’ within a nested template argument list
+  void printBoard(const vector<vector<char>> &v);
+                                          ^
+main.cc:272:44: error: ‘>>’ should be ‘> >’ within a nested template argument list
+  int dropAndRemoveClears(vector<vector<char>>& v, const int col, const char c, const int rot);
+                                            ^
+main.cc:273:44: error: ‘>>’ should be ‘> >’ within a nested template argument list
+  double calculateFitness(vector<vector<char>> v, const vector<double>& coefficients, const int numCleared);
+                                            ^
+main.cc:284:27: error: ‘>>’ should be ‘> >’ within a nested template argument list
+   vector<vector<vector<int>>> pieceRotations = PMap[c];
+                           ^
+main.cc:284:48: error: ‘PMap’ was not declared in this scope
+   vector<vector<vector<int>>> pieceRotations = PMap[c];
+                                                ^
+main.cc:290:23: error: ‘>>’ should be ‘> >’ within a nested template argument list
+     vector<vector<char>> tempBoard = board;
+                       ^
+main.cc: At global scope:
+main.cc:334:43: error: ‘>>’ should be ‘> >’ within a nested template argument list
+ double calculateFitness(vector<vector<char>> v, const vector<double>& coefficients, const int numCleared){
+                                           ^
+main.cc:397:43: error: ‘>>’ should be ‘> >’ within a nested template argument list
+ int dropAndRemoveClears(vector<vector<char>>& v, const int col, const char c, const int rot){
+                                           ^
+main.cc: In function ‘int dropAndRemoveClears(std::vector<std::vector<char> >&, int, char, int)’:
+main.cc:399:40: error: ‘>>’ should be ‘> >’ within a nested template argument list
+  bool dropPieceAtCol(vector<vector<char>>& v, const int col, const char c, const int rot);
+                                        ^
+main.cc:400:37: error: ‘>>’ should be ‘> >’ within a nested template argument list
+  int removeClears(vector<vector<char>>& v);
+                                     ^
+main.cc: At global scope:
+main.cc:412:36: error: ‘>>’ should be ‘> >’ within a nested template argument list
+ int removeClears(vector<vector<char>>& v) {
+                                    ^
+main.cc:465:39: error: ‘>>’ should be ‘> >’ within a nested template argument list
+ bool dropPieceAtCol(vector<vector<char>>& v, const int col, const char c, const int rot){
+                                       ^
+main.cc: In function ‘bool dropPieceAtCol(std::vector<std::vector<char> >&, int, char, int)’:
+main.cc:469:37: error: ‘>>’ should be ‘> >’ within a nested template argument list
+  void dropPieceAt(vector<vector<char>>& v, const int row, const int col, const char c, const int rot);
+                                     ^
+main.cc:470:46: error: ‘>>’ should be ‘> >’ within a nested template argument list
+  bool canDropPieceAt(const vector<vector<char>>& v, const int row, const int col, const char c, const int rot);
+                                              ^
+main.cc:472:19: error: ‘>>’ should be ‘> >’ within a nested template argument list
+  vector<vector<int>>& pieceVector = PMap[c][rot];
+                   ^
+main.cc:472:37: error: ‘PMap’ was not declared in this scope
+  vector<vector<int>>& pieceVector = PMap[c][rot];
+                                     ^
+main.cc: At global scope:
+main.cc:491:45: error: ‘>>’ should be ‘> >’ within a nested template argument list
+ bool canDropPieceAt(const vector<vector<char>>& v, const int row, const int col, const char c, const int rot){
+                                             ^
+main.cc: In function ‘bool canDropPieceAt(const std::vector<std::vector<char> >&, int, int, char, int)’:
+main.cc:492:19: error: ‘>>’ should be ‘> >’ within a nested template argument list
+  vector<vector<int>>& pieceVector = PMap[c][rot];
+                   ^
+main.cc:492:37: error: ‘PMap’ was not declared in this scope
+  vector<vector<int>>& pieceVector = PMap[c][rot];
+                                     ^
+main.cc: At global scope:
+main.cc:503:36: error: ‘>>’ should be ‘> >’ within a nested template argument list
+ void dropPieceAt(vector<vector<char>>& v, const int row, const int col, const char c, const int rot){
+                                    ^
+main.cc: In function ‘void dropPieceAt(std::vector<std::vector<char> >&, int, int, char, int)’:
+main.cc:504:19: error: ‘>>’ should be ‘> >’ within a nested template argument list
+  vector<vector<int>>& pieceVector = PMap[c][rot];
+                   ^
+main.cc:504:37: error: ‘PMap’ was not declared in this scope
+  vector<vector<int>>& pieceVector = PMap[c][rot];
+                                     ^
+main.cc: In function ‘void initialize()’:
+main.cc:516:38: error: ‘>>’ should be ‘> >’ within a nested template argument list
+  void reserveSpace(vector<vector<char>>&);
+                                      ^
+main.cc:532:12: error: ‘srand’ was not declared in this scope
+  srand(seed);
+            ^
+main.cc: At global scope:
+main.cc:536:37: error: ‘>>’ should be ‘> >’ within a nested template argument list
+ void reserveSpace(vector<vector<char>>& v){
+                                     ^
+main.cc: In function ‘void setPieces()’:
+main.cc:548:44: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  PChar = {'O', 'I', 'J', 'L', 'S', 'T', 'Z'};
+                                            ^
+main.cc:548:8: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  PChar = {'O', 'I', 'J', 'L', 'S', 'T', 'Z'};
+        ^
+main.cc:548:8: error: no match for ‘operator=’ (operand types are ‘std::vector<char>’ and ‘<brace-enclosed initializer list>’)
+main.cc:548:8: note: candidate is:
+In file included from /usr/include/c++/4.8/vector:69:0,
+                 from main.cc:2:
+/usr/include/c++/4.8/bits/vector.tcc:160:5: note: std::vector<_Tp, _Alloc>& std::vector<_Tp, _Alloc>::operator=(const std::vector<_Tp, _Alloc>&) [with _Tp = char; _Alloc = std::allocator<char>]
+     vector<_Tp, _Alloc>::
+     ^
+/usr/include/c++/4.8/bits/vector.tcc:160:5: note:   no known conversion for argument 1 from ‘<brace-enclosed initializer list>’ to ‘const std::vector<char>&’
+main.cc:552:2: error: ‘PMap’ was not declared in this scope
+  PMap['O'] = {
+  ^
+main.cc:557:2: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  };
+  ^
+main.cc:569:2: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  };
+  ^
+main.cc:590:2: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  };
+  ^
+main.cc:611:2: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  };
+  ^
+main.cc:623:2: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  };
+  ^
+main.cc:644:2: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  };
+  ^
+main.cc:656:2: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11 [enabled by default]
+  };
+  ^
+main.cc: In function ‘char generatePiece()’:
+main.cc:661:21: error: ‘rand’ was not declared in this scope
+  return (PChar[rand() % PNum]);
+                     ^
+main.cc: At global scope:
+main.cc:665:41: error: ‘>>’ should be ‘> >’ within a nested template argument list
+ void printBoard(const vector<vector<char>> &v){
+                                         ^
