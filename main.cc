@@ -306,8 +306,8 @@ int runSimulation(vector<vector<char>> board, vector<double>& coefficients){
 		if(play){
 
 			printBoard(board);
-			// int x;
-			// cin>>x;
+			int x;
+			cin>>x;
 		}
 
 		if(numCleared == -1){
