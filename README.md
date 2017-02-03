@@ -8,22 +8,23 @@ A Machine Learning Algorithm that learns to play Tetris
 ## How it works
 ### Fitness Function
 Uses a fitness function to compute the score of a board.
-The fitness computes the score by calculating various features of the board (like max height, number of holes etc).
-The fitness function receives a set of weights that determine how important each feature is.
-The final score is computed by multiplying a weight with its corresponding feature for each feature.
+The fitness function computes the score by calculating various features of the board (like max height, number of holes etc), and multiplies each of these features with a set of weights that determine how important each feature is. It returns the sum of these products.
 
-The algorithm runs the fitness function on all possible next boards, and does the move that has greatest fitness.
-(a next board is the current board, with the current piece added in any way)
+The algorithm runs the fitness function on all possible next boards, and makes the move that produces greatest fitness.
 
 ### Genetic Algorithm
-Uses a genetic algorithm to fine-tune the weights that correspond to the features, to find the perfect set of weights that result in maximum height.
+Initially, in a generation, we have a list of say, 30 random weights(A weight is a list of numbers that determine how important each feature is). We run each weight using the fitness function, and map the score(number of lines cleared) to the set of weights that produced it. Then, to get the next list of 30 weights, we mutate the weights.
 
 ### Mutated Weights
-The best two weights are taken into the next generation. 
+The best(determined by their score(number of lines cleared)) two weights are taken into the next generation. 
 
-First, coefficients from the two weights are randomly taken to create new weights
+First, coefficients(a coefficient is a number in a weight) from these two weights are randomly taken to create new weights, until we have the desired number of weights(30 in this example).
 
-Then, random mutations are put in all weights. The amount by which a mutation changes the value is a function of the average score for a generation. Further, mutations which create small changes occur more often, while mutations that create large changes occur less frequently.
+Then, random mutations are randomly put in all weights. The amount by which a mutation changes a coefficient is a function of the average score for a generation. Further, mutations which create small changes occur more often, while mutations that create large changes occur less frequently.
+
+Then, we run the algorithm again, to determine the score for each weight, and continue the process.
+
+Because we are only taking the set of weights that produce the best score, the set of weights will converge on to values that result in the highest number of lines cleared. This is how the algorithm 'learns' to play better with time.
 
 ## Understanding output
 
