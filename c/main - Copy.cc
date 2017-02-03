@@ -306,8 +306,8 @@ int runSimulation(vector<vector<char>> board, vector<double>& coefficients){
 		if(play){
 
 			printBoard(board);
-			int x;
-			cin>>x;
+			// int x;
+			// cin>>x;
 		}
 
 		if(numCleared == -1){
@@ -429,75 +429,6 @@ double calculateFitness(vector<vector<char>> v, const vector<double>& coefficien
 }
 
 
-// Calculates fitness
-// double calculateFitness(vector<vector<char>> v, const vector<double>& coefficients, const int numCleared){
-// 	// void printBoard(const vector<vector<char>> &v);
-// 	// printBoard(v);
-// 	// int x;
-// 	// cin>>x;
-
-// 	// features is 10 heights, 10 numHoles, totalHeight, averageHeight, lowestHeight, greatestHeight, numCleared
-// 	// changed features to 10heights, numHoles, totalHeight, avgHeight, lowestHeight, greatestheight, numCleared
-// 	// changed again, now first height, last height, numHoles, totalHeight, avgHeight, lowestHeight, greatestheight, numCleared
-// 	vector<double> features;
-// 	features.resize(numCoefficient);
-
-// 	double totalHeight = 0.0, averageHeight = 0.0, lowestHeight = INT_MAX, greatestHeight = INT_MIN;
-// 	int totalHoles = 0;
-// 	for(int b=0; b<C; ++b){
-// 		int numHoles = 0;
-// 		bool seenPiece = false;
-// 		for(int a=0; a<R; ++a){
-// 			if(!seenPiece && v[a][b] != ' '){
-// 				if(b == 0){
-// 					features[0] = (R-a);
-// 				}
-// 				else if(b == C){
-// 					features[1] = R-a;
-// 				}
-// 				seenPiece = true;
-// 				continue;
-// 			}
-// 			else if(seenPiece && v[a][b] == ' '){
-// 				numHoles += 1;
-// 			}
-// 		}
-// 		// features[b+C] = numHoles; 
-// 		totalHoles += numHoles;
-// 		totalHeight += features[b];
-// 		if(features[b] > greatestHeight) greatestHeight = features[b];
-// 		if(features[b] < lowestHeight) lowestHeight = features[b];
-// 	}
-// 	averageHeight = totalHeight/C;
-
-// 	features[2] = totalHoles;
-// 	features[3] = totalHeight;
-// 	features[4] = averageHeight;
-// 	features[5] = lowestHeight;
-// 	features[6] = greatestHeight;
-// 	features[7] = numCleared;
-
-// 	int numBlockades = 0;
-// 	for (int i = 0; i < C; i++) {
-// 		bool startCounting = false;
-// 		for (int j = R - 1; j >= 0; j--) {
-// 			if (v[j][i] == ' ') startCounting = true;
-// 			if (startCounting && v[j][i] != ' ') {
-// 				numBlockades++;
-// 			}
-// 		}
-// 	}
-
-// 	features[8] = numBlockades;
-
-// 	double fitness = 0.0;
-// 	for(int i=0; i<numCoefficient; ++i){
-// 		fitness += (features[i]*coefficients[i]);
-// 	}
-
-// 	return fitness;
-// }
-
 // returns number of lines cleared, -1 if game over
 int dropAndRemoveClears(vector<vector<char>>& v, const int col, const char c, const int rot){
 	// function prototypes
@@ -535,27 +466,6 @@ int removeClears(vector<vector<char>>& v) {
 	}
 
 	return clears;
-
-	// Ray's clear Row
-	// some bugs !!
-	// int clears = 0;
-	// for (int i=0; i<R; ++i){
-	// 	int sum = 0;
-	// 	for (int j=0; j<C; ++j){
-	// 		sum += (v[i][j] == ' ' ? 0 : 1);
-	// 	}
-	// 	if (sum == C) {
-	// 		clears++;
-	// 		for (int m = i; m > 0; m--) {
-	// 			v[m] = v[m - 1];
-	// 		}
-	// 		for (int m = 0; m < C; m++) {
-	// 			v[0][m] = ' ';
-	// 		}
-	// 		i++;
-	// 	}
-	// }
-	// return clears;
 }
 
 // returns a vector of empty chars of length C 
