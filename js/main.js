@@ -187,20 +187,22 @@ function dropPiece(id, col, pieceName) {
         }
     }
     row--;
-    for (var i = 0; i < piece.length; i++) {
-        for (var j = 0; j < piece[0].length; j++) {
-            if (piece[i][j]) {
-                Board[row + i][col + j] = pieceName;
-                Heights[col + j]++;
+    for (var i = 0; i < piece[0].length; i++) {
+        var highest = -1;
+        for (var j = 0; j < piece.length; j++) {
+            if (piece[j][i]) {
+                Board[row + j][col + i] = pieceName;
+                if (highest != -1) highest = j;
             }
         }
+        Heights[col + i] += (piece.length - highest);
     }
 }
 
 function removePiece() {
     for (var i = 0; i < Board.length; i++) {
         for (var j = 0; j < Board[0].length; j++) {
-            if (Board[i][j] == 'N') {
+            if (Board[i][j] == -1) {
                 Board[i][j] = ' ';
                 Heights[j]--;
             }
@@ -219,7 +221,7 @@ function findBest(pieceIDs, pieceName) {
     var bestID = pieceIDs[0], bestCol = 0, bestScore = -500;
     for (var i = 0; i < pieceIDs.length; i++) {
         for (var j = 0; j < BOARD_WIDTH - PIECES[pieceIDs[i]][0].length; j++) {
-            dropPiece(pieceIDs[i], j, 'N');
+            dropPiece(pieceIDs[i], j, -1);
             var board = [];
             for (var a = 0; a < Board.length; a++) {
                 var newRow = [];
@@ -255,6 +257,7 @@ function generateFindBest() {
 
 
 function draw() {
+    drawReset();
     for (var i = 0; i < BOARD_HEIGHT; i++) {
         for (var j = 0; j < BOARD_WIDTH; j++) {
             if (Board[i][j] >= "0" && Board[i][j] <= "6") {
@@ -284,16 +287,16 @@ function initialize() {
 }
 
 function printBoard() {
-    var output = "____________\n";
-    for (var i = 0; i < BOARD_HEIGHT; i++) {
-        output += i+"|";
-        for (var j = 0; j < BOARD_WIDTH ; j++) {
-            output += Board[i][j];
-        }
-        output += "|\n";
-    }
-    output += "____________";
-    console.log(output);
+    // var output = "____________\n";
+    // for (var i = 0; i < BOARD_HEIGHT; i++) {
+    //     output += i+"|";
+    //     for (var j = 0; j < BOARD_WIDTH ; j++) {
+    //         output += Board[i][j];
+    //     }
+    //     output += "|\n";
+    // }
+    // output += "____________";
+    // console.log(output);
 }
 
 var gameInterval;
@@ -314,5 +317,5 @@ printBoard()
 draw();
 console.log("Game Start!\n");
 setTimeout(function() {
-    gameInterval = setInterval(runSimulation, 1);
+    gameInterval = setInterval(runSimulation, 1000);
 }, 2000);

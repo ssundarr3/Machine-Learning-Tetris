@@ -105,6 +105,12 @@ function setup() {
     // pieceSprites.push(ZBLOCK2);
 }
 
+function drawReset() {
+    for (var i = 0; i < pieceHolder.length; i++) {
+        stage.removeChild(stage.children[i]);
+    }
+}
+
 function drawPiece(x, y, pieceID) {
     var id = PIXI.loader.resources["img/blockTexture.json"].textures;
     var newPiece = new Sprite(id[pieceSprites[pieceID]]);
