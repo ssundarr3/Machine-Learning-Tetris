@@ -10,8 +10,8 @@
 "use strict";
 
 /**** CONSTANTS ****/
-var BOARD_WIDTH = 10; // Num of Columns
-var BOARD_HEIGHT = 20; // Number of Rows
+var BOARD_WIDTH = 20; // Num of Columns
+var BOARD_HEIGHT = 40; // Number of Rows
 var NUM_OF_COEFFICIENTS = 6; // Number of coefficients
 var PIECES = [
        [[1,1],         // 0: O
@@ -84,7 +84,7 @@ var PIECES = [
 /**** Global Variables ****/
 // Board holds the state of the board as it is manipulated by the AI. Type: [char][char]
 var Board = [];
-var Heights = [];
+// var Heights = [];
 var coefficients = [-0.1, -0.211556, -0.789805, -0.189805, 0.-0.181566, 0.811782];
 
 
@@ -105,11 +105,11 @@ function calculateFitness(board, numCleared){
         currHeight = 0;
         var lastHole = -1;
         for (var j = 0; j < BOARD_HEIGHT; j++) {
-            if (board[j][i] != ' ') startCountingHeight = true;
+            if (board[j][i] != -1) startCountingHeight = true;
             if (startCountingHeight) {
                 currHeight++;
                 // Data: Count holes
-                if (board[j][i] == ' ') {
+                if (board[j][i] == -1) {
                     numHoles++;
                     lastHole = j;
                 }
@@ -151,7 +151,7 @@ function removeClears(board, real) {
     for(var i = 0; i < BOARD_HEIGHT; i++) {
         var rowFull = true;
         for(var j = 0; j < BOARD_WIDTH; j++) {
-            if(board[i][j] == ' '){
+            if(board[i][j] == -1){
                 rowFull = false;
                 break;
             }
@@ -161,9 +161,9 @@ function removeClears(board, real) {
             board.splice(i, 1);
             i--;
             var newRow = [];
-            for (var k = 0; k < Heights.length; k++) {
-                if (real && Heights[k] > 0) Heights[k]--;
-                newRow.push(' ');
+            for (var k = 0; k < board[0].length; k++) {
+                // if (real && Heights[k] > 0) Heights[k]--;
+                newRow.push(-1);
             }
             board.splice(0, 0, newRow);
         }
@@ -171,40 +171,108 @@ function removeClears(board, real) {
     return clears;
 }
 
-function dropPiece(id, col, pieceName) {
-    var piece = PIECES[id];
-    var row = 20;
-    for (var i = 0; i < piece[0].length; i++) {
-        var pieceColHeight = 0;
-        for (var j = 0; j < piece.length; j++) {
-            if (piece[j][i] == 1) {
-                pieceColHeight = j;
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// function dropPiece(id, col, pieceName) {
+//     var piece = PIECES[id];
+
+function dropPiece(pieceID, col, pieceName){
+
+    var piece = PIECES[pieceID];
+
+    for(var i = 0; i <= BOARD_HEIGHT - piece.length; i++){
+        if ( !canDropPiece(Board, i, col, pieceID) ) {
+            if(i == 0) {
+                return false;
             }
-        }
-        var diff = BOARD_HEIGHT - Heights[col + i] - pieceColHeight;
-        if (diff < row) {
-            row = diff;
+            else {
+                dropPieceAt(Board, i - 1, col, pieceID, pieceName);
+                return true;
+            }
         }
     }
-    row--;
-    for (var i = 0; i < piece[0].length; i++) {
-        var highest = -1;
-        for (var j = 0; j < piece.length; j++) {
-            if (piece[j][i]) {
-                Board[row + j][col + i] = pieceName;
-                if (highest != -1) highest = j;
-            }
+
+    if(canDropPiece(Board, BOARD_HEIGHT - piece.length, col, pieceID)){
+        dropPieceAt(Board, BOARD_HEIGHT - piece.length, col, pieceID, pieceName);
+        return true;
+    }
+
+    return false;
+}
+
+// Returns true if piece can be dropped in row, col. If pieceName != 8, then makes the actual drop.
+function canDropPiece(board, row, col, pieceID){
+
+    var piece = PIECES[pieceID];
+
+    for(var i = 0; i < piece.length; i++) {
+        for (var j = 0; j < piece[i].length; j++) {
+            if (piece[i][j] && Board[row + i][col + j] != -1) return false;
         }
-        Heights[col + i] += (piece.length - highest);
+    }
+    return true;
+
+}
+
+// Drops piece at location row, col with character pieceChar, rotation rot
+function dropPieceAt(board, row, col, pieceID, pieceName){
+    var piece = PIECES[pieceID];
+
+    for(var i = 0; i < piece.length; i++){
+        for(var j = 0; j < piece[i].length; j++){
+            if(piece[i][j]) board[row + i][col + j] = pieceName;
+        }
     }
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// function dropPiece(id, col, pieceName) {
+//     var piece = PIECES[id];
+
+    // var row = 20;
+    // for (var i = 0; i < piece[0].length; i++) {
+    //     var pieceColHeight = 0;
+    //     for (var j = 0; j < piece.length; j++) {
+    //         if (piece[j][i] == 1) {
+    //             pieceColHeight = j;
+    //         }
+    //     }
+    //     var diff = BOARD_HEIGHT - Heights[col + i] - pieceColHeight;
+    //     if (diff < row) {
+    //         row = diff;
+    //     }
+    // }
+    // row--;
+    // for (var i = piece.length - 1; i >= 0; i--) {
+    //     for (var j = piece[0].length - 1; j >= 0; j--) {
+    //         if (piece[i][j]) {
+    //             Board[row + i][col + j] = pieceName;
+    //             Heights[col + j] = BOARD_HEIGHT - (row + i);
+    //         }
+    //     }
+    // }
+// }
+//     for (var i = 0; i < piece[0].length; i++) {
+//         var highest = -1;
+//         for (var j = 0; j < piece.length; j++) {
+//             if (piece[j][i]) {
+//                 Board[row + j][col + i] = pieceName;
+//                 if (highest != -1) highest = j;
+//             }
+//         }
+//         Heights[col + i] += (piece.length - highest);
+//     }
+// }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function removePiece() {
     for (var i = 0; i < Board.length; i++) {
         for (var j = 0; j < Board[0].length; j++) {
-            if (Board[i][j] == -1) {
-                Board[i][j] = ' ';
-                Heights[j]--;
+            if (Board[i][j] == 8) {
+                Board[i][j] = -1;
+                // Heights[j]--;
             }
         }
     }
@@ -221,7 +289,7 @@ function findBest(pieceIDs, pieceName) {
     var bestID = pieceIDs[0], bestCol = 0, bestScore = -500;
     for (var i = 0; i < pieceIDs.length; i++) {
         for (var j = 0; j < BOARD_WIDTH - PIECES[pieceIDs[i]][0].length; j++) {
-            dropPiece(pieceIDs[i], j, -1);
+            dropPiece(pieceIDs[i], j, 8);
             var board = [];
             for (var a = 0; a < Board.length; a++) {
                 var newRow = [];
@@ -268,35 +336,40 @@ function draw() {
 }
 
 function initialize() {
-    if (Heights.length != 0) {
-        for (var i = 0; i < Heights.length; i++) {
-            Heights.pop();
-        }
-    }
-    for (var i = 0; i < BOARD_WIDTH; i++) {
-        Heights.push(0);
-    }
+    // if (Heights.length != 0) {
+    //     for (var i = 0; i < Heights.length; i++) {
+    //         Heights.pop();
+    //     }
+    // }
+    // for (var i = 0; i < BOARD_WIDTH; i++) {
+    //     Heights.push(0);
+    // }
 
     for (var i = 0; i < BOARD_HEIGHT; i++) {
         var newRow = [];
         for (var j = 0; j < BOARD_WIDTH; j++) {
-            newRow.push(' ');
+            newRow.push(-1);
         }
         Board.push(newRow);
     }
 }
 
 function printBoard() {
-    // var output = "____________\n";
-    // for (var i = 0; i < BOARD_HEIGHT; i++) {
-    //     output += i+"|";
-    //     for (var j = 0; j < BOARD_WIDTH ; j++) {
-    //         output += Board[i][j];
-    //     }
-    //     output += "|\n";
-    // }
-    // output += "____________";
-    // console.log(output);
+    var output = "____________\n";
+    for (var i = 0; i < BOARD_HEIGHT; i++) {
+        output += "|";
+        for (var j = 0; j < BOARD_WIDTH ; j++) {
+            if (Board[i][j] != -1) {
+                output += Board[i][j];
+            }
+            else {
+                output += ' ';
+            }
+        }
+        output += "|\n";
+    }
+    output += "____________";
+    console.log(output);
 }
 
 var gameInterval;
@@ -313,9 +386,9 @@ function runSimulation() {
 }
 
 initialize();
-printBoard()
+printBoard();
 draw();
 console.log("Game Start!\n");
 setTimeout(function() {
-    gameInterval = setInterval(runSimulation, 1000);
-}, 2000);
+    gameInterval = setInterval(runSimulation, 200);
+}, 1000);
