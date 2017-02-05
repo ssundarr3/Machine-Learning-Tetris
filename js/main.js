@@ -11,7 +11,7 @@
 
 /**** CONSTANTS ****/
 var BOARD_WIDTH = 10; // Num of Columns
-var BOARD_HEIGHT = 20; // Number of Rows
+var BOARD_HEIGHT = 30; // Number of Rows
 var NUM_OF_COEFFICIENTS = 7; // Number of coefficients
 var NUM_EXTRA_PIECES = 0;
 var PIECES = [
@@ -97,10 +97,10 @@ var nameToIDMap = [[0],                     // O
 // Board holds the state of the board as it is manipulated by the AI. Type: [char][char]
 var Board = [];
 var totalScore = 0;
-var gameSpeed = 1;
+var gameSpeed = 1000;
 
 // Coefficients:
-//     coefficients[0] * heightDifferences +
+//     coeffici ents[0] * heightDifferences +
 //     coefficients[1] * numHoles +
 //     coefficients[2] * (BOARD_HEIGHT - maxHeight) +
 //     coefficients[3] * numCleared +
@@ -155,7 +155,7 @@ function dropPiece(board, pieceID, col, pieceName){
                 return false;
             }
             else {
-                if (i <= 1) return false;
+                if (i == 1) return false;
                 dropPieceAt(board, i - 1, col, pieceID, pieceName);
                 return true;
             }
@@ -170,7 +170,7 @@ function dropPiece(board, pieceID, col, pieceName){
     return false;
 }
 
-// Returns true if piece can be dropped in row, col. If pieceName != 8, then makes the actual drop.
+// Returns true if piece can be dropped in row, col.
 function canDropPiece(board, row, col, pieceID){
 
     var piece = PIECES[pieceID];
@@ -215,16 +215,25 @@ function gameOver() {
     return false;
 }
 
-function generateRandomPiece() {
-    return Math.floor(Math.random() * nameToIDMap.length);
-}
 
-var manualTest = {
+// var manualTest = {
 // MANUAL TESTING
 // var randString = "4 2 5 4 7 4 1 6 2 3 2 3 4 5 5 7 6 6 7 6 5 2 4 5 1 3 3 4 3 6 5 5 5 2 2 6 6 7 1 4 2 7 4 4 5 3 3 3 6 7 5 3 5 7 5 7 2 1 1 4 4 5 7 2 7 1 6 3 7 6 4 7 4 1 3 7 1 6 1 3 2 4 4 7 3 2 4 3 1 6 4 4 1 4 3 1 4 7 1 2 2 4 1 4 2 1 1 2 3 1 3 4 2 5 3 6 6 6 6 6 2 1 1 2 4 4 7 5 1 6 6 1 2 6 2 3 3 2 3 6 1 3 1 2 1 1 4 6 6 1 3 4 2 1 4 3 2 3 1 3 5 6 3 7 7 4 7 2 3 7 4 3 2 4 3 7 3 5 3 7 7 3 4 5 3 7 1 6 7 2 6 6 4 7 2 2 1 7 1 3 5 6 4 5 5 5 6 1 2 7 1 5 2 2 4 3 5 6 7 6 4 2 1 6 5 7 5 5 5 7 5 6 2 7 1 7 3 6 1 6 3 5 3 2 6 6 4 3 7 1 6 3 2 3 6 7 3 2 3 1 5 7 3 7 5 3 5 2 1 4 4 1 7 4 2 4 1 4 4 7 4 2 7 4 2 3 3 4 4 4 6 2 3 7 1 1 3 4 7 1 1 1 5 6 6 7 2 3 1 3 1 6 2 7 1 4 2 1 7 3 4 4 4 4 2 4 6 2 1 2 7 5 3 6 1 7 2 7 2 3 3 7 6 4 7 3 7 5 3 6 2 6 5 3 1 6 7 3 5 6 6 6 1 7 7 1 4 2 1 3 2 1 3 5 4 7 1 2 3 1 4 2 6 2 6 4 7 4 5 3 5 1 5 5 6 6 4 1 4 4 4 6 4 4 3 5 3 1 6 6 2 5 7 4 7 4 7 4 6 4 7 3 4 6 1 7 2 4 7 4 5 1 1 7 4 2 3 5 2 6 2 3 3 5 6 1 2 4 4 5 6 3 5 7 6 4 5 6 6 6 1 3 4 5 1 7 7 3 4 7 5 6 2 1 1 5 1 2 1 6 6 6 6 3 4 1 4 2 6 1 6 3 4 1 1 2 6 5 2 1 6 7 3 4 1 3 1 5 2 1 1 4 3 4 5 6 4 7 4 5 1 1 1 4 5 5 3 4 4 4 2 1 4 6 3 2 6 3 6 6 3 5 1 3 2 6 7 3 4 4 5 4 2 5 6 1 2 7 2 4 4 3 2 7 6 4 5 3 5 3 7 5 5 7 2 6 4 5 7 1 2 6 2 4 1 7 2 1 5 3 4 2 6 6 5 3 2 4 3 7 6 2 4 3 5 6 1 1 3 6 5 3 3 7 4 1 5 6 1 6 6 2 4 7 7 3 2 5 4 2 3 1 3 5 4 7 3 2 6 4 5 3 4 5 2 7 7 5 2 6 3 5 6 5 6 4 5 6 7 3 5 2 3 7 1 4 4 1 6 1 4 4 3 7 7 2 4 4 7 6 2 7 1 4 5 4 7 2 1 5 4 5 6 6 3 6 1 5 5 4 5 7 6 5 6 4 1 1 1 6 4 7 6 2 3 1 6 7 2 6 3 5 2 7 3 4 6 1 1 1 2 5 7 5 3 2 1 3 1 5 7 4 6 4 6 6 2 1 2 4 6 4 2 4 1 2 5 6 7 5 3 7 2 1 3 4 2 3 4 2 5 2 3 3 3 5 6 6 5 5 1 1 2 7 6 1 5 1 6 3 4 5 2 6 5 6 7 6 6 1 7 4 2 2 4 6 6 2 2 3 7 2 4 7 5 5 7 4 5 2 5 2 6 5 4 3 3 1 1 7 2 6 3 1 4 7 6 2 5 4 4 3 3 6 7 1 3 4 2 1 5 5 7 1 4 2 4 4 2 2 3 1 4 4 2 7 1 4 1 4 1 3 5 3 7 5 2 3 2 3 1 6 1 5 5 2 7 7 6 1 5 5 2 2 7 1 5 7 4 7 1 4 7 5 6 4 2 5 4 2 5 6 5 6 3 2 5 2 5 4 7 4 7 5 6 5 5 4 6 3 1 3 4 6 1 1 1 1 4 6 2 3 7 7 7 2 7 3 1 6 4 7 2 3 5 4 1 2 6 3 4 3 6 5 7 5 4 5 4 1 3 6 1 2 2 6 1 1 7 5 5 4 6 6 5 1 5 6 3 4 7 4 4 6 2 4 1 4 7 4 4 7 5 2 5 7 5 5 1 3 2 4 4 4 5 1 6 4 6 6 6 2 1 2 4 1 3 2 4 2 6 6 1 1 4 4 1 7 7 5 2 1 2 4 4 6 4 5 1 5 3 4 7 2 6 2 7 6 3 1 4 5 6 2 5 1 6 5 7 4 4 5 4 3 2 7 7 3 4 5 5 5 2 5 6 4 7 2 5 2 2 2 6 4 3 4 4 7 2 1 1 5 6 4 5 4 1 5 7 4 2 6 1 1 1 3 2 6 6 7 6 5 1 2 3 1 6 4 6 6 3 6 1 7 5 5 3 5 2 2 1 3 6 5 1 3 1 2 1 6 1 3 2 5 4 2 5 7 3 1 4 6 6 4 4 3 2 7 7 2 5 6 2 1 3 3 4 3 4 2 5 3 4 6 1 6 5 6 4 1 6 6 4 3 1 7 3 1 4 7 2 1 4 3 1 5 3 2 2 7 3 6 2 4 2 7 2 6 4 3 3 2 1 5 2 5 5 2 5 7 2 6 7 6 5 1 4 1 7 3 6 1 7 4 4 5 2 3 3 6 4 6 4 4 4 3 7 7 6 4 5 4 1 5 1 4 4 2 3 1 4 7 1 1 2 6 5 3 6 5 6 1 4 2 2 6 2 2 4 5 6 7 2 3 3 1 6 5 2 7 7 4 4 6 4 6 2 1 6 7 5 3 6 7 2 7 2 3 5 6 2 3 3 1 3 6 5 7 2 1 4 5 4 1 3 6 3 6 3 5 2 2 1 4 5 2 3 1 4 1 3 3 1 6 2 2 1 7 5 2 6 3 7 5 1 2 4 1 4 5 5 3 6 4 7 2 6 2 2 7 1 4 7 5 7 1 6 7 5 4 5 3 4 6 7 2 4 3 2 1 5 5 3 2 2 7 3 6 7 2 4 7 6 3 3 2 2 1 5 6 4 4 6 6 5 4 5 3 4 7 1 1 3 3 2 6 3 2 2 2 3 3 5 6 3 5 7 2 5 3 5 7 7 4 4 3 7 2 6 4 7 6 2 2 5 3 4 5 4 3 6 4 6 1 1 1 5 6 2 3 1 5 2 6 2 4 7 5 6 3 7 2 6 1 2 3 3 6 5 4 1 3 7 3 1 1 3 7 3 3 7 3 1 1 7 7 2 6 6 6 7 3 5 2 3 7 6 4 3 1 6 3 2 6 3 2 3 5 5 6 5 6 5 4 4 3 3 6 7 6 2 4 7 5 5 3 3 1 4 6 5 1 6 7 6 1 7 6 4 6 1 7 1 5 3 2 1 3 4 5 7 4 7 7 2 6 7 2 3 3 7 2 3 2 5 5 7 6 1 3 1 1 2 5 4 2 7 3 4 1 1 4 4 7 1 3 3 6 6 3 7 2 4 7 1 3 6 1 6 4 3 6 4 3 3 1 4 7 3 5 1 1 7 2 7 7 3 7 4 6 3 1 5 4 6 4 4 1 4 2 4 6 4 7 7 6 6 1 4 7 5 2 7 6 2 6 2 4 2 3 1 4 3 4 1 5 7 2 5 2 3 2 5 6 1 6 2 5 3 3 3 7 3 1 4 4 3 4 6 4 5 3 5 7 4 4 6 3 6 3 4 5 2 7 3 2 4 4 6 6 4 5 4 5 5 6 7 5 1 4 2 6 5 6 4 2 1 5 3 5 5 4 4 7 4 4 1 6 7 4 2 1 2 3 7 6 1 5 3 1 1 2 6 4 6 5 4 6 4 4 1 2 7 2 5 1 6 6 4 2 1 3 3 7 5 2 2 5 6 2 4 6 1 7 2 6 6 6 3 7 1 3 5 6 6 6 4 2 2 7 4 7 2 5 5 7 6 7 3 2 1 7 7 1 5 5 5 3 3 5 7 1 1 5 6 3 3 1 3 2 6 4 1 7 7 5 4 4 3 7 6 1 5 2 5 2 7 2 2 7 7 2 7 5 6 3 1 7 1 1 1 5 4 5 6 3 2 5 4 4 6 2 4 1 1 7 7 5 2 2 3 1 1 1 5 6 3 6 4 1 3 2 5 7 7 1 7 1 7 4 2 4 3 3 3 3 2 2 5 3 3 2 2 3 2 6 7 2 7 1 2 3 7 5 7 4 5 5 2 6 2 1 7 2 3 2 3 6 3 1 6 4 7 5 4 5 4 2 6 3 2 6 3 7 3 2 3 1 1 3 4 7 3 3 7 5 2 2 1 2 7 3 6 7 7 7 3 1 1 1 1 7 6 4 5 6 6 7 3 3 7 5 1 2 5 7 6 7 1 3 7 7 4 4 4 3 3 7 3 1 6 3 1 2 4 5 4 2 3 5 2 2 3 2 2 1 1 4 5 5 7 6 4 3 5 7 6 7 5 6 7 3 6 7 2 2 4 6 3 4 2 2 4 4 4 6 4 2 1 7 1 6 4 4 7 1 1 2 7 6 4 4 7 2 2 7 3 3 2 3 5 3 4 7 5 6 4 3 6 3 7 6 7 2 5 6 2 4 4 5 1 5 2 5 7 1 6 7 3 5 2 7 7 3 5 6 5 1 6 3 1 6 6 6 5 1 7 7 4 4 3 6 2 2 3 5 3 6 6 3 1 4 7 7 4 4 6 2 4 2 4 2 4 1 5 2 1 5 5 6 7 1 7 5 3 7 4 3 4 5 3 2 7 3 2 3 5 5 6 7 6 5 1 7 7 4 1 7 2 7 2 5 6 5 4 6 6 6 6 5 3 1 1 2 1 2 3 4 6 7 3 7 6 1 5 2 2 7 7 4 4 1 7 5 7 4 2 2 1 5 1 2 4 1 1 4 2 3 7 4 2 7 3 6 7 2 5 7 5 3 3 7 4 7 6 1 3 5 2 2 3 7 3 5 7 1 3 5 4 7 2 3 7 6 7 4 4 4 3 7 5 3 5 7 3 1 6 3 6 6 2 7 4 2 6 4 3 6 2 5 3 2 1 7 5 5 3 7 7 4 5 3 4 4 1 4 2 6 6 5 2 5 6 5 1 1 7 1 3 5 5 6 7 4 2 3 7 3 2 4 5 6 6 7 5 3 4 1 7 1 5 7 5 4 3 4 2 2 4 4 7 7 7 6 2 1 7 5 3 7 1 5 4 3 5 3 6 7 3 2 7 1 1 3 2 1 6 3 7 5 6 6 4 4 2 3 2 1 1 6 7 5 1 2 1 4 4 6 3 4 7 2 2 6 3 4 4 7 4 3 6 1 7 1 4 5 3 5 7 2 1 4 7 5 3 5 3 4 1 6 7 6 6 2 3 7 3 5 5 5 5 1 7 5 2 1 4 2 4 1 1 2 3 5 1 3 4 3 7 4 7 5 2 4 6 2 3 7 6 5 4 3 7 1 5 5 1 1 6 6 5 5 5 5 4 4 2 7 5 1 1 4 4 2 6 2 1 5 5 6 4 7 1 1 7 4 4 1 4 2 3 3 6 5 5 1 3 7 6 1 7 3 2 2 3 7 1 3 6 5 1 1 4 5 7 3 2 3 1 5 2 3 5 5 2 4 4 2 2 1 7 1 2 2 2 4 1 2 5 6 5 5 3 2 4 7 2 4 3 3 7 4 6 6 1 4 5 4 6 7 3 6 5 4 4 6 7 4 6 3 5 1 2 5 2 3 5 1 4 5 3 3 7 1 6 7 2 4 4 6 1 4 7 5 7 3 2 4 4 5 5 7 5 6 3 6 5 1 6 2 4 1 3 4 5 7 1 6 1 2 2 2 6 1 6 2 1 5 6 2 4 2 1 7 4 4 4 2 2 7 2 5 6 4 7 1 1 7 6 2 2 6 3 5 3 6 5 4 4 1 6 6 2 4 6 5 7 5 6 5 3 4 4 7 6 1 6 5 1 1 7 7 6 7 3 7 4 1 1 6 2 4 3 3 7 6 5 5 1 2 4 4 6 5 1 3 5 5 5 4 5 3 3 1 2 5 6 3 5 5 1 7 2 1 1 1 6 4 4 6 6 6 5 1 1 7 3 7 3 5 3 5 1 5 5 2 2 3 2 7 5 7 6 6 7 6 3 2 5 5 6 4 2 3 4 2 2 4 5 2 2 2 7 7 6 6 1 5 5 7 3 4 7 7 7 4 2 2 5 1 1 3 2 7 3 3 1 3 4 7 4 3 5 4 2 1 5 7 4 4 5 5 5 3 4 3 7 6 4 6 3 2 6 2 1 6 4 7 7 7 4 4 7 2 6 1 7 3 6 3 6 4 5 1 4 7 3 3 6 5 6 6 5 7 7 5 6 1 6 4 5 1 6 6 7 7 4 4 1 1 4 3 2 3 3 5 7 3 5 4 5 4 7 4 1 4 1 6 4 6 7 2 4 2 6 1 2 1 6 2 5 1 4 1 1 4 4 1 4 2 2 2 3 5 4 4 2 4 5 4 5 3 6 7 6 7 1 4 7 3 3 5 1 4 4 2 7 7 7 3 1 5 2 2 6 6 6 4 1 1 7 7 4 3 5 5 2 4 2 7 5 4 3 7 7 5 5 4 6 3 4 3 5 6 4 3 3 5 6 3 7 4 7 1 4 4 5 5 7 6 3 4 5 6 1 3 3 4 4 6 5 7 7 4 4 2 6 4 6 2 7 4 3 4 2 7 6 6 3 3 7 6 5 6 2 4 6 2 7 1 5 3 7 3 4 2 2 1 6 7 7 2 1 1 4 1 7 1 6 7 3 6 4 5 7 3 2 3 2 1 3 6 1 1 7 6 7 7 3 4 5 1 5 4 1 7 4 6 7 7 4 3 4 6 1 1 7 1 3 5 5 4 3 7 2 2 2 1 5 4 4 2 4 7 5 4 5 7 5 5 5 2 5 7 4 4 1 1 4 1 5 3 4 1 7 6 1 1 6 5 2 7 1 5 4 4 7 3 3 4 5 7 6 2 5 2 6 4 7 7 6 5 7 5 5 5 2 5 4 5 3 6 3 3 1 7 4 5 7 4 2 3 3 4 2 2 3 4 6 3 3 7 1 7 5 5 3 7 3 5 3 6 2 4 6 7 3 1 6 7 2 4 7 6 1 5 4 3 2 5 3 3 5 3 2 4 7 3 1 2 5 3 4 7 5 1 6 5 5 7 3 7 4 7 4 4 6 6 4 7 4 7 7 2 7 5 3 5 1 3 6 7 6 1 4 2 5 1 7 2 1 1 2 4 7 3 6 6 1 5 2 4 3 1 3 3 5 6 5 7 6 4 4 2 2 7 1 5 5 5 7 5 5 1 7 6 2 2 7 7 7 1 3 1 5 3 3 6 6 5 2 2 7 6 1 7 2 2 6 7 7 2 3 3 1 2 7 2 1 6 1 5 3 1 5 2 3 5 4 7 4 3 1 4 7 5 3 5 7 6 5 4 5 1 5 5 1 4 7 1 1 6 5 3 6 4 2 6 7 6 2 4 7 7 6 4 5 7 3 3 2 5 7 7 4 6 5 4 1 3 3 5 5 5 2 1 1 1 4 7 4 6 3 3 3 7 6 5 4 6 1 6 1 7 6 4 6 1 5 3 1 5 2 5 4 1 6 4 1 1 4 4 3 4 6 6 2 7 1 6 4 2 1 4 5 3 6 1 1 3 4 1 5 3 6 3 3 7 4 1 7 6 3 7 7 7 3 1 5 3 3 7 2 3 1 1 3 6 1 3 5 2 2 2 4 4 4 4 3 5 6 2 3 7 5 2 4 1 2 7 4 3 5 6 3 4 6 5 5 4 1 2 6 7 4 7 3 6 3 6 3 7 4 5 4 3 6 7 3 6 5 4 7 2 2 2 3 4 6 2 7 4 3 3 3 4 2 5 2 4 1 4 2 3 7 6 3 6 3 6 2 5 7 1 1 1 7 3 2 6 2 7 5 6 2 1 5 1 4 7 4 3 2 3 6 1 5 7 6 1 2 4 5 1 2 4 5 2 7 5 4 5 6 2 1 5 7 7 5 2 5 7 4 6 1 5 5 5 3 1 4 4 3 7 3 4 4 5 3 1 4 4 5 1 3 7 4 3 5 7 2 2 6 6 6 6 1 1 1 3 1 4 4 3 3 5 6 4 3 7 4 4 2 1 3 4 7 5 4 3 4 6 2 1 7 5 3 7 5 3 2 6 4 4 6 4 2 2 1 2 7 2 5 1 2 1 2 5 4 5 1 7 1 1 7 5 4 2 6 1 2 6 3 6 1 7 7 7 7 7 2 4 5 6 2 1 6 3 5 1 5 6 5 7 6 3 6 5 3 7 5 4 2 1 7 7 5 5 7 3 3 5 5 1 3 7 5 6 7 6 3 5 2 1 3 4 ";
+// var randInput = [1, 4, 3, 5, 2, 6, 1, 2, 4, 0, 1, 4, 2, 0, 3, 2, 1, 0]
+// CORRECT:      I  T  L  S  J  Z  I  J  T  O  I  T  J  O  L  J  I  O
+// JS:           -  T  L  S  J  Z  I  J  T  O  I  T  J  O  L  J  I  O
+// C++:          -  T  L  S  J  Z  I  J  T  O  I  T  J  O  L  J  I  O
 // var randInput = randString.split(" ");
 // var randIndex = 0;
+// }
+
+function generateRandomPiece() {
+    return Math.floor(Math.random() * nameToIDMap.length);
+    // randIndex++;
+    // if (randIndex >= 18) randIndex = 0;
+    // return randInput[randIndex];
 }
+
 
 function draw() {
     drawReset();
@@ -271,7 +280,7 @@ function printBoard() {
     console.log(output);
 }
 
-function calculateFitness(board, numCleared){
+function calculateFitness(board3, numCleared){
     var totalHeight = 0,
         maxHeight = 0,
         numHoles = 0,
@@ -281,13 +290,13 @@ function calculateFitness(board, numCleared){
         lastHeight = 0;
     // Calculate: firstHeight & lastHeight:
     for (var i = 0; i < BOARD_HEIGHT; i++) {
-        if (Board[i][0] != -1) {
+        if (board3[i][0] != -1) {
             firstHeight = BOARD_HEIGHT - i;
             break;
         }
     }
     for (var i = 0; i < BOARD_HEIGHT; i++) {
-        if (Board[i][BOARD_WIDTH - 1] != -1) {
+        if (board3[i][BOARD_WIDTH - 1] != -1) {
             lastHeight = BOARD_HEIGHT - i;
             break;
         }
@@ -304,11 +313,11 @@ function calculateFitness(board, numCleared){
         currHeight = 0;
         var lastHole = -1;
         for (var j = 0; j < BOARD_HEIGHT; j++) {
-            if (board[j][i] != -1) startCountingHeight = true;
+            if (board3[j][i] != -1) startCountingHeight = true;
             if (startCountingHeight) {
                 currHeight++;
                 // Data: Count holes
-                if (board[j][i] == -1) {
+                if (board3[j][i] == -1) {
                     numHoles++;
                     lastHole = j;
                 }
@@ -334,6 +343,7 @@ function calculateFitness(board, numCleared){
                     coefficients[5] * lastHeight +
                     coefficients[6] * numBlockades;
     if (secondLevel) {
+        // console.log("SECOND LEVEL FITNESS: " + fitness);
         return fitness;
     }
     else {
@@ -343,29 +353,31 @@ function calculateFitness(board, numCleared){
         var pieceIDs = nameToIDMap[pieceName];
         var bestID = pieceIDs[0], bestCol = 0, bestScore = -999999;
         for (var i = 0; i < pieceIDs.length; i++) {
-            for (var j = 0; j <= BOARD_WIDTH - PIECES[pieceIDs[i]][0].length; j++) {
+            for (var j = 0; j <= BOARD_WIDTH - (PIECES[pieceIDs[i]])[0].length; j++) {
                 // copy board
-                var board2 = [];
-                for (var a = 0; a < board.length; a++) {
+                var board4 = [];
+                for (var a = 0; a < board3.length; a++) {
                     var newRow = [];
-                    for (var b = 0; b < board[0].length; b++) {
-                        newRow.push(board[a][b]);
+                    for (var b = 0; b < board3[0].length; b++) {
+                        newRow.push(board3[a][b]);
                     }
-                    board2.push(newRow);
+                    board4.push(newRow);
                 }
 
-                if ( !dropPiece(board2, pieceIDs[i], j, 8) ) {
-                    continue;
+                if ( !dropPiece(board4, pieceIDs[i], j, 3) ) {
+                    // continue;
+                    score = -999999;
                 }
-                var numCleared = removeClears(board2, true);
-                var score = calculateFitness(board2, numCleared);
+                else {
+                    numCleared = removeClears(board4, true);
+                    var score = calculateFitness(board4, numCleared);
+                }
                 if (score > bestScore) {
                     bestScore = score;
                 }
             }
         }
-
-        return fitness + bestScore;
+        return fitness + 0*bestScore;
     }
 }
 
@@ -418,7 +430,7 @@ function findBest(board, piece) {
 
 function runSimulation() {
     nextPiece = generateRandomPiece();
-
+    secondLevel = false;
     // copy board
     var board = [];
     for (var a = 0; a < Board.length; a++) {

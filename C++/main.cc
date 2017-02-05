@@ -105,7 +105,8 @@ int main(int argc, char *argv[]){
 
 	if(play){
 		vector<double> ws;
-		ws = {-0.245805, -1, 0.0262475, 0.168981, 0.182602, 0.241335, -0.177736};
+		//ws = {-0.245805, -1, 0.0262475, 0.168981, 0.182602, 0.241335, -0.177736};
+		ws = {-0.192716, -1, 0.00742194, 0.292781, 0.182602, 0.175692, -0.0439177};
 		if(coefficient){
 			for(int i=0; i<numCoefficient; ++i){
 				cout << "Enter coefficient #" << i;
@@ -311,7 +312,6 @@ int runSimulation(vector<vector<char>> board, vector<double>& coefficients){
 				double fitness;
 				if(numCleared == -1) fitness = INT_MIN;
 				else fitness = calculateFitness(tempBoard, coefficients, numCleared);
-				// cout << "piece: " << c << ", rotation: " << i << ", col: " << j << ", fitness: " << fitness << endl;
 
 				if(fitness > maxFitness){
 					maxFitness = fitness;
@@ -353,6 +353,7 @@ int runSimulation(vector<vector<char>> board, vector<double>& coefficients){
 // USING OLD FITNESS FUNCTION
 double calculateFitness(vector<vector<char>> v, const vector<double>& coefficients, const int numCleared){
 	// function prototype
+	
 	int dropAndRemoveClears(vector<vector<char>>& v, const int col, const char c, const int rot);
 
 	int totalHeight = 0;
@@ -437,7 +438,6 @@ double calculateFitness(vector<vector<char>> v, const vector<double>& coefficien
 		SecondLevel = true;
 		double maxFitness = INT_MIN;
 		char c = NextPiece;
-		
 		int maxRot = 0, maxRig = 0;
 
 		vector<vector<vector<int>>>& pieceRotations = PMap[c];
@@ -447,13 +447,17 @@ double calculateFitness(vector<vector<char>> v, const vector<double>& coefficien
 			int pieceWidth = pieceRotations[i][0].size();
 			for(int j=0; j<C-pieceWidth+1; ++j){
 				vector<vector<char>> tempBoard = v;
+			
 				// rotation i, column j, piece c on tempBoard
 				int numCleared = dropAndRemoveClears(tempBoard, j, c, i);
 				double fitness;
-				if(numCleared == -1) fitness = INT_MIN;
-				else fitness = calculateFitness(tempBoard, coefficients, numCleared);
-				// cout << "piece: " << c << ", rotation: " << i << ", col: " << j << ", fitness: " << fitness << endl;
 
+				if(numCleared == -1) {
+					fitness = INT_MIN;
+				}
+				else {
+					fitness = calculateFitness(tempBoard, coefficients, numCleared);
+				}
 				if(fitness > maxFitness){
 					maxFitness = fitness;
 					maxRig = j;
@@ -461,7 +465,7 @@ double calculateFitness(vector<vector<char>> v, const vector<double>& coefficien
 				}
 			}
 		}
-
+		cout << "FITNESS" << thisPieceFitness << ". " << endl;
 		return (maxFitness + thisPieceFitness);
 	}
 }
@@ -501,7 +505,7 @@ int removeClears(vector<vector<char>>& v) {
 			v.insert(v.begin(), getEmptyRow());
 		}
 	}
-
+	
 	return clears;
 }
 
@@ -595,7 +599,7 @@ void reserveSpace(vector<vector<char>>& v){
 
 // Sets PNum, PChar, PMap
 void setPieces(){
-	PChar = {'O', 'I', 'J', 'L', 'S', 'T', 'Z'};
+	PChar = {'O', 'I', 'J', 'L', 'T', 'S', 'Z'};
 	PNum = PChar.size();
 
 	// Setting Piece Maps
@@ -706,9 +710,16 @@ void setPieces(){
 	};
 }
 
+
+int arrp [] = {1, 4, 3, 5, 2, 6, 1, 2, 4, 0, 1, 4, 2, 0, 3, 2, 1, 0};
+int arri = 0;
 // Generates a random piece from PChar
 char generatePiece(){
-	return (PChar[rand() % PNum]);
+	//return (PChar[rand() % PNum]);
+	arri++;
+	if (arri >= 18) arri = 0;
+	return PChar[arrp[arri]];
+
 }
 
 // Prints the board v
