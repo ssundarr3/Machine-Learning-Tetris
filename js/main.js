@@ -10,9 +10,9 @@
 "use strict";
 
 /**** CONSTANTS ****/
-var BOARD_WIDTH = 20; // Num of Columns
-var BOARD_HEIGHT = 40; // Number of Rows
-var NUM_OF_COEFFICIENTS = 6; // Number of coefficients
+var BOARD_WIDTH = 10; // Num of Columns
+var BOARD_HEIGHT = 19; // Number of Rows
+var NUM_OF_COEFFICIENTS = 7; // Number of coefficients
 var PIECES = [
        [[1,1],         // 0: O
         [1,1]],
@@ -85,16 +85,97 @@ var PIECES = [
 // Board holds the state of the board as it is manipulated by the AI. Type: [char][char]
 var Board = [];
 // var Heights = [];
-var coefficients = [-0.1, -0.211556, -0.789805, -0.189805, 0.-0.181566, 0.811782];
 
+// Coefficients:
+//     coefficients[0] * heightDifferences +
+//     coefficients[1] * numHoles +
+//     coefficients[2] * (BOARD_HEIGHT - maxHeight) +
+//     coefficients[3] * numCleared +
+//     coefficients[4] * firstHeight +
+//     coefficients[5] * lastHeight +
+//     coefficients[6] * numBlockades;
+var coefficients = [
+    // -0.245805,    // 0
+    // -1,           // 1
+    // 0.0262475,    // 2
+    // 0.168981,     // 3
+    // 0.182602, //0.182602,     // 4
+    // 0.241335, //0.241335,     // 5
+    // -0.177736];   // 6
+    -0.192716, -1, 0.00742194, 0.292781, 0.182602, 0.175692, -0.0439177];
 
 /* HELPER FUNCTIONS */
 
 
 // USING OLD FITNESS FUNCTION
 function calculateFitness(board, numCleared){
-    var totalHeight = 0, maxHeight = 0, numHoles = 0, numBlockades = 0, heightDifferences = 0;
+    var totalHeight = 0,
+        maxHeight = 0,
+        numHoles = 0,
+        numBlockades = 0,
+        heightDifferences = 0,
+        firstHeight = 0,
+        lastHeight = 0;
+    // Calculate: firstHeight & lastHeight:
+    for (var i = 0; i < BOARD_HEIGHT; i++) {
+        if (Board[i][0] != -1) {
+            firstHeight = BOARD_HEIGHT - i;
+            break;
+        }
+    }
+    for (var i = 0; i < BOARD_HEIGHT; i++) {
+        if (Board[i][BOARD_WIDTH - 1] != -1) {
+            lastHeight = BOARD_HEIGHT - i;
+            break;
+        }
+    }
 
+    // Calculate: the rest:
+    // Count from the top
+    var heights = [BOARD_WIDTH];
+    var prevHeight = 0;
+    var currHeight = 0;
+    for (var i = 0; i < BOARD_WIDTH; i++) {
+        var startCountingHeight = false;
+        prevHeight = currHeight;
+        currHeight = 0;
+        var lastHole = -1;
+        for (var j = 0; j < BOARD_HEIGHT; j++) {
+            if (board[j][i] != -1) startCountingHeight = true;
+            if (startCountingHeight) {
+                currHeight++;
+                // Data: Count holes
+                if (board[j][i] == -1) {
+                    numHoles++;
+                    lastHole = j;
+                }
+            }
+        }
+        // Data: Count maximum column height
+        if (currHeight > maxHeight) maxHeight = currHeight;
+        // Data: Count difference in adjacent column heights.
+        if (i != 0) heightDifferences += Math.abs(currHeight - prevHeight);
+        // Data: Count total height.
+        totalHeight += currHeight;
+        // Data: Count blockades:
+        if (lastHole != -1) {
+            numBlockades += currHeight - (BOARD_HEIGHT - lastHole);
+        }
+        heights.push(currHeight);
+    }
+    // console.log("heightDifferences: " + heightDifferences + ". numHoles: " + numHoles + "\n" +
+    //             "numCleared: " + numCleared + ". firstHeight: " + firstHeight + "\n" +
+    //             "lastHeight: " + lastHeight+ ". numBlockades: " + numBlockades + "\n");
+
+    return  coefficients[0] * heightDifferences +
+            coefficients[1] * numHoles +
+            coefficients[2] * (BOARD_HEIGHT - maxHeight) +
+            coefficients[3] * numCleared +
+            coefficients[4] * firstHeight +
+            coefficients[5] * lastHeight +
+            coefficients[6] * numBlockades;
+
+    /********************************************************************************************
     // Count from the top
     var heights = [BOARD_WIDTH];
     var prevHeight = 0;
@@ -141,6 +222,7 @@ function calculateFitness(board, numCleared){
            coefficients[3] * numBlockades +
            coefficients[4] * heightDifferences +
            coefficients[5] * numCleared;
+     *//////////////////////////////////////////////////////////////////////////////////
 }
 
 /* can be improved by only checking rows that the last piece was inserted in !!
@@ -183,6 +265,7 @@ function dropPiece(pieceID, col, pieceName){
     for(var i = 0; i <= BOARD_HEIGHT - piece.length; i++){
         if ( !canDropPiece(Board, i, col, pieceID) ) {
             if(i == 0) {
+                // clearInterval(gameInterval);
                 return false;
             }
             else {
@@ -269,7 +352,7 @@ function dropPieceAt(board, row, col, pieceID, pieceName){
 
 function removePiece() {
     for (var i = 0; i < Board.length; i++) {
-        for (var j = 0; j < Board[0].length; j++) {
+        for (var j = 0; j < Board[i].length; j++) {
             if (Board[i][j] == 8) {
                 Board[i][j] = -1;
                 // Heights[j]--;
@@ -280,16 +363,18 @@ function removePiece() {
 
 function gameOver() {
     for (var i = 0; i < BOARD_WIDTH; i++) {
-        if (Board[1][i] + "" != ' ') return true;
+        if (Board[0][i] + "" != -1) return true;
     }
     return false;
 }
 
 function findBest(pieceIDs, pieceName) {
-    var bestID = pieceIDs[0], bestCol = 0, bestScore = -500;
+    var bestID = pieceIDs[0], bestCol = 0, bestScore = -999999;
     for (var i = 0; i < pieceIDs.length; i++) {
-        for (var j = 0; j < BOARD_WIDTH - PIECES[pieceIDs[i]][0].length; j++) {
-            dropPiece(pieceIDs[i], j, 8);
+        for (var j = 0; j <= BOARD_WIDTH - PIECES[pieceIDs[i]][0].length; j++) {
+            if ( !dropPiece(pieceIDs[i], j, 8) ) {
+                continue;
+            }
             var board = [];
             for (var a = 0; a < Board.length; a++) {
                 var newRow = [];
@@ -298,7 +383,7 @@ function findBest(pieceIDs, pieceName) {
                 }
                 board.push(newRow);
             }
-            var numCleared = removeClears(board, false);
+            var numCleared = removeClears(board, true);
             var score = calculateFitness(board, numCleared);
             removePiece();
             if (score > bestScore) {
@@ -308,12 +393,20 @@ function findBest(pieceIDs, pieceName) {
             }
         }
     }
-    dropPiece(bestID, bestCol, pieceName);
-    removeClears(Board, true);
+    // if (secondLevel) {
+        dropPiece(bestID, bestCol, pieceName);
+        totalScore += removeClears(Board, true);
+    // }
+    // else {
+    //     generateFindBest()
+    // }
 }
-
+// var randString = "4 2 5 4 7 4 1 6 2 3 2 3 4 5 5 7 6 6 7 6 5 2 4 5 1 3 3 4 3 6 5 5 5 2 2 6 6 7 1 4 2 7 4 4 5 3 3 3 6 7 5 3 5 7 5 7 2 1 1 4 4 5 7 2 7 1 6 3 7 6 4 7 4 1 3 7 1 6 1 3 2 4 4 7 3 2 4 3 1 6 4 4 1 4 3 1 4 7 1 2 2 4 1 4 2 1 1 2 3 1 3 4 2 5 3 6 6 6 6 6 2 1 1 2 4 4 7 5 1 6 6 1 2 6 2 3 3 2 3 6 1 3 1 2 1 1 4 6 6 1 3 4 2 1 4 3 2 3 1 3 5 6 3 7 7 4 7 2 3 7 4 3 2 4 3 7 3 5 3 7 7 3 4 5 3 7 1 6 7 2 6 6 4 7 2 2 1 7 1 3 5 6 4 5 5 5 6 1 2 7 1 5 2 2 4 3 5 6 7 6 4 2 1 6 5 7 5 5 5 7 5 6 2 7 1 7 3 6 1 6 3 5 3 2 6 6 4 3 7 1 6 3 2 3 6 7 3 2 3 1 5 7 3 7 5 3 5 2 1 4 4 1 7 4 2 4 1 4 4 7 4 2 7 4 2 3 3 4 4 4 6 2 3 7 1 1 3 4 7 1 1 1 5 6 6 7 2 3 1 3 1 6 2 7 1 4 2 1 7 3 4 4 4 4 2 4 6 2 1 2 7 5 3 6 1 7 2 7 2 3 3 7 6 4 7 3 7 5 3 6 2 6 5 3 1 6 7 3 5 6 6 6 1 7 7 1 4 2 1 3 2 1 3 5 4 7 1 2 3 1 4 2 6 2 6 4 7 4 5 3 5 1 5 5 6 6 4 1 4 4 4 6 4 4 3 5 3 1 6 6 2 5 7 4 7 4 7 4 6 4 7 3 4 6 1 7 2 4 7 4 5 1 1 7 4 2 3 5 2 6 2 3 3 5 6 1 2 4 4 5 6 3 5 7 6 4 5 6 6 6 1 3 4 5 1 7 7 3 4 7 5 6 2 1 1 5 1 2 1 6 6 6 6 3 4 1 4 2 6 1 6 3 4 1 1 2 6 5 2 1 6 7 3 4 1 3 1 5 2 1 1 4 3 4 5 6 4 7 4 5 1 1 1 4 5 5 3 4 4 4 2 1 4 6 3 2 6 3 6 6 3 5 1 3 2 6 7 3 4 4 5 4 2 5 6 1 2 7 2 4 4 3 2 7 6 4 5 3 5 3 7 5 5 7 2 6 4 5 7 1 2 6 2 4 1 7 2 1 5 3 4 2 6 6 5 3 2 4 3 7 6 2 4 3 5 6 1 1 3 6 5 3 3 7 4 1 5 6 1 6 6 2 4 7 7 3 2 5 4 2 3 1 3 5 4 7 3 2 6 4 5 3 4 5 2 7 7 5 2 6 3 5 6 5 6 4 5 6 7 3 5 2 3 7 1 4 4 1 6 1 4 4 3 7 7 2 4 4 7 6 2 7 1 4 5 4 7 2 1 5 4 5 6 6 3 6 1 5 5 4 5 7 6 5 6 4 1 1 1 6 4 7 6 2 3 1 6 7 2 6 3 5 2 7 3 4 6 1 1 1 2 5 7 5 3 2 1 3 1 5 7 4 6 4 6 6 2 1 2 4 6 4 2 4 1 2 5 6 7 5 3 7 2 1 3 4 2 3 4 2 5 2 3 3 3 5 6 6 5 5 1 1 2 7 6 1 5 1 6 3 4 5 2 6 5 6 7 6 6 1 7 4 2 2 4 6 6 2 2 3 7 2 4 7 5 5 7 4 5 2 5 2 6 5 4 3 3 1 1 7 2 6 3 1 4 7 6 2 5 4 4 3 3 6 7 1 3 4 2 1 5 5 7 1 4 2 4 4 2 2 3 1 4 4 2 7 1 4 1 4 1 3 5 3 7 5 2 3 2 3 1 6 1 5 5 2 7 7 6 1 5 5 2 2 7 1 5 7 4 7 1 4 7 5 6 4 2 5 4 2 5 6 5 6 3 2 5 2 5 4 7 4 7 5 6 5 5 4 6 3 1 3 4 6 1 1 1 1 4 6 2 3 7 7 7 2 7 3 1 6 4 7 2 3 5 4 1 2 6 3 4 3 6 5 7 5 4 5 4 1 3 6 1 2 2 6 1 1 7 5 5 4 6 6 5 1 5 6 3 4 7 4 4 6 2 4 1 4 7 4 4 7 5 2 5 7 5 5 1 3 2 4 4 4 5 1 6 4 6 6 6 2 1 2 4 1 3 2 4 2 6 6 1 1 4 4 1 7 7 5 2 1 2 4 4 6 4 5 1 5 3 4 7 2 6 2 7 6 3 1 4 5 6 2 5 1 6 5 7 4 4 5 4 3 2 7 7 3 4 5 5 5 2 5 6 4 7 2 5 2 2 2 6 4 3 4 4 7 2 1 1 5 6 4 5 4 1 5 7 4 2 6 1 1 1 3 2 6 6 7 6 5 1 2 3 1 6 4 6 6 3 6 1 7 5 5 3 5 2 2 1 3 6 5 1 3 1 2 1 6 1 3 2 5 4 2 5 7 3 1 4 6 6 4 4 3 2 7 7 2 5 6 2 1 3 3 4 3 4 2 5 3 4 6 1 6 5 6 4 1 6 6 4 3 1 7 3 1 4 7 2 1 4 3 1 5 3 2 2 7 3 6 2 4 2 7 2 6 4 3 3 2 1 5 2 5 5 2 5 7 2 6 7 6 5 1 4 1 7 3 6 1 7 4 4 5 2 3 3 6 4 6 4 4 4 3 7 7 6 4 5 4 1 5 1 4 4 2 3 1 4 7 1 1 2 6 5 3 6 5 6 1 4 2 2 6 2 2 4 5 6 7 2 3 3 1 6 5 2 7 7 4 4 6 4 6 2 1 6 7 5 3 6 7 2 7 2 3 5 6 2 3 3 1 3 6 5 7 2 1 4 5 4 1 3 6 3 6 3 5 2 2 1 4 5 2 3 1 4 1 3 3 1 6 2 2 1 7 5 2 6 3 7 5 1 2 4 1 4 5 5 3 6 4 7 2 6 2 2 7 1 4 7 5 7 1 6 7 5 4 5 3 4 6 7 2 4 3 2 1 5 5 3 2 2 7 3 6 7 2 4 7 6 3 3 2 2 1 5 6 4 4 6 6 5 4 5 3 4 7 1 1 3 3 2 6 3 2 2 2 3 3 5 6 3 5 7 2 5 3 5 7 7 4 4 3 7 2 6 4 7 6 2 2 5 3 4 5 4 3 6 4 6 1 1 1 5 6 2 3 1 5 2 6 2 4 7 5 6 3 7 2 6 1 2 3 3 6 5 4 1 3 7 3 1 1 3 7 3 3 7 3 1 1 7 7 2 6 6 6 7 3 5 2 3 7 6 4 3 1 6 3 2 6 3 2 3 5 5 6 5 6 5 4 4 3 3 6 7 6 2 4 7 5 5 3 3 1 4 6 5 1 6 7 6 1 7 6 4 6 1 7 1 5 3 2 1 3 4 5 7 4 7 7 2 6 7 2 3 3 7 2 3 2 5 5 7 6 1 3 1 1 2 5 4 2 7 3 4 1 1 4 4 7 1 3 3 6 6 3 7 2 4 7 1 3 6 1 6 4 3 6 4 3 3 1 4 7 3 5 1 1 7 2 7 7 3 7 4 6 3 1 5 4 6 4 4 1 4 2 4 6 4 7 7 6 6 1 4 7 5 2 7 6 2 6 2 4 2 3 1 4 3 4 1 5 7 2 5 2 3 2 5 6 1 6 2 5 3 3 3 7 3 1 4 4 3 4 6 4 5 3 5 7 4 4 6 3 6 3 4 5 2 7 3 2 4 4 6 6 4 5 4 5 5 6 7 5 1 4 2 6 5 6 4 2 1 5 3 5 5 4 4 7 4 4 1 6 7 4 2 1 2 3 7 6 1 5 3 1 1 2 6 4 6 5 4 6 4 4 1 2 7 2 5 1 6 6 4 2 1 3 3 7 5 2 2 5 6 2 4 6 1 7 2 6 6 6 3 7 1 3 5 6 6 6 4 2 2 7 4 7 2 5 5 7 6 7 3 2 1 7 7 1 5 5 5 3 3 5 7 1 1 5 6 3 3 1 3 2 6 4 1 7 7 5 4 4 3 7 6 1 5 2 5 2 7 2 2 7 7 2 7 5 6 3 1 7 1 1 1 5 4 5 6 3 2 5 4 4 6 2 4 1 1 7 7 5 2 2 3 1 1 1 5 6 3 6 4 1 3 2 5 7 7 1 7 1 7 4 2 4 3 3 3 3 2 2 5 3 3 2 2 3 2 6 7 2 7 1 2 3 7 5 7 4 5 5 2 6 2 1 7 2 3 2 3 6 3 1 6 4 7 5 4 5 4 2 6 3 2 6 3 7 3 2 3 1 1 3 4 7 3 3 7 5 2 2 1 2 7 3 6 7 7 7 3 1 1 1 1 7 6 4 5 6 6 7 3 3 7 5 1 2 5 7 6 7 1 3 7 7 4 4 4 3 3 7 3 1 6 3 1 2 4 5 4 2 3 5 2 2 3 2 2 1 1 4 5 5 7 6 4 3 5 7 6 7 5 6 7 3 6 7 2 2 4 6 3 4 2 2 4 4 4 6 4 2 1 7 1 6 4 4 7 1 1 2 7 6 4 4 7 2 2 7 3 3 2 3 5 3 4 7 5 6 4 3 6 3 7 6 7 2 5 6 2 4 4 5 1 5 2 5 7 1 6 7 3 5 2 7 7 3 5 6 5 1 6 3 1 6 6 6 5 1 7 7 4 4 3 6 2 2 3 5 3 6 6 3 1 4 7 7 4 4 6 2 4 2 4 2 4 1 5 2 1 5 5 6 7 1 7 5 3 7 4 3 4 5 3 2 7 3 2 3 5 5 6 7 6 5 1 7 7 4 1 7 2 7 2 5 6 5 4 6 6 6 6 5 3 1 1 2 1 2 3 4 6 7 3 7 6 1 5 2 2 7 7 4 4 1 7 5 7 4 2 2 1 5 1 2 4 1 1 4 2 3 7 4 2 7 3 6 7 2 5 7 5 3 3 7 4 7 6 1 3 5 2 2 3 7 3 5 7 1 3 5 4 7 2 3 7 6 7 4 4 4 3 7 5 3 5 7 3 1 6 3 6 6 2 7 4 2 6 4 3 6 2 5 3 2 1 7 5 5 3 7 7 4 5 3 4 4 1 4 2 6 6 5 2 5 6 5 1 1 7 1 3 5 5 6 7 4 2 3 7 3 2 4 5 6 6 7 5 3 4 1 7 1 5 7 5 4 3 4 2 2 4 4 7 7 7 6 2 1 7 5 3 7 1 5 4 3 5 3 6 7 3 2 7 1 1 3 2 1 6 3 7 5 6 6 4 4 2 3 2 1 1 6 7 5 1 2 1 4 4 6 3 4 7 2 2 6 3 4 4 7 4 3 6 1 7 1 4 5 3 5 7 2 1 4 7 5 3 5 3 4 1 6 7 6 6 2 3 7 3 5 5 5 5 1 7 5 2 1 4 2 4 1 1 2 3 5 1 3 4 3 7 4 7 5 2 4 6 2 3 7 6 5 4 3 7 1 5 5 1 1 6 6 5 5 5 5 4 4 2 7 5 1 1 4 4 2 6 2 1 5 5 6 4 7 1 1 7 4 4 1 4 2 3 3 6 5 5 1 3 7 6 1 7 3 2 2 3 7 1 3 6 5 1 1 4 5 7 3 2 3 1 5 2 3 5 5 2 4 4 2 2 1 7 1 2 2 2 4 1 2 5 6 5 5 3 2 4 7 2 4 3 3 7 4 6 6 1 4 5 4 6 7 3 6 5 4 4 6 7 4 6 3 5 1 2 5 2 3 5 1 4 5 3 3 7 1 6 7 2 4 4 6 1 4 7 5 7 3 2 4 4 5 5 7 5 6 3 6 5 1 6 2 4 1 3 4 5 7 1 6 1 2 2 2 6 1 6 2 1 5 6 2 4 2 1 7 4 4 4 2 2 7 2 5 6 4 7 1 1 7 6 2 2 6 3 5 3 6 5 4 4 1 6 6 2 4 6 5 7 5 6 5 3 4 4 7 6 1 6 5 1 1 7 7 6 7 3 7 4 1 1 6 2 4 3 3 7 6 5 5 1 2 4 4 6 5 1 3 5 5 5 4 5 3 3 1 2 5 6 3 5 5 1 7 2 1 1 1 6 4 4 6 6 6 5 1 1 7 3 7 3 5 3 5 1 5 5 2 2 3 2 7 5 7 6 6 7 6 3 2 5 5 6 4 2 3 4 2 2 4 5 2 2 2 7 7 6 6 1 5 5 7 3 4 7 7 7 4 2 2 5 1 1 3 2 7 3 3 1 3 4 7 4 3 5 4 2 1 5 7 4 4 5 5 5 3 4 3 7 6 4 6 3 2 6 2 1 6 4 7 7 7 4 4 7 2 6 1 7 3 6 3 6 4 5 1 4 7 3 3 6 5 6 6 5 7 7 5 6 1 6 4 5 1 6 6 7 7 4 4 1 1 4 3 2 3 3 5 7 3 5 4 5 4 7 4 1 4 1 6 4 6 7 2 4 2 6 1 2 1 6 2 5 1 4 1 1 4 4 1 4 2 2 2 3 5 4 4 2 4 5 4 5 3 6 7 6 7 1 4 7 3 3 5 1 4 4 2 7 7 7 3 1 5 2 2 6 6 6 4 1 1 7 7 4 3 5 5 2 4 2 7 5 4 3 7 7 5 5 4 6 3 4 3 5 6 4 3 3 5 6 3 7 4 7 1 4 4 5 5 7 6 3 4 5 6 1 3 3 4 4 6 5 7 7 4 4 2 6 4 6 2 7 4 3 4 2 7 6 6 3 3 7 6 5 6 2 4 6 2 7 1 5 3 7 3 4 2 2 1 6 7 7 2 1 1 4 1 7 1 6 7 3 6 4 5 7 3 2 3 2 1 3 6 1 1 7 6 7 7 3 4 5 1 5 4 1 7 4 6 7 7 4 3 4 6 1 1 7 1 3 5 5 4 3 7 2 2 2 1 5 4 4 2 4 7 5 4 5 7 5 5 5 2 5 7 4 4 1 1 4 1 5 3 4 1 7 6 1 1 6 5 2 7 1 5 4 4 7 3 3 4 5 7 6 2 5 2 6 4 7 7 6 5 7 5 5 5 2 5 4 5 3 6 3 3 1 7 4 5 7 4 2 3 3 4 2 2 3 4 6 3 3 7 1 7 5 5 3 7 3 5 3 6 2 4 6 7 3 1 6 7 2 4 7 6 1 5 4 3 2 5 3 3 5 3 2 4 7 3 1 2 5 3 4 7 5 1 6 5 5 7 3 7 4 7 4 4 6 6 4 7 4 7 7 2 7 5 3 5 1 3 6 7 6 1 4 2 5 1 7 2 1 1 2 4 7 3 6 6 1 5 2 4 3 1 3 3 5 6 5 7 6 4 4 2 2 7 1 5 5 5 7 5 5 1 7 6 2 2 7 7 7 1 3 1 5 3 3 6 6 5 2 2 7 6 1 7 2 2 6 7 7 2 3 3 1 2 7 2 1 6 1 5 3 1 5 2 3 5 4 7 4 3 1 4 7 5 3 5 7 6 5 4 5 1 5 5 1 4 7 1 1 6 5 3 6 4 2 6 7 6 2 4 7 7 6 4 5 7 3 3 2 5 7 7 4 6 5 4 1 3 3 5 5 5 2 1 1 1 4 7 4 6 3 3 3 7 6 5 4 6 1 6 1 7 6 4 6 1 5 3 1 5 2 5 4 1 6 4 1 1 4 4 3 4 6 6 2 7 1 6 4 2 1 4 5 3 6 1 1 3 4 1 5 3 6 3 3 7 4 1 7 6 3 7 7 7 3 1 5 3 3 7 2 3 1 1 3 6 1 3 5 2 2 2 4 4 4 4 3 5 6 2 3 7 5 2 4 1 2 7 4 3 5 6 3 4 6 5 5 4 1 2 6 7 4 7 3 6 3 6 3 7 4 5 4 3 6 7 3 6 5 4 7 2 2 2 3 4 6 2 7 4 3 3 3 4 2 5 2 4 1 4 2 3 7 6 3 6 3 6 2 5 7 1 1 1 7 3 2 6 2 7 5 6 2 1 5 1 4 7 4 3 2 3 6 1 5 7 6 1 2 4 5 1 2 4 5 2 7 5 4 5 6 2 1 5 7 7 5 2 5 7 4 6 1 5 5 5 3 1 4 4 3 7 3 4 4 5 3 1 4 4 5 1 3 7 4 3 5 7 2 2 6 6 6 6 1 1 1 3 1 4 4 3 3 5 6 4 3 7 4 4 2 1 3 4 7 5 4 3 4 6 2 1 7 5 3 7 5 3 2 6 4 4 6 4 2 2 1 2 7 2 5 1 2 1 2 5 4 5 1 7 1 1 7 5 4 2 6 1 2 6 3 6 1 7 7 7 7 7 2 4 5 6 2 1 6 3 5 1 5 6 5 7 6 3 6 5 3 7 5 4 2 1 7 7 5 5 7 3 3 5 5 1 3 7 5 6 7 6 3 5 2 1 3 4 ";
+// var randInput = randString.split(" ");
+// var randIndex = 0;
 function generateFindBest() {
     var piece = Math.floor((Math.random() * 7) + 1);
+    // var piece = randInput[randIndex];
     if (piece == 1) findBest([0], 0);                   // O
     else if (piece == 2) findBest([1, 2], 1);           // I
     else if (piece == 3) findBest([3, 4, 5, 6], 2);     // J
@@ -322,7 +415,6 @@ function generateFindBest() {
     else if (piece == 6) findBest([15, 16], 5);         // S
     else if (piece == 7) findBest([17, 18], 6);         // Z
 }
-
 
 function draw() {
     drawReset();
@@ -378,17 +470,21 @@ var gameInterval;
 function runSimulation() {
     generateFindBest();
     draw();
-    printBoard();
+    // printBoard();
     if (gameOver()) {
         console.log("Game Over.");
         clearInterval(gameInterval);
     }
 }
 
+// function
+var totalScore = 0;
+
 initialize();
 printBoard();
 draw();
 console.log("Game Start!\n");
 setTimeout(function() {
-    gameInterval = setInterval(runSimulation, 200);
+    gameInterval = setInterval(runSimulation, 1);
 }, 1000);
+console.log("Total Score: " + totalScore);
