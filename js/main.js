@@ -11,7 +11,7 @@
 
 /**** CONSTANTS ****/
 var BOARD_WIDTH = 10; // Num of Columns
-var BOARD_HEIGHT = 19; // Number of Rows
+var BOARD_HEIGHT = 40; // Number of Rows
 var NUM_OF_COEFFICIENTS = 7; // Number of coefficients
 var PIECES = [
        [[1,1],         // 0: O
@@ -78,7 +78,11 @@ var PIECES = [
 
        [[0,1],          // 18: Z2
         [1,1],
-        [1,0]]
+        [1,0]],
+
+      [[1,1,1],
+       [1,1,1],
+       [1,1,1]]
     ];
 
 /**** Global Variables ****/
@@ -263,12 +267,13 @@ function dropPiece(pieceID, col, pieceName){
     var piece = PIECES[pieceID];
 
     for(var i = 0; i <= BOARD_HEIGHT - piece.length; i++){
-        if ( !canDropPiece(Board, i, col, pieceID) ) {
+        if ( !canDropPiece(Board, i, col, pieceID)) {
             if(i == 0) {
                 // clearInterval(gameInterval);
                 return false;
             }
             else {
+                if (i <= 1) return false;
                 dropPieceAt(Board, i - 1, col, pieceID, pieceName);
                 return true;
             }
@@ -405,7 +410,7 @@ function findBest(pieceIDs, pieceName) {
 // var randInput = randString.split(" ");
 // var randIndex = 0;
 function generateFindBest() {
-    var piece = Math.floor((Math.random() * 7) + 1);
+    var piece = Math.floor((Math.random() * 8) + 1);
     // var piece = randInput[randIndex];
     if (piece == 1) findBest([0], 0);                   // O
     else if (piece == 2) findBest([1, 2], 1);           // I
@@ -414,13 +419,20 @@ function generateFindBest() {
     else if (piece == 5) findBest([11, 12, 13, 14], 4); // T
     else if (piece == 6) findBest([15, 16], 5);         // S
     else if (piece == 7) findBest([17, 18], 6);         // Z
+    else {
+        var arr = [];
+        for (var i = 19; i < PIECES.length; i++) {
+            arr.push(i);
+        }
+        findBest(arr, 7)                                // X
+    }
 }
 
 function draw() {
     drawReset();
     for (var i = 0; i < BOARD_HEIGHT; i++) {
         for (var j = 0; j < BOARD_WIDTH; j++) {
-            if (Board[i][j] >= "0" && Board[i][j] <= "6") {
+            if (Board[i][j] >= "0" && Board[i][j] <= "7") {
                 drawPiece(j, i, Board[i][j]);
             }
         }
