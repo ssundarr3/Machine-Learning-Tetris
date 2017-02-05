@@ -369,7 +369,7 @@ double calculateFitness(vector<vector<char>> v, const vector<double>& coefficien
 			if (startCounting) {
 				currHeight++;
 				if (v[j][i] == ' ') {
-						numHoles++;`
+						numHoles++;
 				}
 			}
 		}
