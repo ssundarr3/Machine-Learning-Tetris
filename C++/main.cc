@@ -7,22 +7,14 @@
 #include <ctime>
 #include <iomanip>
 #include <sstream>
-// #include "GraphicsDisplay.h"
+#include <fstream>
 using namespace std;
 
-
-// !!
-// NOTE: R, C, Gen, numWeights, gamesPerWeight, seed changed without breaking the program!
-// !!
-
-
-// -0.294046    -1.3458  0.0847383   0.091462 resulted in 4200 lines
-// GLOBAL variables are in caps. 
-// B is our board
+// Board B
 vector<vector<char>> B;
 int R = 20, C = 10;
-// H is a vector of heights of board B
-vector<int> H;
+// // H is a vector of heights of board B
+// vector<int> H;
 
 // current and next piece
 char CurrPiece, NextPiece;
@@ -34,17 +26,22 @@ unordered_map<char, vector<vector<vector<int>>>> PMap;
 vector<char> PChar;
 int PNum;
 
+// Random number seed
 int seed = 0;
 
+// Controls Genetic stuff
 int numGeneration = 10000;
 int numWeights = 20;
 int gamesPerWeight = 3;
 const int numCoefficient = 7;
 
-
+// Controls 
 bool graphics = false;
 bool play = false;
 bool coefficient = false;
+bool lookAhead = false;
+
+
 
 int main(int argc, char *argv[]){
 	// Function prototypes
@@ -69,6 +66,9 @@ int main(int argc, char *argv[]){
 		else if(cmdLineArgument == "-graphics"){
 			graphics = true;
 		}
+		else if(cmdLineArgument == "-lookahead"){
+			lookAhead = true;
+		}
 		else if(cmdLineArgument == "-seed"){
 			i += 1;
 			stringstream tempIss(argv[i]);
@@ -78,6 +78,16 @@ int main(int argc, char *argv[]){
 			i += 1;
 			stringstream tempIss(argv[i]);
 			if(tempIss >> numGeneration){}
+		}
+		else if(cmdLineArgument == "-R"){
+			i += 1;
+			stringstream tempIss(argv[i]);
+			if(tempIss >> R){}
+		}
+		else if(cmdLineArgument == "-C"){
+			i += 1;
+			stringstream tempIss(argv[i]);
+			if(tempIss >> C){}
 		}
 		else if(cmdLineArgument == "-wts"){
 			i += 1;
@@ -118,7 +128,7 @@ int main(int argc, char *argv[]){
 	randomizeWeights(weightsForGen);
 
 
-	weightsForGen[0] = {-0.245805, -1, 0.0262475, 0.168981, 0.182602, 0.241335, -0.177736}; // = {-0.10314, -0.412885, 0.0631569, 0.330902}; // {-0.294046, -1.3458, 0.0847383, 0.091462};
+	weightsForGen[0] = {-0.192716, -1, 0.00742194, 0.292781, 0.182602, 0.175692, -0.0439177}; // = {-0.10314, -0.412885, 0.0631569, 0.330902}; // {-0.294046, -1.3458, 0.0847383, 0.091462};
 	for(int i=0; i<numGeneration; ++i){
 		double genAvg = 0;
 		double MaxAvgWtScore = INT_MIN;
@@ -164,7 +174,9 @@ void randomizeWeights(vector<vector<double>>& weightsForGen){
 void resetWeightAndScore(vector<vector<double>>& weightsForGen, vector<double>& avgScoreForWeight, int numRandom, double MaxAvgWtScore){
 	double IndexOne = 0, IndexTwo = 1;
 	if(avgScoreForWeight[IndexTwo] > avgScoreForWeight[IndexOne]){
-		swap(IndexOne, IndexTwo);
+		swap(IndexOne, IndexTwo);	
+
+
 	}
 	// finding best two scores
 	for(int i=2; i<avgScoreForWeight.size(); ++i){
@@ -357,7 +369,7 @@ double calculateFitness(vector<vector<char>> v, const vector<double>& coefficien
 			if (startCounting) {
 				currHeight++;
 				if (v[j][i] == ' ') {
-						numHoles++;
+						numHoles++;`
 				}
 			}
 		}
@@ -412,6 +424,11 @@ double calculateFitness(vector<vector<char>> v, const vector<double>& coefficien
 		coefficients[5] * finalHeight + 
 		coefficients[6] * numBlockades;
 
+
+	if(!lookAhead){
+		return thisPieceFitness; 
+	}
+	
 	if(SecondLevel){
 		return thisPieceFitness;
 	}
@@ -447,8 +464,6 @@ double calculateFitness(vector<vector<char>> v, const vector<double>& coefficien
 
 		return (maxFitness + thisPieceFitness);
 	}
-
-	
 }
 
 // returns number of lines cleared, -1 if game over
@@ -555,9 +570,9 @@ void initialize(){
 	reserveSpace(B);
 
 	// reserving column space for H
-	H.resize(C);
+	// H.resize(C);
 	// Initializing Heights
-	for(int i=0; i<C; ++i) H[i] = 0;
+	// for(int i=0; i<C; ++i) H[i] = 0;
 
 	// Set pieces used
 	setPieces();
@@ -700,9 +715,9 @@ char generatePiece(){
 void printBoard(const vector<vector<char>> &v){
 	for(int i=0; i<C+2; ++i) cout << "-";
 	cout << endl;
-	for (int i = 0; i<R; i++) {
+	for (int i = 0; i<v.size(); i++) {
 		cout << "|";
-		for (int j = 0; j<C; j++) {
+		for (int j = 0; j<v[i].size(); j++) {
 			cout << v[i][j];
 		}
 		cout << "|" << endl;
