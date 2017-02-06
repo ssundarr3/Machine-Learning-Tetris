@@ -24,7 +24,7 @@ var Container = PIXI.Container,
 
 
 // Create the renderer
-var renderer = autoDetectRenderer(10 * CUBE_SIZE, 30 * CUBE_SIZE);
+var renderer = autoDetectRenderer(10 * CUBE_SIZE, 20 * CUBE_SIZE);
 renderer.backgroundColor = 0x061639;
 
 
