@@ -438,11 +438,34 @@ function runSimulation() {
 
     //////////////////////////////////////////////////
     draw();
+    drawScore();
     // printBoard();
     if (gameOver()) {
         console.log("Game Over.");
         clearInterval(gameInterval);
     }
+}
+
+var scoreText = new PIXI.Text(totalScore + "!",{fontFamily : 'Arial', fontSize: 42, fill : 0xffffff, align : 'center'});
+function drawScore() {
+    stage.removeChild(scoreText);
+    scoreText.text = totalScore + "!";
+    scoreText.x = 50;
+    scoreText.y = 50;
+    stage.addChild(scoreText);
+    renderer.render(stage);
+}
+
+function setSpeed() {
+    gameSpeed = document.getElementById("speedRange").value;
+}
+
+function slow() {
+    gameSpeed *= 0.65;
+}
+
+function speed() {
+    gameSpeed *= 1.75;
 }
 
 function main() {
