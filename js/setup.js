@@ -24,9 +24,9 @@ var Container = PIXI.Container,
     graphics = new PIXI.Graphics();
 
 
-// Create the renderer
+
 var renderer = autoDetectRenderer(10 * CUBE_SIZE + 3, 30 * CUBE_SIZE);
-var renderer = autoDetectRenderer(10 * CUBE_SIZE, 20 * CUBE_SIZE);
+
 renderer.backgroundColor = 0x061639;
 
 
@@ -59,9 +59,7 @@ function drawReset() {
     for (var i = 0; i < length; i++) {
         stage.removeChild(stage.children[0]);
     }
-    graphics.beginFill(0xFFFFFF);
-    graphics.drawRect(10 * CUBE_SIZE, 0, 3, 30 * CUBE_SIZE);
-    stage.addChild(graphics);
+
     // renderer.render(stage);
 }
 
