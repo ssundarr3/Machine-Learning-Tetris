@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Hello World</title>
+    <title>Tetris</title>
 </head>
 <script src="js/pixi.min.js"></script>
 <body>
@@ -10,7 +10,8 @@
     <script src="js/setup.js"></script>
     <script src="js/main.js"></script>
 
-    <p>Hello World!</p>
+    <input id="speedRange" type="range" min=1 max=1000 step=10 value=300 onchange=setSpeed() style="position:absolute; x:00; y:690">
+
 
     <script type="text/javascript">
         var type = "WebGL"
