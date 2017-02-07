@@ -20,12 +20,18 @@ var Container = PIXI.Container,
     resources = PIXI.loader.resources,
     Sprite = PIXI.Sprite,
     TextureCache = PIXI.utils.TextureCache,
-    Rectangle = PIXI.Rectangle;
+    Rectangle = PIXI.Rectangle,
+    graphics = new PIXI.Graphics();
 
 
 // Create the renderer
+<<<<<<< HEAD
+var renderer = autoDetectRenderer(10 * CUBE_SIZE + 3, 30 * CUBE_SIZE);
+=======
 var renderer = autoDetectRenderer(10 * CUBE_SIZE, 20 * CUBE_SIZE);
+>>>>>>> origin/master
 renderer.backgroundColor = 0x061639;
+
 
 
 // Loading images
@@ -56,6 +62,9 @@ function drawReset() {
     for (var i = 0; i < length; i++) {
         stage.removeChild(stage.children[0]);
     }
+    graphics.beginFill(0xFFFFFF);
+    graphics.drawRect(10 * CUBE_SIZE, 0, 3, 30 * CUBE_SIZE);
+    stage.addChild(graphics);
     // renderer.render(stage);
 }
 
