@@ -25,6 +25,17 @@ First, coefficients from the two weights are randomly taken to create new weight
 
 Then, random mutations are put in all weights. The amount by which a mutation changes the value is a function of the average score for a generation. Further, mutations which create small changes occur more often, while mutations that create large changes occur less frequently.
 
+
+## Results
+
+Within 50 generations, the AI reached an average score of 50,000
+
+Adding a look-ahead feature made it clear lines as long as I ran it (300,000+ lines)
+
+The javascript port goes to an average of ~4000 lines (look-ahead feature is not implemented)
+
+
+
 ## Understanding output
 
     score0: .....
@@ -44,11 +55,6 @@ MaxOneAvgScore is the maximum average of the list of weights. MaxOneIndex is the
 
 Gen is the generation number, MaxAvgWtScore is the maximumAverage of the generation, AvgGenScore is the average score of the weights
 
-##Results
-
-Within 50 generations, the AI reached an average score of 50,000
-Adding a look-ahead feature made it clear lines as long as I ran it (300,000+ lines)
-The javascript port goes to an average of ~4000 lines (look-ahead feature is not implemented)
 
 ##Command line arguments
 
