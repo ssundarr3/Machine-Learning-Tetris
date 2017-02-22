@@ -28,12 +28,13 @@ Then, random mutations are put in all weights. The amount by which a mutation ch
 
 ## Results
 
-Within 50 generations, the AI reached an average score of 50,000
+Within 50 generations, the AI reached an average score of 20,000
 
 Adding a look-ahead feature made it clear lines as long as I ran it (300,000+ lines)
 
-The javascript port goes to an average of ~4000 lines (look-ahead feature is not implemented)
 
+The javascript port [ssundarr3.github.io/Machine-Learning-Tetris/](https://ssundarr3.github.io/Machine-Learning-Tetris/)
+ goes to an average of ~4000 lines (look-ahead feature is not implemented)
 
 
 ## Understanding output
