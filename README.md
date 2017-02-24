@@ -1,8 +1,7 @@
 # Machine-Learning-Tetris
 A Machine Learning Algorithm that learns to play Tetris
 
-![alt text](https://github.com/ssundarr3/Tetris-Final/blob/master/pics/TetrisMachineLearning.gif "Machine Learning GIF")
-
+![alt text](https://github.com/ssundarr3/Machine-Learning-Tetris/blob/master/pics/TetrisMachineLearning.gif "Machine Learning GIF")
 
 
 ## How it works
