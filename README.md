@@ -1,3 +1,6 @@
+online visualizer:  http://shridharsundarraj.me/#projects/1
+tetris with many extra features: https://github.com/ssundarr3/Tetris
+
 # Machine-Learning-Tetris
 A Machine Learning Algorithm that learns to play Tetris
 
